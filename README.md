@@ -16,30 +16,29 @@
 - AWS: EC2
 
 ## 프로젝트 구조
-client: 프론트엔드 소스 코드가 들어 있음.
-public: 이미지와 CSS 파일과 같은 정적 파일이 들어 있음.
+- client: 프론트엔드 소스 코드가 들어 있음.
+- public: 이미지와 CSS 파일과 같은 정적 파일이 들어 있음.
 
 
 ## 시작하기
-저장소를 복제합니다.
-cd GreenWaySeoul 명령을 사용하여 프로젝트 폴더로 이동합니다.
-필요한 종속성을 설치합니다: npm install.
-..작성중
+1. 저장소를 복제합니다.
+2. cd GreenWaySeoul 명령을 사용하여 프로젝트 폴더로 이동합니다.
+3. 필요한 종속성을 설치합니다: npm install.
+4. ..작성중
 
 
 ## Git 커밋
-Feat: 새로운 기능 추가
-Fix: 버그 수정
-Docs: 문서 업데이트 (README.md 등)
-Comment: 주석 추가 또는 수정
-Style: 코드 포맷팅, 세미콜론 누락, 코드 변경 없음
-Refactor: 코드 리팩토링
-Test: 테스트 코드 추가 또는 수정
-Chore: 빌드 작업 업데이트, 패키지 매니저 수정, 모듈 변경 (실제 코드 변경 없음)
-Rename: 파일 또는 폴더 이름 변경, 경로 이동
-Remove: 파일 삭제
-Merge: 브랜치 병합
-
+- Feat: 새로운 기능 추가
+- Fix: 버그 수정
+- Docs: 문서 업데이트 (README.md 등)
+- Comment: 주석 추가 또는 수정
+- Style: 코드 포맷팅, 세미콜론 누락, 코드 변경 없음
+- Refactor: 코드 리팩토링
+- Test: 테스트 코드 추가 또는 수정
+- Chore: 빌드 작업 업데이트, 패키지 매니저 수정, 모듈 변경 (실제 코드 변경 없음)
+- Rename: 파일 또는 폴더 이름 변경, 경로 이동
+- Remove: 파일 삭제
+- Merge: 브랜치 병합
 
 ## 기여하기
 1. 저장소를 포크합니다.
@@ -70,8 +69,8 @@ Merge: 브랜치 병합
 - AWS: EC2
 
 ## Project Structure
-client: Contains the frontend source code.
-public: Contains static files such as images and CSS files.
+- client: Contains the frontend source code.
+- public: Contains static files such as images and CSS files.
 
 
 ## Getting Started
@@ -81,17 +80,17 @@ public: Contains static files such as images and CSS files.
 ...writing
 
 ## Git Commit Guidelines
-Feat: Adding new features
-Fix: Fixing bugs
-Docs: Updating documentation (README.md, etc.)
-Comment: Adding or modifying comments
-Style: Code formatting, missing semicolons, no code changes
-Refactor: Code refactoring
-Test: Adding or modifying test codes
-Chore: Updating build tasks, modifying package manager, module changes (no actual code changes)
-Rename: Renaming files or folders, moving paths
-Remove: Deleting files
-Merge: Merging branches
+- Feat: Adding new features
+- Fix: Fixing bugs
+- Docs: Updating documentation (README.md, etc.)
+- Comment: Adding or modifying comments
+- Style: Code formatting, missing semicolons, no code changes
+- Refactor: Code refactoring
+- Test: Adding or modifying test codes
+- Chore: Updating build tasks, modifying package manager, module changes (no actual code changes)
+- Rename: Renaming files or folders, moving paths
+- Remove: Deleting files
+- Merge: Merging branches
 
 ## Contributing
 1. Fork the repository.
