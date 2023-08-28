@@ -53,4 +53,54 @@ Merge: 브랜치 병합
 ## 다운받기
 링크 : ~~~
 
+---
 
+
+## Project Overview
+"GreenWaySeoul" is an application designed for foreign tourists, allowing them to locate trash bins within Seoul based on their current location. The application also offers street view and navigation services from the identified location. This application is available in a total of four languages, facilitating convenient access and utilization of trash bins throughout the city of Seoul.
+
+## Key Features
+- Trash bin exploration based on user's location
+- Trash bin navigation and street view
+- Multilingual support
+
+## Technologies Used
+- HTML, CSS, JavaScript, TypeScript, React Native, Figma
+- Firebase
+- AWS: EC2
+
+## Project Structure
+client: Contains the frontend source code.
+public: Contains static files such as images and CSS files.
+
+
+## Getting Started
+1. Clone the repository.
+2. Navigate to the project folder with the command: cd GreenWaySeoul.
+3. Install the necessary dependencies: npm install.
+...writing
+
+## Git Commit Guidelines
+Feat: Adding new features
+Fix: Fixing bugs
+Docs: Updating documentation (README.md, etc.)
+Comment: Adding or modifying comments
+Style: Code formatting, missing semicolons, no code changes
+Refactor: Code refactoring
+Test: Adding or modifying test codes
+Chore: Updating build tasks, modifying package manager, module changes (no actual code changes)
+Rename: Renaming files or folders, moving paths
+Remove: Deleting files
+Merge: Merging branches
+
+## Contributing
+1. Fork the repository.
+2. Create a new branch (git checkout -b new-feature).
+3. Make changes and commit them (git commit -am 'Adding new feature').
+4. Push the changes to your forked repository (git push origin new-feature).
+5. Open a pull request.
+
+## Team Member: Choi Seungwon
+
+## Download
+Link: ~~~
