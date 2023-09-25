@@ -5,6 +5,8 @@ module.exports = {
     jest: true,
   },
   extends: [
+    'airbnb-base',
+    'airbnb-typescript/base',
     'eslint:recommended',
     'plugin:react/recommended',
     'plugin:react-hooks/recommended',
@@ -26,6 +28,8 @@ module.exports = {
     'react/display-name': 'off',
     'react/prop-types': 'off',
     'prettier/prettier': 'error',
+    'import/prefer-default-export': 'off',
+    'no-plusplus': 'off',
   },
   settings: {
     react: {
