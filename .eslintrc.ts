@@ -13,7 +13,9 @@ module.exports = {
     "plugin:@typescript-eslint/recommended-requiring-type-checking",
   ],
   parserOptions: {
-    project: "./tsconfig.json",
+    project: "tsconfig.json",
+    sourceType: "module",
+    tsconfigRootDir: __dirname,
   },
   plugins: ["react", "react-hooks", "@typescript-eslint"],
   rules: {
