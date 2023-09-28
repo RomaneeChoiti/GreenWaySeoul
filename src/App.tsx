@@ -1,8 +1,7 @@
+import React from 'react'
 import { StatusBar } from 'expo-status-bar'
 // import { useEffect } from "react";
 import { StyleSheet, View } from 'react-native'
-import React from 'react'
-
 // import * as Location from "expo-location";
 
 export default function App() {
