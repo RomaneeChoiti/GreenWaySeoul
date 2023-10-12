@@ -1,6 +1,6 @@
 import * as Location from 'expo-location'
 
-const userLocation = async () => {
+const UserLocation = async () => {
   // const { granted } = await Location.requestForegroundPermissionsAsync()
   // if (!granted) {
   //   setOk(false)
@@ -24,4 +24,4 @@ const userLocation = async () => {
 // useEffect(() => {
 //   userLocation()
 // }, [])
-export default userLocation
+export default UserLocation

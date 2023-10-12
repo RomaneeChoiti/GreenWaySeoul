@@ -1,12 +1,24 @@
 import React from 'react'
-import MapView from 'react-native-maps'
+import MapView, { Marker } from 'react-native-maps'
 import { StatusBar } from 'expo-status-bar'
 import { StyleSheet, View } from 'react-native'
+// import UserLocation from './components/User/Geolacation'
+
+interface UserLocation {
+  latitude: number
+  longitude: number
+}
 
 export default function App() {
+  // const { latitude, longitude } = UserLocation()
+
   return (
     <View style={styles.continer}>
       <MapView style={styles.map}>
+        <Marker
+          coordinate={{ latitude: 37.4997, longitude: 126.9282 }}
+          image={require('../assets/myLocationIcon.png')}
+        />
         <StatusBar style="auto" />
         <View style={styles.title}>
           <View style={styles.button}></View>
