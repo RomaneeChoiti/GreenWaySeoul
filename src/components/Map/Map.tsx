@@ -1,27 +1,31 @@
 import React, { useEffect, useState } from 'react'
 import MapView, { Marker } from 'react-native-maps'
 import { StatusBar } from 'expo-status-bar'
-import { StyleSheet, View } from 'react-native'
-import useUserLocation from '../User/Usermaker'
+import { StyleSheet, View, Text } from 'react-native'
+import useUserLocation from '../User/Location'
+import Loading from '../../Loading'
 
 export default function Map() {
-  const { location, region, fetchUserLocation } = useUserLocation()
+  const { location, fetchUserLocation } = useUserLocation()
 
   useEffect(() => {
     fetchUserLocation()
   }, [])
 
+  if (location.latitude === 0 && location.longitude === 0) {
+    return <Loading />
+  }
+
   return (
-    <MapView style={styles.map} region={region}>
-      {location.latitude !== 0 && location.longitude !== 0 && (
-        <Marker
-          coordinate={{
-            latitude: location.latitude,
-            longitude: location.longitude,
-          }}
-          image={require('../../../assets/myLocationIcon.png')}
-        />
-      )}
+    <MapView style={styles.map}>
+      <Marker
+        coordinate={{
+          latitude: location.latitude,
+          longitude: location.longitude,
+        }}
+        image={require('../../../assets/myLocationIcon.png')}
+      />
+
       <StatusBar style="auto" />
       <View style={styles.title}>
         <View style={styles.button}></View>
@@ -31,6 +35,11 @@ export default function Map() {
   )
 }
 const styles = StyleSheet.create({
+  Loading: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
   map: {
     width: '100%',
     height: '100%',
