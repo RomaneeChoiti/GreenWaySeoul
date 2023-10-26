@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import * as Location from 'expo-location'
+import { Alert } from 'react-native'
 
 interface UserLocation {
   latitude: number
@@ -16,20 +17,24 @@ export default function useUserLocation() {
   const fetchUserLocation = async () => {
     try {
       const { status } = await Location.requestForegroundPermissionsAsync()
+
       if (status !== 'granted') {
-        console.log('위치 권한이 없습니다.')
+        Alert.alert('GPS X -> GPS OK')
         return
       }
 
-      const { coords } = await Location.getCurrentPositionAsync({ accuracy: 6 })
+      const { coords } = await Location.getCurrentPositionAsync({
+        accuracy: 3,
+      })
 
       setLocation({
         latitude: coords.latitude,
         longitude: coords.longitude,
       })
     } catch (error) {
-      console.error('위치 정보를 가져오는 동안 오류가 발생했습니다.', error)
+      Alert.alert("Can't find you", 'So sad')
     }
   }
+
   return { location, fetchUserLocation }
 }

@@ -1,7 +1,7 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect } from 'react'
 import MapView, { Marker } from 'react-native-maps'
 import { StatusBar } from 'expo-status-bar'
-import { StyleSheet, View, Text } from 'react-native'
+import { StyleSheet, View } from 'react-native'
 import useUserLocation from '../User/Location'
 import Loading from '../../Loading'
 
@@ -34,6 +34,7 @@ export default function Map() {
     </MapView>
   )
 }
+
 const styles = StyleSheet.create({
   Loading: {
     flex: 1,
