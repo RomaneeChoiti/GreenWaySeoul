@@ -11,7 +11,7 @@
 - 다국어 지원
 
 ## 사용된 기술
-- HTML, CSS, JavaScript, TypewScript, React Native, Figma
+- JavaScript, TypewScript, React Native, Figma
 - FireBase
 - AWS: EC2
 
@@ -64,7 +64,7 @@
 - Multilingual support
 
 ## Technologies Used
-- HTML, CSS, JavaScript, TypeScript, React Native, Figma
+- JavaScript, TypeScript, React Native, Figma
 - Firebase
 - AWS: EC2
 
