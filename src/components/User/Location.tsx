@@ -19,18 +19,19 @@ export default function useUserLocation() {
       const { status } = await Location.requestForegroundPermissionsAsync()
 
       if (status !== 'granted') {
-        Alert.alert('GPS X -> GPS OK')
+        Alert.alert('GPS를 켜주세요.')
         return
       }
-
-      const { coords } = await Location.getCurrentPositionAsync({
-        accuracy: 3,
-      })
-
-      setLocation({
-        latitude: coords.latitude,
-        longitude: coords.longitude,
-      })
+      // 정확도(accuracy)초기값을 3으로 설정, 6의 정확도가 달성되면 위치를 업데이트
+      const getLocation = async (accuracy: number) => {
+        const { coords } = await Location.getCurrentPositionAsync({ accuracy })
+        setLocation({
+          latitude: coords.latitude,
+          longitude: coords.longitude,
+        })
+      }
+      getLocation(3)
+      getLocation(6)
     } catch (error) {
       Alert.alert("Can't find you", 'So sad')
     }
