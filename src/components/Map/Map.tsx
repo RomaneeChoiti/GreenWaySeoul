@@ -4,6 +4,7 @@ import { StatusBar } from 'expo-status-bar'
 import { StyleSheet, View } from 'react-native'
 import useUserLocation from '../User/Location'
 import Loading from '../../Loading'
+import ScopeTrashCanData from '../../api/TrashcanAPI'
 
 export default function Map() {
   const { location, fetchUserLocation } = useUserLocation()
@@ -15,6 +16,17 @@ export default function Map() {
   if (location.latitude === 0 && location.longitude === 0) {
     return <Loading />
   }
+
+  const testFunc = async () => {
+    try {
+      const res = await ScopeTrashCanData()
+      console.log('Result:', res)
+    } catch (error) {
+      console.error('Error occurred:', error)
+    }
+  }
+
+  testFunc()
 
   return (
     <MapView style={styles.map}>

@@ -23,15 +23,16 @@ export default function useUserLocation() {
         return
       }
       // 정확도(accuracy)초기값을 3으로 설정, 6의 정확도가 달성되면 위치를 업데이트
-      const getLocation = async (accuracy: number) => {
+      // 1. 컴포넌트화 하기
+      const updateLocation = async (accuracy: number) => {
         const { coords } = await Location.getCurrentPositionAsync({ accuracy })
         setLocation({
           latitude: coords.latitude,
           longitude: coords.longitude,
         })
       }
-      getLocation(3)
-      getLocation(6)
+      updateLocation(3)
+      updateLocation(6)
     } catch (error) {
       Alert.alert("Can't find you", 'So sad')
     }
