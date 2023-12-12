@@ -1,17 +1,29 @@
 import axios from 'axios'
-import useUserLocation from '../components/User/Location'
 
-const trashCanAPI = process.env.TRASHCAN_API_URL
+interface Location {
+  latitude: number
+  longitude: number
+}
 
-const ScopeTrashCanData = async () => {
+interface TrashCanData {
+  Address: string
+  Latitude: number
+  Longitude: number
+  canType: string
+  설치위치: string
+  distance: number // Optional distance property
+}
+
+const trashCanAPI: string | undefined = process.env.TRASHCAN_API_URL
+
+const ScopeTrashCanData = async ({ location }: { location: Location }) => {
   const trashcanData = await axios.get(`${trashCanAPI}/trashCan`)
-  const { location } = await useUserLocation()
 
   const degToRad = (degrees: number) => degrees * (Math.PI / 180)
 
   const earthRadius = 6371000
   const ScopeTrashcan = trashcanData.data.reduce(
-    (filteredTrashCans, trashCan) => {
+    (filteredTrashCans: TrashCanData[], trashCan: TrashCanData) => {
       const latDiffRad = degToRad(location.latitude - trashCan.Latitude)
       const lngDiffRad = degToRad(location.longitude - trashCan.Longitude)
       const distance =
@@ -25,7 +37,9 @@ const ScopeTrashCanData = async () => {
     [],
   )
 
-  ScopeTrashcan.sort((a, b) => a.distance - b.distance)
+  ScopeTrashcan.sort(
+    (a: TrashCanData, b: TrashCanData) => a.distance - b.distance,
+  )
 
   return ScopeTrashcan
 }
