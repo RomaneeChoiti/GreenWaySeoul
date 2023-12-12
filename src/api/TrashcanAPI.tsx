@@ -11,17 +11,18 @@ interface TrashCanData {
   Longitude: number
   canType: string
   설치위치: string
-  distance: number // Optional distance property
+  distance: number
 }
 
 const trashCanAPI: string | undefined = process.env.TRASHCAN_API_URL
 
+const earthRadius = 6371000
+
+const degToRad = (degrees: number) => degrees * (Math.PI / 180)
+
 const ScopeTrashCanData = async ({ location }: { location: Location }) => {
   const trashcanData = await axios.get(`${trashCanAPI}/trashCan`)
 
-  const degToRad = (degrees: number) => degrees * (Math.PI / 180)
-
-  const earthRadius = 6371000
   const ScopeTrashcan = trashcanData.data.reduce(
     (filteredTrashCans: TrashCanData[], trashCan: TrashCanData) => {
       const latDiffRad = degToRad(location.latitude - trashCan.Latitude)
