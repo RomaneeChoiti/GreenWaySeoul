@@ -29,9 +29,9 @@ export default function useUserLocation() {
       }
 
       /**
-       * 사용자의 위치를 주어진 정확도로 업데이트하는 함수입니다.
+       * 사용자의 위치를 주어진 정확도로 업데이트하는 함수.
        *
-       * @param {number} accuracy - 위치 업데이트에 대한 원하는 정확도입니다.
+       * @param {number} accuracy - 위치 업데이트에 대한 원하는 정확도.
        */
       const updateLocation = async (accuracy: number) => {
         // 지정된 정확도로 현재 위치 가져오기
@@ -48,7 +48,6 @@ export default function useUserLocation() {
       // 높은 정확도(6)로 위치 업데이트하여 정밀도 향상
       updateLocation(6)
     } catch (error) {
-      // 위치 가져오기 중 발생한 일반적인 오류 처리
       Alert.alert("Can't find you", 'So sad')
     }
   }
