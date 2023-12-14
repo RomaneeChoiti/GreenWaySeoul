@@ -19,14 +19,14 @@ const filterAndSortTrashCans = (
   trashCans: TrashCanData[],
   location: Location,
 ): TrashCanData[] => {
-  return [...trashCans]
+  return trashCans
     .filter((trashCan) => {
       const latDiffRad = degToRad(location.latitude - trashCan.Latitude)
       const lngDiffRad = degToRad(location.longitude - trashCan.Longitude)
-      const distance =
-        earthRadius * Math.sqrt(latDiffRad ** 2 + lngDiffRad ** 2)
+      const squaredDistance =
+        earthRadius ** 2 * (latDiffRad ** 2 + lngDiffRad ** 2)
 
-      return distance <= 1000
+      return squaredDistance <= 1000 ** 2
     }, [])
     .sort((a, b) => a.distance - b.distance)
 }

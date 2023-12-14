@@ -46,7 +46,7 @@ export default function Map() {
 
   useEffect(() => {
     executeStep()
-  }, [trashCanData])
+  }, [])
 
   if (location.latitude === 0 && location.longitude === 0) {
     return <Loading />
