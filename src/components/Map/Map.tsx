@@ -5,19 +5,7 @@ import { StyleSheet, View } from 'react-native'
 import useUserLocation from '../User/Location'
 import Loading from '../../Loading'
 import filteredTrashCanData from '../../api/TrashcanAPI'
-
-interface UserLocation {
-  latitude: number
-  longitude: number
-}
-
-interface TrashCanData {
-  Address: string
-  Latitude: number
-  Longitude: number
-  canType: string
-  distance: number
-}
+import { UserLocation, TrashCanData } from '../Type'
 
 export default function Map() {
   const { location, fetchUserLocation } = useUserLocation()
@@ -30,23 +18,27 @@ export default function Map() {
   }) => {
     try {
       const data = await filteredTrashCanData({ location })
-      console.log('data length: ', data)
-      setTrashCanData(data)
+      setTrashCanData(data!)
     } catch (err) {
       console.error(err)
     }
   }
 
   const executeStep = async () => {
-    await fetchUserLocation()
-    console.log('1-2. User location', location.latitude, location.longitude)
-    await fetchTrashCanData({ location })
-    console.log('2. TrashCanData')
+    try {
+      await fetchUserLocation()
+      await fetchTrashCanData({ location })
+    } catch (error) {
+      console.error(error)
+    }
   }
 
   useEffect(() => {
-    executeStep()
-  }, [])
+    const fetchData = async () => {
+      await executeStep()
+    }
+    fetchData()
+  }, [location])
 
   if (location.latitude === 0 && location.longitude === 0) {
     return <Loading />

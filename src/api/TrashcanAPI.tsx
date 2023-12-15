@@ -1,22 +1,18 @@
 import axios from 'axios'
+import { UserLocation } from '../components/Type'
 import filterAndSortTrashCans from './FilterAndSortTrashCans'
-
-interface Location {
-  latitude: number
-  longitude: number
-}
 
 const trashCanAPI: string | undefined = process.env.TRASHCAN_API_URL
 
-const filteredTrashCanData = ({ location }: { location: Location }) => {
+const filteredTrashCanData = ({ location }: { location: UserLocation }) => {
   return axios
     .get(`${trashCanAPI}/trashCan`)
     .then((trashCanData) => {
-      console.log('쓰레기통 데이터 : ', trashCanData.data[1])
-      return filterAndSortTrashCans(trashCanData.data, location)
+      // console.log('쓰레기통 데이터 : ', trashCanData.data[1])
+      return filterAndSortTrashCans(trashCanData.data, { location })
     })
     .then((filterTrashCanData) => {
-      console.log('필터된 데이터 : ', filterTrashCanData[1])
+      // console.log('필터된 데이터 : ', filterTrashCanData[1])
       return filterTrashCanData
     })
     .catch((error) => {
