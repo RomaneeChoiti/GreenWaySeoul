@@ -44,6 +44,12 @@ export default function Map() {
     return <Loading />
   }
 
+  const getMarkerImage = (canType: string) => {
+    return canType === '일반쓰레기'
+      ? require('../../../assets/TrashCanIcon.png')
+      : require('../../../assets/RecycleIcon.png')
+  }
+
   return (
     <MapView style={styles.map}>
       <Marker
@@ -60,7 +66,7 @@ export default function Map() {
             latitude: trashCan.Latitude,
             longitude: trashCan.Longitude,
           }}
-          image={require('../../../assets/TrashCanIcon.png')}
+          image={getMarkerImage(trashCan.canType)}
         />
       ))}
       <StatusBar style="auto" />
