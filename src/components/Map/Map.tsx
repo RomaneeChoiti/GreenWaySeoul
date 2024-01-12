@@ -6,6 +6,7 @@ import useUserLocation from '../User/Location'
 import Loading from '../../Loading'
 import filteredTrashCanData from '../../api/TrashcanAPI'
 import { UserLocation, TrashCanData } from '../Type'
+import TypeDivide from '../Trashcan/TypeDivide'
 
 export default function Map() {
   const { location, fetchUserLocation } = useUserLocation()
@@ -19,8 +20,8 @@ export default function Map() {
     try {
       const data = await filteredTrashCanData({ location })
       setTrashCanData(data!)
-    } catch (err) {
-      console.error(err)
+    } catch (error) {
+      console.error('fetchTrashCanData 에러 발생:', error)
     }
   }
 
@@ -44,12 +45,6 @@ export default function Map() {
     return <Loading />
   }
 
-  const getMarkerImage = (canType: string) => {
-    return canType === '일반쓰레기'
-      ? require('../../../assets/TrashCanIcon.png')
-      : require('../../../assets/RecycleIcon.png')
-  }
-
   return (
     <MapView style={styles.map}>
       <Marker
@@ -59,16 +54,17 @@ export default function Map() {
         }}
         image={require('../../../assets/UserLocationIcon.png')}
       />
-      {trashCanData.map((trashCan, index) => (
-        <Marker
-          key={index}
-          coordinate={{
-            latitude: trashCan.Latitude,
-            longitude: trashCan.Longitude,
-          }}
-          image={getMarkerImage(trashCan.canType)}
-        />
-      ))}
+      {trashCanData &&
+        trashCanData.map((trashCan, index) => (
+          <Marker
+            key={index}
+            coordinate={{
+              latitude: trashCan.Latitude,
+              longitude: trashCan.Longitude,
+            }}
+            image={require('../../../assets/TrashCanIcon.png')}
+          />
+        ))}
       <StatusBar style="auto" />
       <View style={styles.title}>
         <View style={styles.button}></View>
