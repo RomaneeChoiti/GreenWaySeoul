@@ -6,7 +6,6 @@ import useUserLocation from '../User/Location'
 import Loading from '../../Loading'
 import filteredTrashCanData from '../../api/TrashcanAPI'
 import { UserLocation, TrashCanData } from '../Type'
-import TypeDivide from '../Trashcan/TypeDivide'
 
 export default function Map() {
   const { location, fetchUserLocation } = useUserLocation()
@@ -20,8 +19,8 @@ export default function Map() {
     try {
       const data = await filteredTrashCanData({ location })
       setTrashCanData(data!)
-    } catch (error) {
-      console.error('fetchTrashCanData 에러 발생:', error)
+    } catch (err) {
+      console.error(err)
     }
   }
 
@@ -43,6 +42,12 @@ export default function Map() {
 
   if (location.latitude === 0 && location.longitude === 0) {
     return <Loading />
+  }
+
+  const getMarkerImage = (canType: string) => {
+    return canType === '일반쓰레기'
+      ? require('../../../assets/TrashCanIcon.png')
+      : require('../../../assets/RecycleIcon.png')
   }
 
   return (

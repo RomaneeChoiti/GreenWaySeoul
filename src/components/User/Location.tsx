@@ -4,6 +4,7 @@ import { Alert } from 'react-native'
 import { UserLocation } from '../Type'
 
 export default function useUserLocation() {
+  // 사용자의 위치 정보를 저장하기 위한 상태
   const [location, setLocation] = useState<UserLocation>({
     latitude: 0,
     longitude: 0,
@@ -14,10 +15,9 @@ export default function useUserLocation() {
       const { status } = await Location.requestForegroundPermissionsAsync()
 
       if (status !== 'granted') {
-        Alert.alert('GPS On.')
+        Alert.alert('GPS를 켜주세요.')
         return
       }
-
       const updateLocation = async (accuracy: number) => {
         const { coords } = await Location.getCurrentPositionAsync({ accuracy })
 

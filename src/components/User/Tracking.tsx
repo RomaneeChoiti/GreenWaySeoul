@@ -1,3 +1,3 @@
-export default function useUserTracking() {
+export default function UserTracking() {
   return
 }
