@@ -53,16 +53,17 @@ export default function Map() {
         }}
         image={require('../../../assets/UserLocationIcon.png')}
       />
-      {trashCanData.map((trashCan, index) => (
-        <Marker
-          key={index}
-          coordinate={{
-            latitude: trashCan.Latitude,
-            longitude: trashCan.Longitude,
-          }}
-          image={require('../../../assets/TrashCanIcon.png')}
-        />
-      ))}
+      {trashCanData! &&
+        trashCanData.map((trashCan, index) => (
+          <Marker
+            key={index}
+            coordinate={{
+              latitude: trashCan.Latitude,
+              longitude: trashCan.Longitude,
+            }}
+            image={require('../../../assets/TrashCanIcon.png')}
+          />
+        ))}
       <StatusBar style="auto" />
       <View style={styles.title}>
         <View style={styles.button}></View>
