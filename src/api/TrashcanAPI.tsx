@@ -3,7 +3,7 @@ import { UserLocation } from '../components/Type'
 import filterAndSortTrashCans from './FilterAndSortTrashCans'
 
 const trashCanAPI: string | undefined = process.env.TRASHCAN_API_URL
-
+// json server 재설치
 const filteredTrashCanData = ({ location }: { location: UserLocation }) => {
   return axios
     .get(`${trashCanAPI}/trashCan`)
