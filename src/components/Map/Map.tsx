@@ -8,7 +8,7 @@ import filteredTrashCanData from '../../api/TrashcanAPI'
 import { UserLocation, TrashCanData } from '../Type'
 
 export default function Map() {
-  const { location, fetchUserLocation } = useUserLocation()
+  const { location, fetchLocation, userLocation } = useUserLocation()
   const [trashCanData, setTrashCanData] = useState<TrashCanData[]>([])
 
   const fetchTrashCanData = async ({
@@ -26,7 +26,7 @@ export default function Map() {
 
   const executeStep = async () => {
     try {
-      await fetchUserLocation()
+      await fetchLocation()
       await fetchTrashCanData({ location })
     } catch (error) {
       console.error(error)
@@ -48,8 +48,8 @@ export default function Map() {
     <MapView style={styles.map}>
       <Marker
         coordinate={{
-          latitude: location.latitude,
-          longitude: location.longitude,
+          latitude: userLocation.latitude,
+          longitude: userLocation.longitude,
         }}
         image={require('../../../assets/UserLocationIcon.png')}
       />
