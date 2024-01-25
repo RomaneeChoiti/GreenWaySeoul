@@ -6,6 +6,7 @@ import useUserLocation from '../User/Location'
 import Loading from '../../Loading'
 import filteredTrashCanData from '../../api/TrashcanAPI'
 import { UserLocation, TrashCanData } from '../Type'
+import TypeDivide from '../Trashcan/TypeDivide'
 
 export default function Map() {
   const { location, fetchLocation, userLocation } = useUserLocation()
@@ -61,7 +62,7 @@ export default function Map() {
               latitude: trashCan.Latitude,
               longitude: trashCan.Longitude,
             }}
-            image={require('../../../assets/TrashCanIcon.png')}
+            image={TypeDivide(trashCan.canType)}
           />
         ))}
       <StatusBar style="auto" />
