@@ -3,16 +3,14 @@ import { UserLocation } from '../components/Type'
 import filterAndSortTrashCans from './FilterAndSortTrashCans'
 
 const trashCanAPI: string | undefined = process.env.TRASHCAN_API_URL
-// json server 재설치
+
 const filteredTrashCanData = ({ location }: { location: UserLocation }) => {
   return axios
     .get(`${trashCanAPI}/trashCan`)
     .then((trashCanData) => {
-      // console.log('쓰레기통 데이터 : ', trashCanData.data[1])
       return filterAndSortTrashCans(trashCanData.data, { location })
     })
     .then((filterTrashCanData) => {
-      // console.log('필터된 데이터 : ', filterTrashCanData[1])
       return filterTrashCanData
     })
     .catch((error) => {

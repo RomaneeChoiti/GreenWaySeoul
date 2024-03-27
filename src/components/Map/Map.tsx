@@ -1,16 +1,43 @@
 import React, { useEffect, useState } from 'react'
 import MapView, { Marker } from 'react-native-maps'
 import { StatusBar } from 'expo-status-bar'
-import { StyleSheet, View } from 'react-native'
+import { StyleSheet, Text, View } from 'react-native'
 import useUserLocation from '../User/Location'
 import Loading from '../../Loading'
 import filteredTrashCanData from '../../api/TrashcanAPI'
 import { UserLocation, TrashCanData } from '../Type'
 import TypeDivide from '../Trashcan/TypeDivide'
+import { DeviceMotion } from 'expo-sensors'
+
+interface GyroscopeData {
+  rotation: {
+    alpha: number
+    beta: number
+    gamma: number
+  }
+}
 
 export default function Map() {
   const { location, fetchLocation, userLocation } = useUserLocation()
   const [trashCanData, setTrashCanData] = useState<TrashCanData[]>([])
+
+  const [gyroscopeData, setGyroscopeData] = useState<GyroscopeData>({
+    rotation: {
+      alpha: 0,
+      beta: 0,
+      gamma: 0,
+    },
+  })
+
+  useEffect(() => {
+    const subscription = DeviceMotion.addListener(({ rotation }) => {
+      setGyroscopeData({ rotation })
+      // console.log(rotation.beta)
+    })
+    return () => {
+      subscription.remove()
+    }
+  }, [])
 
   const fetchTrashCanData = async ({
     location,
@@ -45,6 +72,17 @@ export default function Map() {
     return <Loading />
   }
 
+  const handleUserMarkerRotation = () => {
+    const alpha = gyroscopeData.rotation.alpha // Get the alpha rotation value
+
+    // Calculate a rotation degree based on alpha (adjust as needed)
+    const rotationDegrees = alpha * (180 / Math.PI) // Convert radians to degrees
+
+    return {
+      transform: [{ rotateZ: `${rotationDegrees}deg` }], // Set the rotation transform
+    }
+  }
+
   return (
     <MapView style={styles.map}>
       <Marker
@@ -52,8 +90,10 @@ export default function Map() {
           latitude: userLocation.latitude,
           longitude: userLocation.longitude,
         }}
-        image={require('../../../assets/UserLocationIcon.png')}
+        image={require('../../../assets/userDirectionMarker.png')}
+        style={handleUserMarkerRotation()}
       />
+
       {trashCanData! &&
         trashCanData.map((trashCan, index) => (
           <Marker
@@ -70,6 +110,9 @@ export default function Map() {
         <View style={styles.button}></View>
         <View style={styles.button}></View>
       </View>
+      <Text>alpha: {gyroscopeData.rotation.alpha}</Text>
+      {/* <Text>beta: {gyroscopeData.rotation.beta}</Text> */}
+      {/* <Text>gamma: {gyroscopeData.rotation.gamma}</Text> */}
     </MapView>
   )
 }
