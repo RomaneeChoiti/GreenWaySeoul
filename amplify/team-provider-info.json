@@ -1,0 +1,15 @@
+{
+  "dev": {
+    "awscloudformation": {
+      "AuthRoleName": "amplify-greenwayseoul-dev-770f8-authRole",
+      "UnauthRoleArn": "arn:aws:iam::551773485449:role/amplify-greenwayseoul-dev-770f8-unauthRole",
+      "AuthRoleArn": "arn:aws:iam::551773485449:role/amplify-greenwayseoul-dev-770f8-authRole",
+      "Region": "us-east-1",
+      "DeploymentBucketName": "amplify-greenwayseoul-dev-770f8-deployment",
+      "UnauthRoleName": "amplify-greenwayseoul-dev-770f8-unauthRole",
+      "StackName": "amplify-greenwayseoul-dev-770f8",
+      "StackId": "arn:aws:cloudformation:us-east-1:551773485449:stack/amplify-greenwayseoul-dev-770f8/5f99f6d0-fc6b-11ee-a080-0e58f541cc39",
+      "AmplifyAppId": "d47t7xbtcx6az"
+    }
+  }
+}

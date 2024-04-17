@@ -10,3 +10,11 @@ export interface TrashCanData {
   canType: string
   distance: number
 }
+
+export interface GyroscopeData {
+  rotation: {
+    alpha: number
+    beta: number
+    gamma: number
+  }
+}

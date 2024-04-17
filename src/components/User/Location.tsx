@@ -13,6 +13,11 @@ export default function useUserLocation() {
     longitude: 0,
   })
 
+  // const [serverLocation, setServerLocation] = useState<UserLocation>({
+  //   latitude: 0,
+  //   longitude: 0,
+  // })
+
   const fetchLocation = async () => {
     try {
       const { status } = await Location.requestForegroundPermissionsAsync()
@@ -35,6 +40,18 @@ export default function useUserLocation() {
           })
         },
       )
+      //  Server Location Func
+      // await Location.watchPositionAsync(
+      //   {
+      //     accuracy: Location.Accuracy.BestForNavigation,
+      //   },
+      //   (serverLocation) => {
+      //     setUserLocation({
+      //       latitude: serverLocation.coords.latitude,
+      //       longitude: serverLocation.coords.longitude,
+      //     })
+      //   },
+      // )
 
       if (
         coords.latitude !== location.latitude ||
