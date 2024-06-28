@@ -14,9 +14,11 @@
   },
   "dependencies": {
     "@aws-amplify/react-native": "^1.0.28",
+    "@aws-sdk/util-dynamodb": "^3.592.0",
     "@react-native-async-storage/async-storage": "^1.23.1",
     "@react-native-community/netinfo": "^11.3.1",
     "aws-amplify": "^6.0.28",
+    "aws-sdk": "^2.1630.0",
     "axios": "^1.6.0",
     "expo": "~49.0.8",
     "expo-location": "~16.1.0",

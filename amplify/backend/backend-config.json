@@ -1,1 +1,63 @@
-{}
+{
+  "api": {
+    "api672b3e99": {
+      "dependsOn": [
+        {
+          "attributes": [
+            "Name",
+            "Arn"
+          ],
+          "category": "function",
+          "resourceName": "greenwayseoul8ed6384d"
+        }
+      ],
+      "providerPlugin": "awscloudformation",
+      "service": "API Gateway"
+    }
+  },
+  "function": {
+    "greenwayseoul8ed6384d": {
+      "build": true,
+      "dependsOn": [
+        {
+          "attributeEnvMap": {
+            "Arn": "TABLE_ARN",
+            "Name": "TABLE_NAME"
+          },
+          "attributes": [
+            "Name",
+            "Arn"
+          ],
+          "category": "storage",
+          "resourceName": "dynamo38c2036d"
+        }
+      ],
+      "providerPlugin": "awscloudformation",
+      "service": "Lambda"
+    }
+  },
+  "parameters": {
+    "AMPLIFY_function_greenwayseoul8ed6384d_deploymentBucketName": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "greenwayseoul8ed6384d"
+        }
+      ]
+    },
+    "AMPLIFY_function_greenwayseoul8ed6384d_s3Key": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "greenwayseoul8ed6384d"
+        }
+      ]
+    }
+  },
+  "storage": {
+    "dynamo38c2036d": {
+      "providerPlugin": "awscloudformation",
+      "service": "DynamoDB"
+    }
+  }
+}

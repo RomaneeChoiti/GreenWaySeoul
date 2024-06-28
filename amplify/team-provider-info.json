@@ -10,6 +10,20 @@
       "StackName": "amplify-greenwayseoul-dev-770f8",
       "StackId": "arn:aws:cloudformation:us-east-1:551773485449:stack/amplify-greenwayseoul-dev-770f8/5f99f6d0-fc6b-11ee-a080-0e58f541cc39",
       "AmplifyAppId": "d47t7xbtcx6az"
+    },
+    "categories": {
+      "function": {
+        "greenwayseoul8ed6384d": {
+          "deploymentBucketName": "amplify-greenwayseoul-dev-770f8-deployment",
+          "s3Key": "amplify-builds/greenwayseoul8ed6384d-302b664a623535303141-build.zip"
+        }
+      },
+      "storage": {
+        "dynamo38c2036d": {}
+      },
+      "api": {
+        "api672b3e99": {}
+      }
     }
   }
 }
