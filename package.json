@@ -15,27 +15,29 @@
   "dependencies": {
     "@aws-amplify/react-native": "^1.0.28",
     "@aws-sdk/util-dynamodb": "^3.592.0",
-    "@react-native-async-storage/async-storage": "^1.23.1",
-    "@react-native-community/netinfo": "^11.3.1",
+    "@react-native-async-storage/async-storage": "1.23.1",
+    "@react-native-community/netinfo": "11.3.1",
     "aws-amplify": "^6.0.28",
     "aws-sdk": "^2.1630.0",
     "axios": "^1.6.0",
-    "expo": "~49.0.8",
-    "expo-location": "~16.1.0",
-    "expo-sensors": "~12.3.0",
-    "expo-status-bar": "~1.6.0",
+    "expo": "^51.0.0",
+    "expo-cli": "^6.3.10",
+    "expo-location": "~17.0.1",
+    "expo-sensors": "~13.0.9",
+    "expo-status-bar": "~1.12.1",
     "firebase": "^10.5.2",
     "json-server": "^0.17.4",
     "react": "18.2.0",
-    "react-native": "0.72.6",
+    "react-native": "0.74.3",
     "react-native-dotenv": "^3.4.9",
-    "react-native-get-random-values": "^1.11.0",
+    "react-native-get-random-values": "~1.11.0",
     "react-native-heading": "^1.1.1",
-    "react-native-maps": "1.7.1"
+    "react-native-maps": "1.14.0",
+    "expo-dev-client": "~4.0.19"
   },
   "devDependencies": {
-    "@babel/core": "^7.20.0",
-    "@types/react": "^18.2.21",
+    "@babel/core": "^7.24.0",
+    "@types/react": "~18.2.79",
     "@types/react-native": "^0.72.2",
     "@typescript-eslint/eslint-plugin": "^6.7.2",
     "@typescript-eslint/parser": "^6.7.2",
@@ -46,7 +48,7 @@
     "eslint-plugin-react": "^7.33.2",
     "eslint-plugin-react-hooks": "^4.6.0",
     "prettier": "^3.0.3",
-    "typescript": "^5.2.2"
+    "typescript": "~5.3.3"
   },
   "editor.codeActionsOnSave": {
     "source.fixAll.eslint": true

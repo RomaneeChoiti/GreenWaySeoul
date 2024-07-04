@@ -1,10 +1,10 @@
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
 import Map from './components/Map/Map'
-import { Amplify } from 'aws-amplify'
-import amplifyconfig from './amplifyconfiguration.json'
+// import { Amplify } from 'aws-amplify'
+// import amplifyconfig from './amplifyconfiguration.json'
 
-Amplify.configure(amplifyconfig)
+// Amplify.configure(amplifyconfig)
 
 export default function App() {
   return (

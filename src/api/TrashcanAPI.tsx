@@ -2,11 +2,11 @@ import axios from 'axios'
 import { UserLocation } from '../components/Type'
 import filterAndSortTrashCans from './FilterAndSortTrashCans'
 
-const trashCanAPI: string | undefined = process.env.TRASHCAN_API_URL
+const trashCanAPI: string | undefined = process.env.TRASHCAN_AWS_API_URL
 
 const filteredTrashCanData = ({ location }: { location: UserLocation }) => {
   return axios
-    .get(`${trashCanAPI}/trashCan`)
+    .get(`${trashCanAPI}`)
     .then((trashCanData) => {
       return filterAndSortTrashCans(trashCanData.data, { location })
     })
