@@ -33,7 +33,7 @@ export default function useUserLocation() {
         {
           accuracy: Location.Accuracy.BestForNavigation,
         },
-        (location) => {
+        (location: Location.LocationObject) => {
           setUserLocation({
             latitude: location.coords.latitude,
             longitude: location.coords.longitude,
