@@ -22,4 +22,5 @@ const filterAndSortTrashCans = (
 
   return filterTrashCan
 }
+
 export default filterAndSortTrashCans

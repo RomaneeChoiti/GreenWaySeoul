@@ -1,5 +1,5 @@
 export default function TypeDivide(canType: string | string[]) {
-  return canType === '일반쓰레기'
-    ? require('../../../assets/TrashCanIcon.png')
-    : require('../../../assets/RecycleIcon.png')
+  return canType === '재활용'
+    ? require('../../../assets/RecycleIcon.png')
+    : require('../../../assets/TrashCanIcon.png')
 }
