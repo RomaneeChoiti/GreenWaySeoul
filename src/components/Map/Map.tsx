@@ -4,7 +4,7 @@ import { StatusBar } from 'expo-status-bar'
 import { StyleSheet, View } from 'react-native'
 import useUserLocation from '../User/Location'
 import Loading from '../../Loading'
-import filteredTrashCanData from '../../api/TrashcanAPI'
+import fetchFilteredTrashCans from '../../api/TrashcanAPI'
 import { UserLocation, TrashCanData, GyroscopeData } from '../Type'
 import TypeDivide from '../Trashcan/TypeDivide'
 import { DeviceMotion } from 'expo-sensors'
@@ -36,7 +36,7 @@ export default function Map() {
     location: UserLocation
   }) => {
     try {
-      const data = await filteredTrashCanData({ location })
+      const data = await fetchFilteredTrashCans({ location })
       setTrashCanData(data!)
     } catch (err) {
       console.error(err)
