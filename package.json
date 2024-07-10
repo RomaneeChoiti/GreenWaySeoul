@@ -35,7 +35,9 @@
     "react-native-dotenv": "^3.4.9",
     "react-native-get-random-values": "~1.11.0",
     "react-native-heading": "^1.1.1",
-    "react-native-maps": "1.14.0"
+    "react-native-maps": "1.14.0",
+    "expo-splash-screen": "~0.27.5",
+    "expo-image": "~1.12.12"
   },
   "devDependencies": {
     "@babel/core": "^7.24.0",

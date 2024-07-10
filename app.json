@@ -8,9 +8,8 @@
     "icon": "./assets/Component3.png",
     "userInterfaceStyle": "light",
     "splash": {
-      "image": "./assets/Component3.png",
-      "resizeMode": "cover",
-      "backgroundColor": "#ffffff"
+      "image": "./assets/splash2.png",
+      "resizeMode": "cover"
     },
     "assetBundlePatterns": ["**/*"],
     "ios": {
@@ -18,8 +17,8 @@
     },
     "android": {
       "adaptiveIcon": {
-        "foregroundImage": "./assets/Component3.png",
-        "backgroundColor": "#ffffff"
+        "foregroundImage": "./assets/splash2.png",
+        "resizeMode": "cover"
       }
     },
     "web": {}

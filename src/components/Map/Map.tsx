@@ -73,7 +73,6 @@ export default function Map() {
         image={require('../../../assets/userDirectionMarker.png')}
         style={handleUserMarkerRotation(gyroscopeData)}
       />
-
       {trashCanData! &&
         trashCanData.map((trashCan, index) => (
           <Marker
@@ -86,10 +85,6 @@ export default function Map() {
           />
         ))}
       <StatusBar style="auto" />
-      <View style={styles.title}>
-        <View style={styles.button}></View>
-        <View style={styles.button}></View>
-      </View>
     </MapView>
   )
 }
@@ -103,17 +98,5 @@ const styles = StyleSheet.create({
   map: {
     width: '100%',
     height: '100%',
-  },
-  title: {
-    flex: 0.1,
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    marginTop: 50,
-  },
-  button: {
-    flex: 0.3,
-    backgroundColor: 'white',
-    height: '100%',
-    marginHorizontal: 20,
   },
 })
