@@ -1,18 +1,20 @@
-import React, { useEffect, useState } from 'react'
 import MapView, { Marker } from 'react-native-maps'
+import React, { useEffect, useState } from 'react'
 import { StatusBar } from 'expo-status-bar'
-import { StyleSheet, View } from 'react-native'
+import { Dimensions, Image, StyleSheet, Text, View } from 'react-native'
 import useUserLocation from '../User/Location'
-import Loading from '../../Loading'
 import fetchFilteredTrashCans from '../../api/TrashcanAPI'
 import { UserLocation, TrashCanData, GyroscopeData } from '../Type'
 import TypeDivide from '../Trashcan/TypeDivide'
 import { DeviceMotion } from 'expo-sensors'
 import { handleUserMarkerRotation } from '../User/Direction'
+import { SafeAreaView } from 'react-native-safe-area-context'
 
 export default function Map() {
   const { location, fetchLocation, userLocation } = useUserLocation()
   const [trashCanData, setTrashCanData] = useState<TrashCanData[]>([])
+  const [shadowColor, setShadowColor] = useState('#B989FF')
+
   const [gyroscopeData, setGyroscopeData] = useState<GyroscopeData>({
     rotation: {
       alpha: 0,
@@ -38,6 +40,7 @@ export default function Map() {
     try {
       const data = await fetchFilteredTrashCans({ location })
       setTrashCanData(data!)
+      setShadowColor(data && data.length > 0 ? '#379FDA' : '#B989FF')
     } catch (err) {
       console.error(err)
     }
@@ -59,44 +62,83 @@ export default function Map() {
     fetchData()
   }, [location])
 
-  if (location.latitude === 0 && location.longitude === 0) {
-    return <Loading />
-  }
-
   return (
     <MapView style={styles.map}>
-      <Marker
-        coordinate={{
-          latitude: userLocation.latitude,
-          longitude: userLocation.longitude,
-        }}
-        image={require('../../../assets/userDirectionMarker.png')}
-        style={handleUserMarkerRotation(gyroscopeData)}
-      />
-      {trashCanData! &&
-        trashCanData.map((trashCan, index) => (
-          <Marker
-            key={index}
-            coordinate={{
-              latitude: trashCan.Latitude,
-              longitude: trashCan.Longitude,
-            }}
-            image={TypeDivide(trashCan.canType)}
-          />
-        ))}
-      <StatusBar style="auto" />
+      <SafeAreaView>
+        <Marker
+          coordinate={{
+            latitude: userLocation.latitude,
+            longitude: userLocation.longitude,
+          }}
+          image={require('../../../assets/userDirectionMarker.png')}
+          style={handleUserMarkerRotation(gyroscopeData)}
+        />
+        {trashCanData! &&
+          trashCanData.map((trashCan, index) => (
+            <Marker
+              key={index}
+              coordinate={{
+                latitude: trashCan.Latitude,
+                longitude: trashCan.Longitude,
+              }}
+              image={TypeDivide(trashCan.canType)}
+            />
+          ))}
+        <StatusBar style="auto" />
+        <View style={[styles.container, { shadowColor }]}>
+          <View style={styles.searchInputContent}>
+            <Image
+              source={require('../../../assets/magnifier.png')}
+              style={styles.searchIcon}
+            />
+            <Text style={styles.text}>Searching...</Text>
+          </View>
+        </View>
+      </SafeAreaView>
     </MapView>
   )
 }
 
 const styles = StyleSheet.create({
-  Loading: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
   map: {
     width: '100%',
     height: '100%',
+  },
+  container: {
+    height: Dimensions.get('window').height * 0.05,
+    flex: 1,
+
+    // Position
+    alignSelf: 'center',
+    position: 'absolute', // 컨테이너가 지도 위에 오도록 설정
+    marginTop: Dimensions.get('window').height * 0.05,
+    width: '50%', // 80%
+    maxWidth: '90%',
+
+    backgroundColor: '#fff',
+    borderRadius: 30,
+
+    // Shadow (iOS)
+    shadowColor: '#B989FF',
+    shadowOffset: { width: 0, height: 5 },
+    shadowOpacity: 4,
+    shadowRadius: 10,
+    elevation: 2,
+  },
+  searchInputContent: {
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'center',
+    flex: 1, // 추가
+  },
+  searchIcon: {
+    width: 30,
+    height: 30,
+  },
+  text: {
+    fontSize: Dimensions.get('window').width * 0.04,
+    color: '#232323',
+    marginLeft: 10,
+    marginRight: 20,
   },
 })
