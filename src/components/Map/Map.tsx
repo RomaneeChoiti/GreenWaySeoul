@@ -1,10 +1,10 @@
 import MapView, { Marker } from 'react-native-maps'
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import { StatusBar } from 'expo-status-bar'
 import { Dimensions, Image, StyleSheet, Text, View } from 'react-native'
 import useUserLocation from '../User/Location'
 import fetchFilteredTrashCans from '../../api/TrashcanAPI'
-import { UserLocation, TrashCanData, GyroscopeData } from '../Type'
+import { TrashCanData, GyroscopeData } from '../Type'
 import TypeDivide from '../Trashcan/TypeDivide'
 import { DeviceMotion } from 'expo-sensors'
 import { handleUserMarkerRotation } from '../User/Direction'
@@ -13,7 +13,7 @@ import { SafeAreaView } from 'react-native-safe-area-context'
 export default function Map() {
   const { location, fetchLocation, userLocation } = useUserLocation()
   const [trashCanData, setTrashCanData] = useState<TrashCanData[]>([])
-  const [shadowColor, setShadowColor] = useState('#B989FF')
+  const mapRef = useRef<MapView>(null)
 
   const [gyroscopeData, setGyroscopeData] = useState<GyroscopeData>({
     rotation: {
@@ -24,47 +24,30 @@ export default function Map() {
   })
 
   useEffect(() => {
+    const fetchData = async () => {
+      try {
+        await fetchLocation()
+        const data = await fetchFilteredTrashCans({ location })
+        setTrashCanData(data ?? [])
+      } catch (error) {
+        console.error('Error fetching trash can data:', error)
+      }
+    }
+    fetchData()
+
     const subscription = DeviceMotion.addListener(({ rotation }) => {
       setGyroscopeData({ rotation })
     })
-    return () => {
-      subscription.remove()
-    }
-  }, [])
-
-  const fetchTrashCanData = async ({
-    location,
-  }: {
-    location: UserLocation
-  }) => {
-    try {
-      const data = await fetchFilteredTrashCans({ location })
-      setTrashCanData(data!)
-      setShadowColor(data && data.length > 0 ? '#379FDA' : '#B989FF')
-    } catch (err) {
-      console.error(err)
-    }
-  }
-
-  const executeStep = async () => {
-    try {
-      await fetchLocation()
-      await fetchTrashCanData({ location })
-    } catch (error) {
-      console.error(error)
-    }
-  }
-
-  useEffect(() => {
-    const fetchData = async () => {
-      await executeStep()
-    }
-    fetchData()
+    return () => subscription.remove()
   }, [location])
 
+  const animatedStyle = {
+    shadowColor: trashCanData.length > 0 ? '#379FDA' : '#B989FF',
+  }
+
   return (
-    <MapView style={styles.map}>
-      <SafeAreaView>
+    <SafeAreaView style={styles.safeArea}>
+      <MapView ref={mapRef} followsUserLocation={true} style={styles.map}>
         <Marker
           coordinate={{
             latitude: userLocation.latitude,
@@ -85,60 +68,65 @@ export default function Map() {
             />
           ))}
         <StatusBar style="auto" />
-        <View style={[styles.container, { shadowColor }]}>
+        <View style={[styles.container, animatedStyle]}>
           <View style={styles.searchInputContent}>
             <Image
-              source={require('../../../assets/magnifier.png')}
               style={styles.searchIcon}
+              source={require('../../../assets/magnifier.png')}
             />
-            <Text style={styles.text}>Searching...</Text>
+            <Text style={styles.text}>
+              {trashCanData.length > 0
+                ? 'Nearby trash can search complete.'
+                : 'Searching...'}
+            </Text>
           </View>
         </View>
-      </SafeAreaView>
-    </MapView>
+      </MapView>
+    </SafeAreaView>
   )
 }
 
 const styles = StyleSheet.create({
+  safeArea: {
+    flex: 1,
+  },
+
   map: {
     width: '100%',
     height: '100%',
   },
+
   container: {
-    height: Dimensions.get('window').height * 0.05,
-    flex: 1,
-
-    // Position
+    // position
+    position: 'absolute', // 컨테이너를 지도 위에 배치
     alignSelf: 'center',
-    position: 'absolute', // 컨테이너가 지도 위에 오도록 설정
-    marginTop: Dimensions.get('window').height * 0.05,
-    width: '50%', // 80%
-    maxWidth: '90%',
+    top: Dimensions.get('window').height * 0.05,
 
+    // style
     backgroundColor: '#fff',
     borderRadius: 30,
 
-    // Shadow (iOS)
-    shadowColor: '#B989FF',
+    // Shadow
     shadowOffset: { width: 0, height: 5 },
     shadowOpacity: 4,
     shadowRadius: 10,
     elevation: 2,
   },
+
   searchInputContent: {
+    alignItems: 'center',
     flexDirection: 'row',
     justifyContent: 'center',
-    alignItems: 'center',
-    flex: 1, // 추가
   },
+
   searchIcon: {
     width: 30,
     height: 30,
+    marginRight: 8, // 아이콘과 텍스트 사이 간격 추가
+    lexWrap: 'wrap',
   },
   text: {
     fontSize: Dimensions.get('window').width * 0.04,
     color: '#232323',
-    marginLeft: 10,
-    marginRight: 20,
   },
 })
