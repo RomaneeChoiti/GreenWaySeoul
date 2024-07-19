@@ -17,6 +17,7 @@ import TypeDivide from '../Trashcan/TypeDivide'
 import { DeviceMotion } from 'expo-sensors'
 import { handleUserMarkerRotation } from '../User/Direction'
 import { SafeAreaView } from 'react-native-safe-area-context'
+import SearchModal from './Modal'
 
 export default function Map() {
   const { location, fetchLocation, userLocation } = useUserLocation()
@@ -56,7 +57,7 @@ export default function Map() {
         } else {
           setTimeout(() => {
             setModalMessage('No nearby trash cans found.')
-          }, 15000) // 15초 후 메시지 변경
+          }, 1500) // 15초 후 메시지 변경
         }
       } catch (error) {
         console.error('Error fetching trash can data:', error)
@@ -70,10 +71,6 @@ export default function Map() {
     return () => subscription.remove()
   }, [location])
 
-  const animatedStyle = {
-    shadowColor: modalMessage === 'Searching...' ? '#B989FF' : '#379FDA',
-  }
-
   const handleModalRequestClose = () => {
     if (trashCanData.length > 0) {
       setIsModalVisible(false)
@@ -82,27 +79,12 @@ export default function Map() {
 
   return (
     <SafeAreaView style={styles.safeArea}>
-      <Modal
-        transparent={true}
-        animationType="fade"
-        visible={isModalVisible}
+      <SearchModal
+        isVisible={isModalVisible}
+        message={modalMessage}
         onRequestClose={handleModalRequestClose}
-      >
-        <TouchableWithoutFeedback onPress={handleModalRequestClose}>
-          <View style={styles.modalOverlay} />
-        </TouchableWithoutFeedback>
-        <View style={[styles.container, animatedStyle, styles.modalContent]}>
-          <Image
-            style={styles.searchIcon}
-            source={require('../../../assets/magnifier.png')}
-          />
-          <Text style={styles.text}>
-            {trashCanData.length > 0
-              ? 'Nearby trash can search complete.'
-              : 'Searching...'}
-          </Text>
-        </View>
-      </Modal>
+        trashCanData={trashCanData}
+      />
 
       <MapView ref={mapRef} followsUserLocation={true} style={styles.map}>
         <Marker
