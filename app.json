@@ -11,9 +11,12 @@
       "image": "./assets/splash2.png",
       "resizeMode": "cover"
     },
-    "assetBundlePatterns": ["**/*"],
+    "assetBundlePatterns": [
+      "**/*"
+    ],
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "bundleIdentifier": "com.tmd1568.GreenWaySeoul"
     },
     "android": {
       "adaptiveIcon": {
@@ -21,6 +24,12 @@
         "resizeMode": "cover"
       }
     },
-    "web": {}
+    "web": {},
+    "extra": {
+      "eas": {
+        "projectId": "0b973cdb-e9dc-4eaf-bdec-d5d3a9b9f6ec"
+      }
+    },
+    "owner": "tmd1568"
   }
 }

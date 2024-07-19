@@ -1,7 +1,15 @@
 import MapView, { Marker } from 'react-native-maps'
 import React, { useEffect, useRef, useState } from 'react'
 import { StatusBar } from 'expo-status-bar'
-import { Dimensions, Image, StyleSheet, Text, View } from 'react-native'
+import {
+  Dimensions,
+  Image,
+  Modal,
+  StyleSheet,
+  Text,
+  TouchableWithoutFeedback,
+  View,
+} from 'react-native'
 import useUserLocation from '../User/Location'
 import fetchFilteredTrashCans from '../../api/TrashcanAPI'
 import { TrashCanData, GyroscopeData } from '../Type'
@@ -14,6 +22,8 @@ export default function Map() {
   const { location, fetchLocation, userLocation } = useUserLocation()
   const [trashCanData, setTrashCanData] = useState<TrashCanData[]>([])
   const mapRef = useRef<MapView>(null)
+  const [isModalVisible, setIsModalVisible] = useState(true) // Modal starts visible
+  const [modalMessage, setModalMessage] = useState('Searching...') // 초기 메시지
 
   const [gyroscopeData, setGyroscopeData] = useState<GyroscopeData>({
     rotation: {
@@ -29,6 +39,25 @@ export default function Map() {
         await fetchLocation()
         const data = await fetchFilteredTrashCans({ location })
         setTrashCanData(data ?? [])
+
+        if (data && data.length > 0) {
+          setTimeout(() => {
+            setIsModalVisible(false)
+
+            if (mapRef.current && location) {
+              mapRef.current.animateToRegion({
+                latitude: location.latitude,
+                longitude: location.longitude,
+                latitudeDelta: 0.1, // 원하는 줌 레벨 조절
+                longitudeDelta: 0.1,
+              })
+            }
+          }, 1500) // 검색 성공 시 1초 후 닫기
+        } else {
+          setTimeout(() => {
+            setModalMessage('No nearby trash cans found.')
+          }, 15000) // 15초 후 메시지 변경
+        }
       } catch (error) {
         console.error('Error fetching trash can data:', error)
       }
@@ -42,11 +71,39 @@ export default function Map() {
   }, [location])
 
   const animatedStyle = {
-    shadowColor: trashCanData.length > 0 ? '#379FDA' : '#B989FF',
+    shadowColor: modalMessage === 'Searching...' ? '#B989FF' : '#379FDA',
+  }
+
+  const handleModalRequestClose = () => {
+    if (trashCanData.length > 0) {
+      setIsModalVisible(false)
+    }
   }
 
   return (
     <SafeAreaView style={styles.safeArea}>
+      <Modal
+        transparent={true}
+        animationType="fade"
+        visible={isModalVisible}
+        onRequestClose={handleModalRequestClose}
+      >
+        <TouchableWithoutFeedback onPress={handleModalRequestClose}>
+          <View style={styles.modalOverlay} />
+        </TouchableWithoutFeedback>
+        <View style={[styles.container, animatedStyle, styles.modalContent]}>
+          <Image
+            style={styles.searchIcon}
+            source={require('../../../assets/magnifier.png')}
+          />
+          <Text style={styles.text}>
+            {trashCanData.length > 0
+              ? 'Nearby trash can search complete.'
+              : 'Searching...'}
+          </Text>
+        </View>
+      </Modal>
+
       <MapView ref={mapRef} followsUserLocation={true} style={styles.map}>
         <Marker
           coordinate={{
@@ -68,19 +125,6 @@ export default function Map() {
             />
           ))}
         <StatusBar style="auto" />
-        <View style={[styles.container, animatedStyle]}>
-          <View style={styles.searchInputContent}>
-            <Image
-              style={styles.searchIcon}
-              source={require('../../../assets/magnifier.png')}
-            />
-            <Text style={styles.text}>
-              {trashCanData.length > 0
-                ? 'Nearby trash can search complete.'
-                : 'Searching...'}
-            </Text>
-          </View>
-        </View>
       </MapView>
     </SafeAreaView>
   )
@@ -98,12 +142,15 @@ const styles = StyleSheet.create({
 
   container: {
     // position
-    position: 'absolute', // 컨테이너를 지도 위에 배치
+    marginTop: Dimensions.get('window').height * 0.05,
+    justifyContent: 'center',
+    alignItems: 'center',
     alignSelf: 'center',
-    top: Dimensions.get('window').height * 0.05,
+    flexDirection: 'row',
 
-    // style
-    backgroundColor: '#fff',
+    width: '80%',
+    height: 60,
+    backgroundColor: '#ffffff',
     borderRadius: 30,
 
     // Shadow
@@ -113,20 +160,24 @@ const styles = StyleSheet.create({
     elevation: 2,
   },
 
-  searchInputContent: {
-    alignItems: 'center',
-    flexDirection: 'row',
-    justifyContent: 'center',
+  searchIcon: {
+    widtth: 30,
+    heigh: 30,
+    marginRight: 8, // 아이콘과 텍스트 사이 간격 추가
   },
 
-  searchIcon: {
-    width: 30,
-    height: 30,
-    marginRight: 8, // 아이콘과 텍스트 사이 간격 추가
-    lexWrap: 'wrap',
-  },
   text: {
     fontSize: Dimensions.get('window').width * 0.04,
     color: '#232323',
+  },
+
+  modalOverlay: {
+    flex: 1,
+    backgroundColor: 'rgba(0, 0, 0, 0.5)', // Semi-transparent background
+  },
+  modalContent: {
+    position: 'absolute',
+    alignSelf: 'center', // Center horizontally
+    marginBottom: Dimensions.get('window').height * 0.05, // Match original marginTop
   },
 })
