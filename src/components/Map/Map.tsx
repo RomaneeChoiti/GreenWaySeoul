@@ -4,7 +4,7 @@ import { StatusBar } from 'expo-status-bar'
 import { StyleSheet } from 'react-native'
 import useUserLocation from '../User/Location'
 import { SafeAreaView } from 'react-native-safe-area-context'
-import SearchModal from './Modal'
+import SearchModal from './SearchModal'
 import UserMarker from '../User/UserMarker'
 import TrashcanMarker from '../Trashcan/TrashcanMarker'
 import useTrashCanDataAndGyroscope from './MapController'
@@ -57,6 +57,11 @@ export default function Map() {
       setIsModalVisible(false)
     }
   }
+  const [selectedMarkerId, setSelectedMarkerId] = useState<number | null>(null)
+
+  const handleMarkerPress = (index: number) => {
+    setSelectedMarkerId(index)
+  }
 
   return (
     <SafeAreaView style={styles.safeArea}>
@@ -71,7 +76,12 @@ export default function Map() {
         <UserMarker coordinate={userLocation} gyroscopeData={gyroscopeData} />
 
         {trashCanData.map((trashCan, index) => (
-          <TrashcanMarker key={index} trashCan={trashCan} />
+          <TrashcanMarker
+            key={index}
+            trashCan={trashCan}
+            isSelected={selectedMarkerId === index} // 마커가 선택되었는지 여부 전달
+            onPress={() => handleMarkerPress(index)}
+          />
         ))}
         <StatusBar style="auto" />
       </MapView>

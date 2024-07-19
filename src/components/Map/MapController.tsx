@@ -1,15 +1,9 @@
-// hooks/useTrashCanDataAndGyroscope.tsx
 import { useEffect, useState } from 'react'
 import { DeviceMotion } from 'expo-sensors'
-import { TrashCanData, GyroscopeData } from '../Type'
+import { TrashCanData, GyroscopeData, UserLocation } from '../Type'
 import fetchFilteredTrashCans from '../../api/TrashcanAPI'
 
-interface Location {
-  latitude: number
-  longitude: number
-}
-
-const useTrashCanDataAndGyroscope = (location: Location | null) => {
+const useTrashCanDataAndGyroscope = (location: UserLocation | null) => {
   const [trashCanData, setTrashCanData] = useState<TrashCanData[]>([])
   const [gyroscopeData, setGyroscopeData] = useState<GyroscopeData>({
     rotation: { alpha: 0, beta: 0, gamma: 0 },
