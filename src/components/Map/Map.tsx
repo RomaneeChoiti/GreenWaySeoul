@@ -1,30 +1,23 @@
-import MapView, { Marker } from 'react-native-maps'
+import MapView from 'react-native-maps'
 import React, { useEffect, useRef, useState } from 'react'
 import { StatusBar } from 'expo-status-bar'
-import {
-  Dimensions,
-  Image,
-  Modal,
-  StyleSheet,
-  Text,
-  TouchableWithoutFeedback,
-  View,
-} from 'react-native'
+import { StyleSheet } from 'react-native'
 import useUserLocation from '../User/Location'
-import fetchFilteredTrashCans from '../../api/TrashcanAPI'
+// import fetchFilteredTrashCans from '../../api/TrashcanAPI'
 import { TrashCanData, GyroscopeData } from '../Type'
-import TypeDivide from '../Trashcan/TypeDivide'
 import { DeviceMotion } from 'expo-sensors'
-import { handleUserMarkerRotation } from '../User/Direction'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import SearchModal from './Modal'
+import UserMarker from '../User/UserMarker'
+import TrashcanMarker from '../Trashcan/TrashcanMarker'
+import fetchFilteredTrashCans from '../../api/TrashcanAPI'
 
 export default function Map() {
   const { location, fetchLocation, userLocation } = useUserLocation()
   const [trashCanData, setTrashCanData] = useState<TrashCanData[]>([])
   const mapRef = useRef<MapView>(null)
-  const [isModalVisible, setIsModalVisible] = useState(true) // Modal starts visible
-  const [modalMessage, setModalMessage] = useState('Searching...') // 초기 메시지
+  const [isModalVisible, setIsModalVisible] = useState(true)
+  const [modalMessage, setModalMessage] = useState('Searching...')
 
   const [gyroscopeData, setGyroscopeData] = useState<GyroscopeData>({
     rotation: {
@@ -49,15 +42,15 @@ export default function Map() {
               mapRef.current.animateToRegion({
                 latitude: location.latitude,
                 longitude: location.longitude,
-                latitudeDelta: 0.1, // 원하는 줌 레벨 조절
+                latitudeDelta: 0.1,
                 longitudeDelta: 0.1,
               })
             }
-          }, 1500) // 검색 성공 시 1초 후 닫기
+          }, 1500)
         } else {
           setTimeout(() => {
             setModalMessage('No nearby trash cans found.')
-          }, 1500) // 15초 후 메시지 변경
+          }, 1500)
         }
       } catch (error) {
         console.error('Error fetching trash can data:', error)
@@ -70,6 +63,38 @@ export default function Map() {
     })
     return () => subscription.remove()
   }, [location])
+
+  /* 
+  * MapController component 기능 활성화 사유
+  * User 위치를 화면에 확대 시키는 기능 에러.
+  *
+  useEffect(() => {
+    const subscription = DeviceMotion.addListener(({ rotation }) => {
+      setGyroscopeData({ rotation })
+    })
+    return () => subscription.remove()
+  }, [])
+
+  * 해당 에러 부분.
+  ****************************************************************
+  useEffect(() => {
+    if (trashCanData.length > 0) {
+      setTimeout(() => {
+        setIsModalVisible(false)
+
+        if (mapRef.current && location) {
+          mapRef.current.animateToRegion({
+            latitude: location.latitude,
+            longitude: location.longitude,
+            latitudeDelta: 0.1,
+            longitudeDelta: 0.1,
+          })
+        }
+      }, 1500)
+    }
+  }, [trashCanData, location])
+  ****************************************************************
+  */
 
   const handleModalRequestClose = () => {
     if (trashCanData.length > 0) {
@@ -85,27 +110,14 @@ export default function Map() {
         onRequestClose={handleModalRequestClose}
         trashCanData={trashCanData}
       />
+      {/* <MapController onTrashCansLoaded={setTrashCanData} /> */}
 
       <MapView ref={mapRef} followsUserLocation={true} style={styles.map}>
-        <Marker
-          coordinate={{
-            latitude: userLocation.latitude,
-            longitude: userLocation.longitude,
-          }}
-          image={require('../../../assets/userDirectionMarker.png')}
-          style={handleUserMarkerRotation(gyroscopeData)}
-        />
-        {trashCanData! &&
-          trashCanData.map((trashCan, index) => (
-            <Marker
-              key={index}
-              coordinate={{
-                latitude: trashCan.Latitude,
-                longitude: trashCan.Longitude,
-              }}
-              image={TypeDivide(trashCan.canType)}
-            />
-          ))}
+        <UserMarker coordinate={userLocation} gyroscopeData={gyroscopeData} />
+
+        {trashCanData.map((trashCan, index) => (
+          <TrashcanMarker key={index} trashCan={trashCan} />
+        ))}
         <StatusBar style="auto" />
       </MapView>
     </SafeAreaView>
@@ -116,50 +128,8 @@ const styles = StyleSheet.create({
   safeArea: {
     flex: 1,
   },
-
   map: {
     width: '100%',
     height: '100%',
-  },
-
-  container: {
-    // position
-    marginTop: Dimensions.get('window').height * 0.05,
-    justifyContent: 'center',
-    alignItems: 'center',
-    alignSelf: 'center',
-    flexDirection: 'row',
-
-    width: '80%',
-    height: 60,
-    backgroundColor: '#ffffff',
-    borderRadius: 30,
-
-    // Shadow
-    shadowOffset: { width: 0, height: 5 },
-    shadowOpacity: 4,
-    shadowRadius: 10,
-    elevation: 2,
-  },
-
-  searchIcon: {
-    widtth: 30,
-    heigh: 30,
-    marginRight: 8, // 아이콘과 텍스트 사이 간격 추가
-  },
-
-  text: {
-    fontSize: Dimensions.get('window').width * 0.04,
-    color: '#232323',
-  },
-
-  modalOverlay: {
-    flex: 1,
-    backgroundColor: 'rgba(0, 0, 0, 0.5)', // Semi-transparent background
-  },
-  modalContent: {
-    position: 'absolute',
-    alignSelf: 'center', // Center horizontally
-    marginBottom: Dimensions.get('window').height * 0.05, // Match original marginTop
   },
 })
