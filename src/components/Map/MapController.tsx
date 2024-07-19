@@ -1,32 +1,49 @@
-import React, { useEffect, useState } from 'react'
-import useUserLocation from '../User/Location'
+// hooks/useTrashCanDataAndGyroscope.tsx
+import { useEffect, useState } from 'react'
+import { DeviceMotion } from 'expo-sensors'
+import { TrashCanData, GyroscopeData } from '../Type'
 import fetchFilteredTrashCans from '../../api/TrashcanAPI'
-import { TrashCanData } from '../Type'
 
-interface MapControllerProps {
-  onTrashCansLoaded: (trashCans: TrashCanData[]) => void
+interface Location {
+  latitude: number
+  longitude: number
 }
 
-export const MapController: React.FC<MapControllerProps> = ({
-  onTrashCansLoaded,
-}) => {
-  const { location, fetchLocation } = useUserLocation()
+const useTrashCanDataAndGyroscope = (location: Location | null) => {
   const [trashCanData, setTrashCanData] = useState<TrashCanData[]>([])
+  const [gyroscopeData, setGyroscopeData] = useState<GyroscopeData>({
+    rotation: { alpha: 0, beta: 0, gamma: 0 },
+  })
+  const [isLoading, setIsLoading] = useState(true)
+  const [error, setError] = useState<string | null>(null)
 
   useEffect(() => {
     const fetchData = async () => {
+      if (!location) return // 위치 정보가 없으면 종료
+
       try {
-        await fetchLocation()
         const data = await fetchFilteredTrashCans({ location })
         setTrashCanData(data ?? [])
-        onTrashCansLoaded(data ?? [])
+        setError(null) // 에러 초기화
       } catch (error) {
         console.error('Error fetching trash can data:', error)
+        setError('Error fetching data') // 에러 메시지 설정
+      } finally {
+        setIsLoading(false)
       }
     }
 
     fetchData()
-  }, [location, onTrashCansLoaded])
+  }, [location])
 
-  return null // 이 컴포넌트는 직접적인 UI를 렌더링하지 않습니다.
+  useEffect(() => {
+    const subscription = DeviceMotion.addListener(({ rotation }) => {
+      setGyroscopeData({ rotation })
+    })
+    return () => subscription.remove()
+  }, [])
+
+  return { trashCanData, gyroscopeData, isLoading, error }
 }
+
+export default useTrashCanDataAndGyroscope
