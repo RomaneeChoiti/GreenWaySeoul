@@ -79,7 +79,7 @@ export default function Map() {
           <TrashcanMarker
             key={index}
             trashCan={trashCan}
-            isSelected={selectedMarkerId === index} // 마커가 선택되었는지 여부 전달
+            isSelected={selectedMarkerId === index}
             onPress={() => handleMarkerPress(index)}
           />
         ))}

@@ -5,10 +5,10 @@
     "version": "1.0.0",
     "orientation": "portrait",
     "jsEngine": "hermes",
-    "icon": "./assets/Component3.png",
+    "icon": "./assets/icon.png",
     "userInterfaceStyle": "light",
     "splash": {
-      "image": "./assets/splash2.png",
+      "image": "./assets/splashImage.png",
       "resizeMode": "cover"
     },
     "assetBundlePatterns": [
@@ -20,9 +20,10 @@
     },
     "android": {
       "adaptiveIcon": {
-        "foregroundImage": "./assets/splash2.png",
+        "foregroundImage": "./assets/splashImage.png",
         "resizeMode": "cover"
-      }
+      },
+      "package": "com.tmd1568.GreenWaySeoul"
     },
     "web": {},
     "extra": {
@@ -30,6 +31,12 @@
         "projectId": "0b973cdb-e9dc-4eaf-bdec-d5d3a9b9f6ec"
       }
     },
-    "owner": "tmd1568"
+    "owner": "tmd1568",
+    "runtimeVersion": {
+      "policy": "appVersion"
+    },
+    "updates": {
+      "url": "https://u.expo.dev/0b973cdb-e9dc-4eaf-bdec-d5d3a9b9f6ec"
+    }
   }
 }

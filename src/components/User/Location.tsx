@@ -18,7 +18,7 @@ export default function useUserLocation() {
       const { status } = await Location.requestForegroundPermissionsAsync()
 
       if (status !== 'granted') {
-        Alert.alert('GPS를 켜주세요.')
+        Alert.alert('GPS On.')
         return
       }
 

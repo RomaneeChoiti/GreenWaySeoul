@@ -13,15 +13,14 @@ const useTrashCanDataAndGyroscope = (location: UserLocation | null) => {
 
   useEffect(() => {
     const fetchData = async () => {
-      if (!location) return // 위치 정보가 없으면 종료
+      if (!location) return
 
       try {
         const data = await fetchFilteredTrashCans({ location })
         setTrashCanData(data ?? [])
-        setError(null) // 에러 초기화
+        setError(null)
       } catch (error) {
         console.error('Error fetching trash can data:', error)
-        setError('Error fetching data') // 에러 메시지 설정
       } finally {
         setIsLoading(false)
       }

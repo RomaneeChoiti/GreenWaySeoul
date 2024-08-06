@@ -2,11 +2,11 @@ import React from 'react'
 import { Callout, Marker } from 'react-native-maps'
 import { TrashCanData } from '../Type'
 import TypeDivide from '../Trashcan/TypeDivide'
-import { Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
+import { StyleSheet, Text, View } from 'react-native'
 
 interface TrashcanMarkerProps {
   trashCan: TrashCanData
-  isSelected: boolean // 마커가 선택되었는지 여부
+  isSelected: boolean
   onPress: () => void
 }
 
@@ -23,31 +23,11 @@ const TrashcanMarker: React.FC<TrashcanMarkerProps> = ({
     image={TypeDivide(trashCan.canType)}
     onPress={onPress}
   >
-    {isSelected && ( // isSelected가 true일 때만 Callout 표시
+    {isSelected && (
       <Callout style={styles.calloutContainer}>
         <View>
           <Text style={styles.calloutTitle}>Trash Can Details</Text>
           <Text>Address: {trashCan.Address}</Text>
-          {/* <View style={styles.buttonContainer}>
-            <TouchableOpacity style={styles.imageButton}>
-              <Image
-                source={require('../../../assets/Eng.png')}
-                style={styles.buttonImage}
-              />
-            </TouchableOpacity>
-            <TouchableOpacity style={styles.imageButton}>
-              <Image
-                source={require('../../../assets/China.png')}
-                style={styles.buttonImage}
-              />
-            </TouchableOpacity>
-            <TouchableOpacity style={styles.imageButton}>
-              <Image
-                source={require('../../../assets/Japan.png')}
-                style={styles.buttonImage}
-              />
-            </TouchableOpacity>
-          </View> */}
         </View>
       </Callout>
     )}
@@ -73,7 +53,7 @@ const styles = StyleSheet.create({
     height: 15,
   },
   buttonImage: {
-    width: 40, // 이미지 크기 조절
+    width: 40,
     height: 40,
   },
 })

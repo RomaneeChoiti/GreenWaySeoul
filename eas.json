@@ -9,13 +9,22 @@
       "distribution": "internal"
     },
     "preview": {
-      "distribution": "internal"
+      "distribution": "internal",
+      "simulator": true,
+      "channel": "preview"
     },
     "production": {
-      "autoIncrement": true
+      "autoIncrement": true,
+      "channel": "production"
     }
   },
   "submit": {
-    "production": {}
+    "production": {
+      "ios": {
+        "appleId": "tmd1568@gmail.com",
+        "ascAppId": "6569234816",
+        "appleTeamId": "932A353BB5"
+      }
+    }
   }
 }
