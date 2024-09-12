@@ -10,7 +10,6 @@
     },
     "preview": {
       "distribution": "internal",
-      "simulator": true,
       "channel": "preview"
     },
     "production": {

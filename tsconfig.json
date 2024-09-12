@@ -4,13 +4,14 @@
     "allowSyntheticDefaultImports": true,
     "esModuleInterop": true,
     "isolatedModules": true,
-    "jsx": "react",
+    "jsx": "react-native",
     "lib": ["es6", "es2017"],
     "moduleResolution": "node",
     "noEmit": true,
     "strict": true,
     "target": "esnext",
-    "skipLibCheck": true
+    "skipLibCheck": true,
+    "typeRoots": ["./node_modules/@types"],
   },
   "exclude": [
     "node_modules",
@@ -18,5 +19,8 @@
     "metro.config.js",
     "jest.config.js"
   ],
+  "include": ["**/*.ts", "**/*.tsx", "**/*.js", "**/*.jsx"],
   "extends": "expo/tsconfig.base"
 }
+
+

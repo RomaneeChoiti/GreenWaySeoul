@@ -11,9 +11,7 @@
       "image": "./assets/splashImage.png",
       "resizeMode": "cover"
     },
-    "assetBundlePatterns": [
-      "**/*"
-    ],
+    "assetBundlePatterns": ["**/*"],
     "ios": {
       "supportsTablet": true,
       "bundleIdentifier": "com.tmd1568.GreenWaySeoul"
@@ -32,9 +30,7 @@
       }
     },
     "owner": "tmd1568",
-    "runtimeVersion": {
-      "policy": "appVersion"
-    },
+    "runtimeVersion": "1.0.1",
     "updates": {
       "url": "https://u.expo.dev/0b973cdb-e9dc-4eaf-bdec-d5d3a9b9f6ec"
     }

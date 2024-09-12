@@ -1,7 +1,7 @@
 import axios from 'axios'
 import { UserLocation } from '../components/Type'
 
-const trashCanAPI: string | undefined = process.env.TRASHCAN_AWS_API_URL
+const trashCanAPI: string | undefined = process.env.API_KEY
 
 const fetchFilteredTrashCans = async ({
   location,

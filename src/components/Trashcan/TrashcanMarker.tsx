@@ -1,7 +1,7 @@
 import React from 'react'
 import { Callout, Marker } from 'react-native-maps'
 import { TrashCanData } from '../Type'
-import TypeDivide from '../Trashcan/TypeDivide'
+import TypeDivide from './TypeDivide'
 import { StyleSheet, Text, View } from 'react-native'
 
 interface TrashcanMarkerProps {
