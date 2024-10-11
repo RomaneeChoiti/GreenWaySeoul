@@ -1,0 +1,34 @@
+# .github/workflows/eas_build_and_submit.yml
+
+name: Build and Submit iOS App
+
+on:
+  push:
+    branches:
+      - new-branch
+
+jobs:
+  build-and-submit:
+    runs-on: macos-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: 16
+
+      - name: Install EAS CLI
+        run: npm install -g eas-cli
+
+      - name: EAS build
+        run: eas build --platform ios --non-interactive
+        env:
+          EAS_TOKEN: ${{ secrets.EAS_GWS_TOKEN }}
+
+      - name: EAS submit
+        run: eas submit --platform ios --non-interactive
+        env:
+          EAS_TOKEN: ${{ secrets.EAS_GWS_TOKEN }}
