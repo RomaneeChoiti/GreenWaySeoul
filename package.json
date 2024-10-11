@@ -1,6 +1,6 @@
 {
   "name": "greenwayseoul",
-  "version": "1.0.0",
+  "version": "1.2.0",
   "type": "module",
   "scripts": {
     "start": "expo start",
@@ -21,6 +21,7 @@
     "aws-amplify": "^6.0.28",
     "aws-sdk": "^2.1630.0",
     "axios": "^1.7.2",
+    "dotenv": "^16.4.5",
     "expo": "~51.0.24",
     "expo-dev-client": "~4.0.21",
     "expo-image": "~1.12.13",
