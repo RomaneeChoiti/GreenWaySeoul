@@ -19,8 +19,16 @@ jobs:
         with:
           node-version: 16
 
+      - name: Install dependencies
+        run: npm install
+
       - name: Install EAS CLI
         run: npm install -g eas-cli
+
+
+      - name: Set environment variables
+       run: echo "API_BASE_URL=${{ secrets.API_BASE_URL }}" >> $GITHUB_ENV
+
 
       - name: EAS build
         run: eas build --platform ios --non-interactive
