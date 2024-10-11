@@ -1,5 +1,4 @@
 # .github/workflows/eas_build_and_submit.yml
-
 name: Build and Submit iOS App
 
 on:
@@ -26,9 +25,9 @@ jobs:
       - name: EAS build
         run: eas build --platform ios --non-interactive
         env:
-          EAS_TOKEN: ${{ secrets.EAS_GWS_TOKEN }}
+          EAS_TOKEN: ${{ secrets.EXPO_TOKEN }}
 
       - name: EAS submit
         run: eas submit --platform ios --non-interactive
         env:
-          EAS_TOKEN: ${{ secrets.EAS_GWS_TOKEN }}
+          EAS_TOKEN: ${{ secrets.EXPO_TOKEN }}
