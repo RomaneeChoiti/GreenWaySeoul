@@ -38,10 +38,10 @@ export default function useUserLocation() {
         },
         (location: Location.LocationObject) => {
           setUserLocation({
-            // latitude: location.coords.latitude,
-            // longitude: location.coords.longitude,
-            latitude: 37.513835,
-            longitude: 127.104434 ,
+            latitude: location.coords.latitude,
+            longitude: location.coords.longitude,
+            // latitude: 37.513835,
+            // longitude: 127.104434 ,
           })
         },
       )
@@ -51,10 +51,10 @@ export default function useUserLocation() {
         coords.longitude !== location.longitude
       ) {
         setLocation({
-          // latitude: coords.latitude,
-          // longitude: coords.longitude,
-          latitude: 37.513835,
-          longitude: 127.104434 ,
+          latitude: coords.latitude,
+          longitude: coords.longitude,
+          // latitude: 37.513835,
+          // longitude: 127.104434 ,
         })
       }
     } catch (error) {

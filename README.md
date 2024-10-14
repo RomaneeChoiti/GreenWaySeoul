@@ -13,9 +13,27 @@
 
 ## 사용된 기술
 
-- JavaScript, TypewScript, React Native, Figma
-- AWS: DynamoDB, API Gateway, Lambda
-- EXPO, EAS
+- 프론트엔드
+JavaScript & TypeScript: React Native 애플리케이션 개발에 사용.
+React Native: 모바일 애플리케이션 개발을 위한 프레임워크.
+Figma: UI/UX 디자인 및 프로토타입 제작에 사용.
+
+- 백엔드 및 서버리스
+AWS
+DynamoDB: 서버리스 NoSQL 데이터베이스로, 애플리케이션의 데이터를 저장.
+API Gateway: RESTful API를 통해 애플리케이션과 서버 사이의 통신을 관리.
+Lambda: 서버리스 함수로, 특정 이벤트에 따라 비즈니스 로직을 실행.
+
+- 애플리케이션 빌드 및 배포:
+Expo
+Expo Go: 개발 중 애플리케이션을 테스트하기 위해 사용.
+EAS (Expo Application Services): 앱의 빌드 및 배포를 자동화.
+EAS Build & Submit: iOS 및 Android용으로 애플리케이션을 빌드하고, TestFlight와 같은 
+플랫폼에 배포.
+
+CI/CD:
+GitHub Actions: 코드 변경 사항을 자동으로 테스트하고, 빌드 및 배포하는 워크플로를 설정하여 지속적인 통합/배포(CI/CD)를 구현.
+
 
 ## 프로젝트 구조
 
