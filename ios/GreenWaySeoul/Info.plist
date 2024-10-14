@@ -41,27 +41,23 @@
     <string>1</string>
     <key>LSRequiresIPhoneOS</key>
     <true/>
+    
     <key>NSAppTransportSecurity</key>
     <dict>
       <key>NSExceptionDomains</key>
       <dict>
-        <key>execute-api.ap-northeast-2.amazonaws.com</key>  <!-- AWS API Gateway 도메인 -->
+        <key>execute-api.ap-northeast-2.amazonaws.com</key>  
         <dict>
           <key>NSIncludesSubdomains</key>
-          <true/>  <!-- 서브 도메인 포함 -->
+          <true/>  
           <key>NSExceptionAllowsInsecureHTTPLoads</key>
-          <false/>  <!-- HTTP는 허용하지 않음, HTTPS만 허용 -->
+          <false/>  
           <key>NSExceptionRequiresForwardSecrecy</key>
-          <false/>  <!-- Forward Secrecy 요구 비활성화 (선택사항) -->
+          <false/>  
         </dict>
       </dict>
     </dict>
-    <dict>
-      <key>NSAllowsArbitraryLoads</key>
-      <false/>
-      <key>NSAllowsLocalNetworking</key>
-      <true/>
-    </dict>
+
     <key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
     <string>Allow $(PRODUCT_NAME) to access your location</string>
     <key>NSLocationAlwaysUsageDescription</key>
