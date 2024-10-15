@@ -22,7 +22,6 @@ export default function Map() {
       try {
         await fetchLocation()
       } catch (error) {
-        console.error('Error fetching user location:', error)
       }
     }
 

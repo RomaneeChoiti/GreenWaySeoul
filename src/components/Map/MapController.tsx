@@ -20,7 +20,6 @@ const useTrashCanDataAndGyroscope = (location: UserLocation | null) => {
         setTrashCanData(data ?? [])
         setError(null)
       } catch (error) {
-        console.error('Error fetching trash can data:', error)
       } finally {
         setIsLoading(false)
       }

@@ -13,7 +13,6 @@ export default function useUserLocation() {
     longitude: 0,
   })
 
-    // 권한 상태를 추적
     const [permissionStatus, setPermissionStatus] = useState<Location.PermissionStatus | null>(null);
 
 
@@ -22,7 +21,6 @@ export default function useUserLocation() {
       const { status } = await Location.requestForegroundPermissionsAsync()
 
 
-  // 권한 상태 저장
   setPermissionStatus(status);
 
       if (status !== 'granted') {
@@ -40,8 +38,6 @@ export default function useUserLocation() {
           setUserLocation({
             latitude: location.coords.latitude,
             longitude: location.coords.longitude,
-            // latitude: 37.513835,
-            // longitude: 127.104434 ,
           })
         },
       )
@@ -53,8 +49,6 @@ export default function useUserLocation() {
         setLocation({
           latitude: coords.latitude,
           longitude: coords.longitude,
-          // latitude: 37.513835,
-          // longitude: 127.104434 ,
         })
       }
     } catch (error) {
