@@ -9,7 +9,6 @@ const fetchFilteredTrashCans = async ({
   location: UserLocation
 }) => {
 
-    // API URL이 설정되지 않았을 경우를 대비한 예외 처리
     if (!API_BASE_URL) {
       return [];
     }
@@ -20,11 +19,11 @@ const fetchFilteredTrashCans = async ({
       params: {
         latitude: location.latitude,
         longitude: location.longitude,
-      },
+      }, 
     })
     return response.data
   } catch (error) {
-    return [] // 에러 발생 시 빈 배열 반환
+    return []  
   }
 }
 

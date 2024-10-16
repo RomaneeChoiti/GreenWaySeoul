@@ -19,7 +19,7 @@ export default function useUserLocation() {
   const fetchLocation = async () => {
     try {
       const { status } = await Location.requestForegroundPermissionsAsync()
-
+      
 
   setPermissionStatus(status);
 
