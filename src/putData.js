@@ -4,10 +4,6 @@ import trashCan from './db.json' assert { type: 'json' }
 
 // 정책 사용자를 바꾸고 싶을 때는 accessKeyId, secretAccessKey를 바꾸고 싶은 정책 사용자의 key,pw를 사용
 AWS.config.update({
-  region: 'ap-northeast-2',
-  accessKeyId: 'AKIAYA6CDHGE6S7EOOZW', 
-  secretAccessKey: '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' 
-
 })
 
 const dynamodb = new AWS.DynamoDB.DocumentClient()
