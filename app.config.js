@@ -17,12 +17,14 @@ export default {
     "assetBundlePatterns": ["**/*"],
     "ios": {
       "supportsTablet": true,
-      "bundleIdentifier": "com.tmd1568.GreenWaySeoul"
+      "bundleIdentifier": "com.tmd1568.GreenWaySeoul",
+      "newArchEnabled": true
     },
     "android": {
       "adaptiveIcon": {
         "foregroundImage": "./assets/splashImage.png",
-        "resizeMode": "cover"
+        "resizeMode": "cover",
+        "newArchEnabled": true
       },
       "package": "com.tmd1568.GreenWaySeoul"
     },
