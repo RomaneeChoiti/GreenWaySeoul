@@ -9,19 +9,19 @@ import {
   Dimensions,
 } from 'react-native'
 
-interface SearchModalProps {
+type SearchModalProps = {
   isVisible: boolean
   message: string
   onRequestClose: () => void
   trashCanData: any[]
 }
 
-const SearchModal: React.FC<SearchModalProps> = ({
+const SearchModal = ({
   isVisible,
   message,
   onRequestClose,
   trashCanData,
-}) => {
+}: SearchModalProps) => {
   const animatedStyle = {
     shadowColor: message === 'Searching...' ? '#B989FF' : '#379FDA',
   }

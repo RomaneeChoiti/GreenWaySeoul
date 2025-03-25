@@ -4,17 +4,17 @@ import { TrashCanData } from '../Type'
 import TypeDivide from './TypeDivide'
 import { StyleSheet, Text, View } from 'react-native'
 
-interface TrashcanMarkerProps {
+type TrashcanMarkerProps = {
   trashCan: TrashCanData
   isSelected: boolean
   onPress: () => void
 }
 
-const TrashcanMarker: React.FC<TrashcanMarkerProps> = ({
+const TrashcanMarker = ({
   trashCan,
   isSelected,
   onPress,
-}) => (
+}: TrashcanMarkerProps) => (
   <Marker
     coordinate={{
       latitude: trashCan.Latitude,
