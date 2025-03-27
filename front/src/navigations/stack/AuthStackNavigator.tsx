@@ -2,7 +2,7 @@ import React from 'react';
 import { createStackNavigator } from '@react-navigation/stack';
 import AuthHomeScreen from '../../screens/auth/AuthHomeScreen';
 import LoginScreen from '../../screens/auth/LoginScreen';
-import authNavigations from '../../constants';
+import { authNavigations } from '../../constants';
 import SingupScreen from '../../screens/auth/SingupScreen';
 
 export type AuthStackParamList = {
