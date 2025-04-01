@@ -1,5 +1,5 @@
 import React from 'react';
-import { Dimensions, Pressable, PressableProps, StyleSheet } from 'react-native';
+import { Dimensions, Pressable, PressableProps, StyleSheet, View } from 'react-native';
 import { Text } from 'react-native-gesture-handler';
 import { colors } from '../constants';
 
@@ -31,9 +31,11 @@ function CustomButton({
                 inValid && styles.inValid,
             ]}
             {...props}>
-            <Text style={[styles[`${variant}Text`] ,styles.text]}>
-                {label}
-            </Text>
+            <View style={styles[size]}>
+                <Text style={[styles[`${variant}Text`] ,styles.text]}>
+                    {label}
+                </Text>
+            </View>
         </Pressable>
     );
 }
@@ -42,6 +44,7 @@ const styles = StyleSheet.create({
     container: {
         borderRadius: 3,
         justifyContent: 'center',
+        flexDirection: 'row',
     },
     filled: {
         backgroundColor: colors.PRIMARY,
@@ -55,21 +58,24 @@ const styles = StyleSheet.create({
     },
     small: {
         width: '30%',
-        paddingVertical: deviceHeight > 700 ? 10 : 8,
+        paddingVertical: deviceHeight > 700 ? 6 : 4,
         alignItems: 'center',
         justifyContent: 'center',
+        flexDirection: 'row',
     },
     medium: {
         width: '50%',
-        paddingVertical: deviceHeight > 700 ? 12 : 10,
+        paddingVertical: deviceHeight > 700 ? 8 : 6,
         alignItems: 'center',
         justifyContent: 'center',
+        flexDirection: 'row',
     },
     large: {
         width: '100%',
-        paddingVertical: deviceHeight > 700 ? 15 : 12,
+        paddingVertical: deviceHeight > 700 ? 10 : 8,
         alignItems: 'center',
         justifyContent: 'center',
+        flexDirection: 'row',
     },
     text:{
         fontSize: 16,

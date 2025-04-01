@@ -4,6 +4,7 @@ const colors = {
     SECONDARY: '#ffc107',
     WHITE: '#ffffff',
     BLACK: '#000000',
+    ERROR: '#dc3545',
 };
 
 export { colors };
