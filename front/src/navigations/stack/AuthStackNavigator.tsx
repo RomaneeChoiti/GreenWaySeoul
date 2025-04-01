@@ -3,7 +3,7 @@ import { createStackNavigator } from '@react-navigation/stack';
 import AuthHomeScreen from '../../screens/auth/AuthHomeScreen';
 import LoginScreen from '../../screens/auth/LoginScreen';
 import { authNavigations } from '../../constants';
-import SingupScreen from '../../screens/auth/SingupScreen';
+import SignUpScreen from '../../screens/auth/SignupScreen';
 
 export type AuthStackParamList = {
     [authNavigations.AUTH_HOME]: undefined;
@@ -41,7 +41,7 @@ function AuthStackNavigator(){
             />
             <Stack.Screen
                 name={authNavigations.SIGNUP}
-                component={SingupScreen}
+                component={SignUpScreen}
                 options={{headerTitle:'회원가입'}}
             />
         </Stack.Navigator>

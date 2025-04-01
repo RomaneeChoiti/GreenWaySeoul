@@ -1,6 +1,7 @@
-import React, { useRef } from 'react';
+import React, { ForwardedRef, forwardRef, useRef } from 'react';
 import { Dimensions, StyleSheet, TextInput, View, TextInputProps, Text, Pressable } from 'react-native';
 import { colors } from '../constants';
+import { mergeRefs } from '../utils';
 
 interface InputFieldProps extends TextInputProps {
     disabled?: boolean;
@@ -10,12 +11,14 @@ interface InputFieldProps extends TextInputProps {
 
 const deviceHeight = Dimensions.get('screen').height;
 
-function InputField({
+const InputField = forwardRef(({
         disabled = false,
         error,
         touched,
         ...props
-    }:InputFieldProps) {
+    }:InputFieldProps,
+    ref?: ForwardedRef<TextInput>,
+) => {
 
     // ref : 접근을 위한 참조
     const innerRef = useRef<TextInput | null>(null);
@@ -31,8 +34,10 @@ function InputField({
                 disabled && styles.disabled,
                 touched && Boolean(error) && styles.inputError,
                 ]}>
-        {touched && Boolean(error) && <Text style={styles.error}>{error}</Text>}
+            {touched && Boolean(error) && <Text style={styles.error}>{error}</Text>}
             <TextInput
+                // enter 내려감
+                ref={ref ? mergeRefs(innerRef, ref) : innerRef}
                 editable={!disabled}
                 placeholderTextColor={colors.PRIMARY_DARK}
                 style={styles.input}
@@ -45,7 +50,7 @@ function InputField({
         </View>
     </Pressable>
   );
-}
+});
 
 const styles = StyleSheet.create({
     container: {
