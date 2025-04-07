@@ -1,9 +1,9 @@
 import React, { useRef } from 'react';
 import { View, SafeAreaView, StyleSheet, TextInput } from 'react-native';
-import InputField from '../../components/inputField';
-import useForm from '../../hooks/useForm';
-import CustomButton from '../../components/customButton';
-import { validateSignUp } from '../../utils';
+import InputField from '@/components/inputField';
+import useForm from '@/hooks/useForm';
+import CustomButton from '@/components/customButton';
+import { validateSignUp } from '@/utils';
 
 
 function SignUpScreen() {
@@ -16,7 +16,7 @@ function SignUpScreen() {
 
     const handleSumbit = () => {
         console.log(signUp.values);
-    }
+    };
 
     return (
         <SafeAreaView style={styles.container}>

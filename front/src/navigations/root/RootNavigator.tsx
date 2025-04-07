@@ -1,5 +1,5 @@
-import AuthStackNavigator from "../stack/AuthStackNavigator";
 import MainDrawerNavigator from "../drawer/ManiDrawerNavigator";
+import AuthStackNavigator from "../stack/AuthStackNavigator";
 
 function RootNavigator() {
     const isLogged = false;

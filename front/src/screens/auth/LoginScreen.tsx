@@ -1,9 +1,9 @@
 import React, { useRef } from 'react';
 import { SafeAreaView, StyleSheet, TextInput, View } from 'react-native';
-import InputField from '../../components/inputField';
-import CustomButton from '../../components/customButton';
-import useForm from '../../hooks/useForm';
-import { validateLogin } from '../../utils';
+import InputField from '@/components/inputField';
+import CustomButton from '@/components/customButton';
+import useForm from '@/hooks/useForm';
+import { validateLogin } from '@/utils';
 
 function LoginScreen(){
     const login = useForm({

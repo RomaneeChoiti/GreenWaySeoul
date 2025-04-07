@@ -1,7 +1,7 @@
 import React from 'react';
 import { Dimensions, Pressable, PressableProps, StyleSheet, View } from 'react-native';
 import { Text } from 'react-native-gesture-handler';
-import { colors } from '../constants';
+import { colors } from '@/constants';
 
 interface CustomButtonProps extends PressableProps{
     label: string;
