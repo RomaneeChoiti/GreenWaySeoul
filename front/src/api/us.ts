@@ -1,59 +1,59 @@
-import axiosInstance from './axios';
-import { Category, Profile } from '@/types/domain';
-// import { getEncryptStorage } from '../utils';
+// import axiosInstance from './axios';
+// import { Category, Profile } from '@/types/domain';
+// // import { getEncryptStorage } from '../utils';
 
-type RequestUser = {
-    email: string;
-    password: string;
-}
+// type RequestUser = {
+//     email: string;
+//     password: string;
+// }
 
-type ResponseToken = {
-    accessToken: string;
-    refreshToken: string;
-}
+// type ResponseToken = {
+//     accessToken: string;
+//     refreshToken: string;
+// }
 
-type ResponseProfile = Profile & Category;
+// type ResponseProfile = Profile & Category;
 
 
-const postSignup = async ({email, password}:RequestUser): Promise<void> => {
-    const {data} = await axiosInstance.post('/auth/signup', {
-        email,
-        password,
-    });
+// const postSignup = async ({email, password}:RequestUser): Promise<void> => {
+//     const {data} = await axiosInstance.post('/auth/signup', {
+//         email,
+//         password,
+//     });
 
-    return data;
-};
+//     return data;
+// };
 
-const postLogin = async ({email, password}:RequestUser): Promise<ResponseToken> => {
-    const { data } = await axiosInstance.post('/auth/login', {
-        email,
-        password,
-    });
+// const postLogin = async ({email, password}:RequestUser): Promise<ResponseToken> => {
+//     const { data } = await axiosInstance.post('/auth/login', {
+//         email,
+//         password,
+//     });
 
-    return data;
-};
+//     return data;
+// };
 
-const getProfile = async (): Promise<ResponseProfile> => {
-    const { data } = await axiosInstance.get('/auth/me');
+// const getProfile = async (): Promise<ResponseProfile> => {
+//     const { data } = await axiosInstance.get('/auth/me');
 
-    return data;
-};
+//     return data;
+// };
 
-const getAccessToken = async (): Promise<ResponseToken> => {
-    const refreshToken = await getEncryptStorage('refreshToken');
-    const { data } = await axiosInstance.get('/auth/refresh', {
-        headers: {
-            Authorization: `Bearer ${refreshToken}`,
-        },
-    });
+// const getAccessToken = async (): Promise<ResponseToken> => {
+//     const refreshToken = await getEncryptStorage('refreshToken');
+//     const { data } = await axiosInstance.get('/auth/refresh', {
+//         headers: {
+//             Authorization: `Bearer ${refreshToken}`,
+//         },
+//     });
 
-    return data;
-};
+//     return data;
+// };
 
-const logout = async () => {
-    await axiosInstance.post('/auth/logout');
-};
+// const logout = async () => {
+//     await axiosInstance.post('/auth/logout');
+// };
 
-export { postSignup, postLogin, getProfile, getAccessToken, logout };
-export type { RequestUser, ResponseToken, ResponseProfile };
+// export { postSignup, postLogin, getProfile, getAccessToken, logout };
+// export type { RequestUser, ResponseToken, ResponseProfile };
 
