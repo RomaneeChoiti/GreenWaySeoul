@@ -1,4 +1,3 @@
-import React from 'react';
 import {  Dimensions, Image, SafeAreaView, StyleSheet, View } from 'react-native';
 import { StackScreenProps } from '@react-navigation/stack';
 import { AuthStackParamList } from '@/navigations/stack/AuthStackNavigator';
@@ -21,6 +20,13 @@ function AuthHomeScreen({navigation}: AuthHomeScreenProps) {
         />
       </View>
       <View style={style.buttonContainer}>
+        {/* 스크린에 사용해보기 버튼 추가 */}
+        <CustomButton
+          label="사용해보기"
+          variant="filled"
+          size="large"
+          onPress={()=> navigation.navigate(authNavigations.MAP)}
+        />
         <CustomButton
           label="로그인으로 이동"
           variant="filled"

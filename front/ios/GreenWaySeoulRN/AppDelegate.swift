@@ -1,7 +1,7 @@
 import UIKit
 import React
-import React_RCTAppDelegate
 import GoogleMaps
+import React_RCTAppDelegate
 import ReactAppDependencyProvider
 
 @main

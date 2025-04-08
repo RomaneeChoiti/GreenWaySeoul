@@ -1,13 +1,16 @@
-import React from "react";
-import { Text, View } from "react-native";
-
+import { StyleSheet } from 'react-native';
+import MapView, {PROVIDER_GOOGLE} from 'react-native-maps';
 
 function MapHomeScreen() {
   return (
-    <View>
-        <Text>map</Text>
-    </View>
+        <MapView style={styles.container} provider={PROVIDER_GOOGLE}/>
   );
 }
+
+const styles = StyleSheet.create({
+  container:{
+    flex: 1,
+  },
+});
 
 export default MapHomeScreen;
