@@ -15,6 +15,7 @@ export type AuthStackParamList = {
 const Stack = createStackNavigator<AuthStackParamList>();
 
 function AuthStackNavigator(){
+
     return (
         <Stack.Navigator screenOptions={{
             cardStyle: {
