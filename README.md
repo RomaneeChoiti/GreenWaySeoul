@@ -1,138 +1,97 @@
-# GreenWaySeoul
+This is a new [**React Native**](https://reactnative.dev) project, bootstrapped using [`@react-native-community/cli`](https://github.com/react-native-community/cli).
 
-## 프로젝트 개요
+# Getting Started
 
-"GreenWaySeoul"은 외국 관광객을 대상으로 하는 어플리케이션으로, 사용자의 위치를 기반으로 서울시 내
-쓰레기통 위치를 확인하고 해당 위치에서 로드뷰 및 길찾기 서비스를 제공합니다.
-이 어플리케이션은 총 4개의 언어로 서비스되며, 사용자들이 편리하게 서울시 내 쓰레기통을 찾아 이용할 수 있도록 도와줍니다.
+> **Note**: Make sure you have completed the [Set Up Your Environment](https://reactnative.dev/docs/set-up-your-environment) guide before proceeding.
 
-## 주요기능
+## Step 1: Start Metro
 
-- 사용자 위치 기반 쓰레기통 탐색
-- 쓰레기통 길찾기
+First, you will need to run **Metro**, the JavaScript build tool for React Native.
 
-## 사용된 기술
+To start the Metro dev server, run the following command from the root of your React Native project:
 
-### 프론트엔드
+```sh
+# Using npm
+npm start
 
-JavaScript & TypeScript: React Native 애플리케이션 개발에 사용.
-React Native: 모바일 애플리케이션 개발을 위한 프레임워크.
-Figma: UI/UX 디자인 및 프로토타입 제작에 사용.
+# OR using Yarn
+yarn start
+```
 
-### 백엔드 및 서버리스
+## Step 2: Build and run your app
 
-AWS
-DynamoDB: 서버리스 NoSQL 데이터베이스로, 애플리케이션의 데이터를 저장.
-API Gateway: RESTful API를 통해 애플리케이션과 서버 사이의 통신을 관리.
-Lambda: 서버리스 함수로, 특정 이벤트에 따라 비즈니스 로직을 실행.
+With Metro running, open a new terminal window/pane from the root of your React Native project, and use one of the following commands to build and run your Android or iOS app:
 
-### 애플리케이션 빌드 및 배포
+### Android
 
-Expo
-Expo Go: 개발 중 애플리케이션을 테스트하기 위해 사용.
-EAS (Expo Application Services): 앱의 빌드 및 배포를 자동화.
-EAS Build & Submit: iOS 및 Android용으로 애플리케이션을 빌드하고, TestFlight와 같은 
-플랫폼에 배포.
+```sh
+# Using npm
+npm run android
 
-CI/CD
-GitHub Actions: 코드 변경 사항을 자동으로 테스트하고, 빌드 및 배포하는 워크플로를 설정하여 지속적인 통합/배포(CI/CD)를 구현.
+# OR using Yarn
+yarn android
+```
 
+### iOS
 
-## 프로젝트 구조
+For iOS, remember to install CocoaPods dependencies (this only needs to be run on first clone or after updating native deps).
 
-- client: 프론트엔드 소스 코드가 들어 있음.
-- public: 이미지와 CSS 파일과 같은 정적 파일이 들어 있음.
+The first time you create a new project, run the Ruby bundler to install CocoaPods itself:
 
-## 시작하기
+```sh
+bundle install
+```
 
-1. 저장소를 복제합니다.
-2. cd GreenWaySeoul 명령을 사용하여 프로젝트 폴더로 이동합니다.
-3. 필요한 종속성을 설치합니다: npm install.
-4. npx expo start --go 명령을 사용하여 프로젝트를 실행한다.
-5. QR코드를 실행하여 앱을 실행한다.
+Then, and every time you update your native dependencies, run:
 
-## Git 커밋
+```sh
+bundle exec pod install
+```
 
-- Feat: 새로운 기능 추가
-- Fix: 버그 수정
-- Docs: 문서 업데이트 (README.md 등)
-- Comment: 주석 추가 또는 수정
-- Style: 코드 포맷팅, 세미콜론 누락, 코드 변경 없음
-- Refactor: 코드 리팩토링
-- Test: 테스트 코드 추가 또는 수정
-- Chore: 빌드 작업 업데이트, 패키지 매니저 수정, 모듈 변경 (실제 코드 변경 없음)
-- Rename: 파일 또는 폴더 이름 변경, 경로 이동
-- Remove: 파일 삭제
-- Merge: 브랜치 병합
+For more information, please visit [CocoaPods Getting Started guide](https://guides.cocoapods.org/using/getting-started.html).
 
-## 기여하기
+```sh
+# Using npm
+npm run ios
 
-1. 저장소를 포크합니다.
-2. 새 브랜치를 만듭니다 (git checkout -b new-feature).
-3. 변경 사항을 만들고 커밋합니다 (git commit -am '새로운 기능 추가').
-4. 변경 사항을 포크한 저장소에 푸시합니다 (git push origin new-feature).
-5. 풀 리퀘스트를 엽니다.
+# OR using Yarn
+yarn ios
+```
 
-## 팀원 : 최승원
+If everything is set up correctly, you should see your new app running in the Android Emulator, iOS Simulator, or your connected device.
 
-## 다운받기
+This is one way to run your app — you can also build it directly from Android Studio or Xcode.
 
-링크 : ~~~
+## Step 3: Modify your app
 
----
+Now that you have successfully run the app, let's make changes!
 
-## Project Overview
+Open `App.tsx` in your text editor of choice and make some changes. When you save, your app will automatically update and reflect these changes — this is powered by [Fast Refresh](https://reactnative.dev/docs/fast-refresh).
 
-"GreenWaySeoul" is an application designed for foreign tourists, allowing them to locate trash bins within Seoul based on their current location. The application also offers street view and navigation services from the identified location. This application is available in a total of four languages, facilitating convenient access and utilization of trash bins throughout the city of Seoul.
+When you want to forcefully reload, for example to reset the state of your app, you can perform a full reload:
 
-## Key Features
+- **Android**: Press the <kbd>R</kbd> key twice or select **"Reload"** from the **Dev Menu**, accessed via <kbd>Ctrl</kbd> + <kbd>M</kbd> (Windows/Linux) or <kbd>Cmd ⌘</kbd> + <kbd>M</kbd> (macOS).
+- **iOS**: Press <kbd>R</kbd> in iOS Simulator.
 
-- Trash bin exploration based on user's location
-- Trash bin navigation and street view
-- Multilingual support
+## Congratulations! :tada:
 
-## Technologies Used
+You've successfully run and modified your React Native App. :partying_face:
 
-- JavaScript, TypeScript, React Native, Figma
-- Firebase
-- AWS: EC2
+### Now what?
 
-## Project Structure
+- If you want to add this new React Native code to an existing application, check out the [Integration guide](https://reactnative.dev/docs/integration-with-existing-apps).
+- If you're curious to learn more about React Native, check out the [docs](https://reactnative.dev/docs/getting-started).
 
-- client: Contains the frontend source code.
-- public: Contains static files such as images and CSS files.
+# Troubleshooting
 
-## Getting Started
+If you're having issues getting the above steps to work, see the [Troubleshooting](https://reactnative.dev/docs/troubleshooting) page.
 
-1. Clone the repository.
-2. Navigate to the project folder with the command: cd GreenWaySeoul.
-3. Install the necessary dependencies: npm install.
-   ...writing
+# Learn More
 
-## Git Commit Guidelines
+To learn more about React Native, take a look at the following resources:
 
-- Feat: Adding new features
-- Fix: Fixing bugs
-- Docs: Updating documentation (README.md, etc.)
-- Comment: Adding or modifying comments
-- Style: Code formatting, missing semicolons, no code changes
-- Refactor: Code refactoring
-- Test: Adding or modifying test codes
-- Chore: Updating build tasks, modifying package manager, module changes (no actual code changes)
-- Rename: Renaming files or folders, moving paths
-- Remove: Deleting files
-- Merge: Merging branches
-
-## Contributing
-
-1. Fork the repository.
-2. Create a new branch (git checkout -b new-feature).
-3. Make changes and commit them (git commit -am 'Adding new feature').
-4. Push the changes to your forked repository (git push origin new-feature).
-5. Open a pull request.
-
-## Team Member: Choi Seungwon
-
-## Download
-
-Link: ~~~
+- [React Native Website](https://reactnative.dev) - learn more about React Native.
+- [Getting Started](https://reactnative.dev/docs/environment-setup) - an **overview** of React Native and how setup your environment.
+- [Learn the Basics](https://reactnative.dev/docs/getting-started) - a **guided tour** of the React Native **basics**.
+- [Blog](https://reactnative.dev/blog) - read the latest official React Native **Blog** posts.
+- [`@facebook/react-native`](https://github.com/facebook/react-native) - the Open Source; GitHub **repository** for React Native.
