@@ -5,6 +5,7 @@ import { colors } from '@/constants';
 import useUserLocation from '@/hooks/useUserLocation';
 import usePermission from '@/hooks/usePermission';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
+import mapStyle from '@/style/mapStyle';
 
 function MapHomeScreen() {
   const mapRef = useRef<MapView | null>(null);
@@ -34,7 +35,7 @@ function MapHomeScreen() {
         provider={PROVIDER_GOOGLE}
         showsUserLocation
         followsUserLocation
-        // showsMyLocationButton={true}
+        customMapStyle={mapStyle}
       />
       <Pressable
         style={({ pressed }) => [
