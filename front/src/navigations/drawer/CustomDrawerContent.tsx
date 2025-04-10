@@ -1,15 +1,16 @@
 import React from 'react';
-import { View, Text, Image, StyleSheet } from 'react-native';
+import { View, Text, Image, StyleSheet, Pressable } from 'react-native';
 import { DrawerContentScrollView, DrawerItemList } from '@react-navigation/drawer';
 import { DrawerContentComponentProps } from '@react-navigation/drawer';
+import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
+
 
 const CustomDrawerContent = (props: DrawerContentComponentProps) => {
     const kakaoImageUrl = null; // kakao 로그인 미구현 상태
 
   return (
-    <DrawerContentScrollView {...props}>
+    <DrawerContentScrollView {...props} contentContainerStyle={styles.container}>
       <View style={styles.userInfoSection}>
-
         {kakaoImageUrl === null && (
         <Image
           source={require('@/assets/dfUser.png')} // Replace with actual user image URL
@@ -19,11 +20,20 @@ const CustomDrawerContent = (props: DrawerContentComponentProps) => {
         <Text style={styles.userEmail}>user@example.com</Text> {/* Replace with actual user email */}
       </View>
       <DrawerItemList {...props} />
+      <View style={styles.logoutButtonContainer}>
+        <Pressable style={styles.logoutButton}>
+          <MaterialIcons name={'logout'}/>
+          <Text>로그아웃</Text>
+        </Pressable>
+      </View>
     </DrawerContentScrollView>
   );
 };
 
 const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+  },
   userInfoSection: {
     alignItems: 'center',
     marginVertical: 20,
@@ -36,6 +46,19 @@ const styles = StyleSheet.create({
   },
   userEmail: {
     fontSize: 17,
+  },
+  logoutButtonContainer: {
+    marginTop: 'auto',
+    alignItems: 'flex-end',
+    padding: 10,
+  },
+  logoutButton: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    backgroundColor: '#f0f0f0',
+    borderRadius: 10,
+    gap: 10,
+    padding: 10,
   },
 });
 

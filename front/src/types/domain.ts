@@ -1,8 +1,3 @@
-type MarkerColor = 'RED' | 'YELLOW' | 'GREEN' | 'BLUE' | 'PURPLE';
-
-type Category = {
-  [key in MarkerColor]: string;
-};
 
 interface ImageUri {
   id?: number;
@@ -13,15 +8,7 @@ interface Marker {
   id: number;
   latitude: number;
   longitude: number;
-  color: MarkerColor;
-  score: number;
-}
-
-interface Post extends Marker {
-  title: string;
-  address: string;
-  date: Date | string;
-  description: string;
+  type: 'trash' | 'recycle';
 }
 
 interface Profile {
@@ -32,4 +19,4 @@ interface Profile {
   kakaoImageUri: string | null;
   loginType: 'email' | 'kakao' | 'apple';
 }
-export type { Category, ImageUri, Marker, Post, Profile };
+export type { ImageUri, Marker, Profile };

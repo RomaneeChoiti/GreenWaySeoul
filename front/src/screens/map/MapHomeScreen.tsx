@@ -1,11 +1,12 @@
 import { useRef } from 'react';
 import { Pressable, StyleSheet, Text, View } from 'react-native';
-import MapView, { PROVIDER_GOOGLE} from 'react-native-maps';
+import MapView, {PROVIDER_GOOGLE} from 'react-native-maps';
 import { colors } from '@/constants';
 import useUserLocation from '@/hooks/useUserLocation';
 import usePermission from '@/hooks/usePermission';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import mapStyle from '@/style/mapStyle';
+import CustomMarker from '@/components/CustomMarker';
 
 function MapHomeScreen() {
   const mapRef = useRef<MapView | null>(null);
@@ -36,7 +37,10 @@ function MapHomeScreen() {
         showsUserLocation
         followsUserLocation
         customMapStyle={mapStyle}
-      />
+      >
+      <CustomMarker coordinate={{ latitude: 37.5650, longitude: 126.9769 }} type={'trash'}/>
+      <CustomMarker coordinate={{ latitude: 37.5640, longitude: 126.9759 }} type={'recycle'}/>
+      </MapView>
       <Pressable
         style={({ pressed }) => [
           styles.actionButton,
