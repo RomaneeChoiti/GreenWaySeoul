@@ -8,7 +8,7 @@ interface Marker {
   id: number;
   latitude: number;
   longitude: number;
-  type: 'trash' | 'recycle';
+  markerType: 'trash' | 'recycle';
 }
 
 interface Profile {
