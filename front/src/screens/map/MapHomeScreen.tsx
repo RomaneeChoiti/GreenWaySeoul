@@ -4,7 +4,7 @@ import MapView, { PROVIDER_GOOGLE} from 'react-native-maps';
 import { colors } from '@/constants';
 import useUserLocation from '@/hooks/useUserLocation';
 import usePermission from '@/hooks/usePermission';
-import MateriallIcons from 'react-native-vector-icons/MaterialIcons';
+import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 
 function MapHomeScreen() {
   const mapRef = useRef<MapView | null>(null);
@@ -43,7 +43,7 @@ function MapHomeScreen() {
         ]}
       >
         <View style={styles.buttonBackground}>
-        <MateriallIcons
+        <MaterialIcons
           name="directions-run"
           color={colors.WHITE}
           size={50}
@@ -53,7 +53,7 @@ function MapHomeScreen() {
       </Pressable>
       <View>
         <Pressable style={styles.locationButton} onPress={handlePressUserLocation}>
-            <MateriallIcons
+            <MaterialIcons
               name="my-location"
               color={colors.WHITE}
               size={30}
