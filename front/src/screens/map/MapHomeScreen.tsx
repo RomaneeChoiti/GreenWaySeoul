@@ -8,6 +8,9 @@ import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import mapStyle from '@/style/mapStyle';
 import CustomMarker from '@/components/CustomMarker';
 import PloggingButton from '@/components/PloggingButton';
+import Config from 'react-native-config';
+
+console.log('config.Test', Config.TEST);
 
 function MapHomeScreen() {
   const mapRef = useRef<MapView | null>(null);
