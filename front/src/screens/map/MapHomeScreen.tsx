@@ -8,9 +8,6 @@ import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import mapStyle from '@/style/mapStyle';
 import CustomMarker from '@/components/CustomMarker';
 import PloggingButton from '@/components/PloggingButton';
-import Config from 'react-native-config';
-
-console.log('config.Test', Config.TEST);
 
 function MapHomeScreen() {
   const mapRef = useRef<MapView | null>(null);
@@ -41,8 +38,8 @@ function MapHomeScreen() {
         followsUserLocation
         customMapStyle={mapStyle}
       >
-        <CustomMarker coordinate={{ latitude: 37.5650, longitude: 126.9769 }} type={'trash'} />
-        <CustomMarker coordinate={{ latitude: 37.5640, longitude: 126.9759 }} type={'recycle'} />
+        <CustomMarker coordinate={{ latitude: 37.5650, longitude: 126.9769 }} markerType={'trash'} />
+        <CustomMarker coordinate={{ latitude: 37.5640, longitude: 126.9759 }} markerType={'recycle'} />
       </MapView>
       <PloggingButton userLogin={userLogin} />
       <View>

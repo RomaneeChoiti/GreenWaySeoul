@@ -39,7 +39,6 @@ function usePermission(){
             const permissionOS = isAndroid ? androidPermission.LOCATION : iosPermission.LOCATION;
 
             const checked = await check(permissionOS);
-            console.log('checked', checked);
 
             switch(checked){
                 // ANDROID

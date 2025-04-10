@@ -3,13 +3,13 @@ import { LatLng, Marker } from "react-native-maps";
 
 interface CustomMarkerProps{
   coordinate: LatLng;
-  type: 'trash' | 'recycle';
+  markerType: 'trash' | 'recycle';
 }
 
-function CustomMarker({coordinate, type}: CustomMarkerProps) {
+function CustomMarker({coordinate, markerType}: CustomMarkerProps) {
   return (
     <Marker coordinate={coordinate} >
-      {type === 'trash' ? (
+      {markerType === 'trash' ? (
         <Image
             source={require('@/assets/trashcanIcon.png')} // Replace with actual user image URL
             style={styles.img}
