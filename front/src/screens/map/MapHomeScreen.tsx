@@ -1,30 +1,32 @@
 import { useRef } from 'react';
-import { Pressable, StyleSheet, Text, View } from 'react-native';
-import MapView, { PROVIDER_GOOGLE} from 'react-native-maps';
+import { Pressable, StyleSheet, View } from 'react-native';
+import MapView, { PROVIDER_GOOGLE } from 'react-native-maps';
 import { colors } from '@/constants';
 import useUserLocation from '@/hooks/useUserLocation';
 import usePermission from '@/hooks/usePermission';
-import MateriallIcons from 'react-native-vector-icons/MaterialIcons';
+import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
+import mapStyle from '@/style/mapStyle';
+import CustomMarker from '@/components/CustomMarker';
+import PloggingButton from '@/components/PloggingButton';
 
 function MapHomeScreen() {
   const mapRef = useRef<MapView | null>(null);
   const { userLocation, isUserLocationError } = useUserLocation();
+  const userLogin = true; // TODO : 로그인 상태를 zustand로 관리할 예정
   usePermission();
 
   const handlePressUserLocation = () => {
-    if(isUserLocationError){
+    if (isUserLocationError) {
       // err
       return;
     }
-      mapRef.current?.animateToRegion({
-        latitude: userLocation.latitude,
-        longitude: userLocation.longitude,
-        latitudeDelta: 0.01,
-        longitudeDelta: 0.01,
-      });
-
+    mapRef.current?.animateToRegion({
+      latitude: userLocation.latitude,
+      longitude: userLocation.longitude,
+      latitudeDelta: 0.01,
+      longitudeDelta: 0.01,
+    });
   };
-
 
   return (
     <>
@@ -34,30 +36,15 @@ function MapHomeScreen() {
         provider={PROVIDER_GOOGLE}
         showsUserLocation
         followsUserLocation
-        // showsMyLocationButton={true}
-      />
-      <Pressable
-        style={({ pressed }) => [
-          styles.actionButton,
-          pressed && styles.actionButtonPressed,
-        ]}
+        customMapStyle={mapStyle}
       >
-        <View style={styles.buttonBackground}>
-        <MateriallIcons
-          name="directions-run"
-          color={colors.WHITE}
-          size={50}
-        />
-          <Text style={styles.buttonText}>플로링 시작</Text>
-        </View>
-      </Pressable>
+        <CustomMarker coordinate={{ latitude: 37.5650, longitude: 126.9769 }} markerType={'trash'} />
+        <CustomMarker coordinate={{ latitude: 37.5640, longitude: 126.9759 }} markerType={'recycle'} />
+      </MapView>
+      <PloggingButton userLogin={userLogin} />
       <View>
         <Pressable style={styles.locationButton} onPress={handlePressUserLocation}>
-            <MateriallIcons
-              name="my-location"
-              color={colors.WHITE}
-              size={30}
-            />
+          <MaterialIcons name="my-location" color={colors.WHITE} size={30} />
         </Pressable>
       </View>
     </>
@@ -65,22 +52,8 @@ function MapHomeScreen() {
 }
 
 const styles = StyleSheet.create({
-  container:{
+  container: {
     flex: 1,
-  },
-  actionButton: {
-    position: 'absolute',
-    alignSelf: 'center',
-    bottom: 90,
-    borderRadius: 30,
-    shadowColor: colors.SECONDARY,
-    shadowOffset: { width: 0, height: 0 },
-    shadowOpacity: 0.5,
-    shadowRadius: 20,
-    elevation: 10, // Android 그림자
-  },
-  actionButtonPressed: {
-    transform: [{ scale: 0.95 }], // 버튼을 눌렀을 때 약간 작아짐
   },
   buttonBackground: {
     backgroundColor: colors.PRIMARY, // 버튼 배경색
@@ -112,6 +85,7 @@ const styles = StyleSheet.create({
     shadowRadius: 5,
     elevation: 5, // Android 그림자
   },
+
 });
 
 export default MapHomeScreen;
