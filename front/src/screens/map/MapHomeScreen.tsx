@@ -6,8 +6,8 @@ import useUserLocation from '@/hooks/useUserLocation';
 import usePermission from '@/hooks/usePermission';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import mapStyle from '@/style/mapStyle';
-import CustomMarker from '@/components/CustomMarker';
-import PloggingButton from '@/components/PloggingButton';
+import CustomMarker from '@/components/customMarker';
+import PloggingButton from '@/components/ploggingButton';
 
 function MapHomeScreen() {
   const mapRef = useRef<MapView | null>(null);
