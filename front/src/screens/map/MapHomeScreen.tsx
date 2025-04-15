@@ -7,14 +7,17 @@ import usePermission from '@/hooks/usePermission';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import mapStyle from '@/style/mapStyle';
 import CustomMarker from '@/components/customMarker';
-import PloggingButton from '@/components/ploggingButton';
+import SlideModal from '@/components/SlideModal';
 
 function MapHomeScreen() {
   const mapRef = useRef<MapView | null>(null);
   const { userLocation, isUserLocationError } = useUserLocation();
-  // const [markerId, setMarkerId] = useState<number | null>(null);
   const userLogin = true; // TODO : 로그인 상태를 zustand로 관리할 예정
   usePermission();
+
+  const [isModalVisible, setModalVisible] = useState(false);
+  const [selectedMarker, setSelectedMarker] = useState<LatLng | null>(null);
+  const [markerType, setMarkerType] = useState<'recycle' | 'trash'>();
 
   const moveMapView = (coordinate: LatLng) => {
     mapRef.current?.animateToRegion({
@@ -32,8 +35,16 @@ function MapHomeScreen() {
     moveMapView(userLocation);
   };
 
-  const handleMarkerPress = (coordinate:LatLng) => {
+  const handleMarkerPress = (coordinate: LatLng, type: 'recycle' | 'trash') => {
+    setSelectedMarker(coordinate);
+    setMarkerType(type);
+    setModalVisible(true);
     moveMapView(coordinate);
+  };
+
+  const closeModal = () => {
+    setModalVisible(false);
+    setSelectedMarker(null);
   };
 
   return (
@@ -49,20 +60,26 @@ function MapHomeScreen() {
         <CustomMarker
           coordinate={{ latitude: 37.5740, longitude: 126.9769 }}
           markerType={'trash'}
-          onPress={()=>handleMarkerPress({ latitude: 37.5740, longitude: 126.9769 })}
+          onPress={() => handleMarkerPress({ latitude: 37.5740, longitude: 126.9769 }, 'trash')}
         />
         <CustomMarker
           coordinate={{ latitude: 37.5640, longitude: 126.9759 }}
           markerType={'recycle'}
-          onPress={()=>handleMarkerPress({ latitude: 37.5640, longitude: 126.9759 })}
+          onPress={() => handleMarkerPress({ latitude: 37.5640, longitude: 126.9759 }, 'recycle')}
         />
       </MapView>
-      <PloggingButton userLogin={userLogin} />
       <View>
         <Pressable style={styles.locationButton} onPress={handlePressUserLocation}>
           <MaterialIcons name="my-location" color={colors.WHITE} size={30} />
         </Pressable>
       </View>
+      <SlideModal
+        visible={isModalVisible}
+        onClose={closeModal}
+        selectedMarker={selectedMarker}
+        userLogin={userLogin}
+        markerType={markerType}
+      />
     </>
   );
 }

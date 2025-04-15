@@ -1,6 +1,5 @@
 import React from 'react';
 import { Pressable, StyleSheet, Text, View } from 'react-native';
-import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import { colors } from '@/constants';
 
 interface PloggingButtonProps {
@@ -15,8 +14,7 @@ function PloggingButton ({ userLogin }: PloggingButtonProps) {
       ]}
     >
       <View style={styles.buttonBackground}>
-        <MaterialIcons name="directions-run" color={colors.WHITE} size={50} />
-        <Text style={styles.buttonText}>플로깅 시작</Text>
+        <Text style={styles.buttonText}>플로깅 시작하기</Text>
       </View>
     </Pressable>
   ) : (
@@ -28,9 +26,6 @@ function PloggingButton ({ userLogin }: PloggingButtonProps) {
 
 const styles = StyleSheet.create({
   actionButton: {
-    position: 'absolute',
-    alignSelf: 'center',
-    bottom: 90,
     borderRadius: 30,
     shadowColor: colors.SECONDARY,
     shadowOffset: { width: 0, height: 0 },
@@ -48,7 +43,7 @@ const styles = StyleSheet.create({
     gap: 10,
     paddingVertical: 20,
     paddingHorizontal: 40,
-    borderRadius: 30,
+    borderRadius: 15,
   },
   buttonText: {
     color: colors.WHITE,
@@ -57,9 +52,6 @@ const styles = StyleSheet.create({
     textAlign: 'center',
   },
   noLogin: {
-    position: 'absolute',
-    alignSelf: 'center',
-    bottom: 120,
     backgroundColor: colors.PRIMARY,
     paddingVertical: 20,
     paddingHorizontal: 40,
