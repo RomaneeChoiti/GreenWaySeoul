@@ -1,7 +1,7 @@
 import React, { useRef } from 'react';
 import { SafeAreaView, StyleSheet, TextInput, View } from 'react-native';
-import InputField from '@/components/InputField';
-import CustomButton from '@/components/CustomButton';
+import InputField from '@/components/inputField';
+import CustomButton from '@/components/customButton';
 import useForm from '@/hooks/useForm';
 import { validateLogin } from '@/utils';
 
