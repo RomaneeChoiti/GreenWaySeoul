@@ -1,6 +1,6 @@
-import { useRef } from 'react';
+import { useRef, useState } from 'react';
 import { Pressable, StyleSheet, View } from 'react-native';
-import MapView, { PROVIDER_GOOGLE } from 'react-native-maps';
+import MapView, { LatLng, PROVIDER_GOOGLE } from 'react-native-maps';
 import { colors } from '@/constants';
 import useUserLocation from '@/hooks/useUserLocation';
 import usePermission from '@/hooks/usePermission';
@@ -12,20 +12,28 @@ import PloggingButton from '@/components/ploggingButton';
 function MapHomeScreen() {
   const mapRef = useRef<MapView | null>(null);
   const { userLocation, isUserLocationError } = useUserLocation();
+  // const [markerId, setMarkerId] = useState<number | null>(null);
   const userLogin = true; // TODO : 로그인 상태를 zustand로 관리할 예정
   usePermission();
+
+  const moveMapView = (coordinate: LatLng) => {
+    mapRef.current?.animateToRegion({
+      ...coordinate,
+      latitudeDelta: 0.01,
+      longitudeDelta: 0.01,
+    });
+  };
 
   const handlePressUserLocation = () => {
     if (isUserLocationError) {
       // err
       return;
     }
-    mapRef.current?.animateToRegion({
-      latitude: userLocation.latitude,
-      longitude: userLocation.longitude,
-      latitudeDelta: 0.01,
-      longitudeDelta: 0.01,
-    });
+    moveMapView(userLocation);
+  };
+
+  const handleMarkerPress = (coordinate:LatLng) => {
+    moveMapView(coordinate);
   };
 
   return (
@@ -38,8 +46,16 @@ function MapHomeScreen() {
         followsUserLocation
         customMapStyle={mapStyle}
       >
-        <CustomMarker coordinate={{ latitude: 37.5650, longitude: 126.9769 }} markerType={'trash'} />
-        <CustomMarker coordinate={{ latitude: 37.5640, longitude: 126.9759 }} markerType={'recycle'} />
+        <CustomMarker
+          coordinate={{ latitude: 37.5740, longitude: 126.9769 }}
+          markerType={'trash'}
+          onPress={()=>handleMarkerPress({ latitude: 37.5740, longitude: 126.9769 })}
+        />
+        <CustomMarker
+          coordinate={{ latitude: 37.5640, longitude: 126.9759 }}
+          markerType={'recycle'}
+          onPress={()=>handleMarkerPress({ latitude: 37.5640, longitude: 126.9759 })}
+        />
       </MapView>
       <PloggingButton userLogin={userLogin} />
       <View>
