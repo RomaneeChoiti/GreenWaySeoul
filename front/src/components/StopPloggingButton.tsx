@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Pressable, StyleSheet, Text, View, Modal } from 'react-native';
 import { colors } from '@/constants';
-import CustomButton from '@/components/customButton';
+import CustomButton from '@/components/CustomButton';
 import { usePloggingStateStore } from '@/store/usePloggingStore';
 
 
