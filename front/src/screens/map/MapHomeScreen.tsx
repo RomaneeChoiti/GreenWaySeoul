@@ -1,5 +1,5 @@
 import { useRef, useState } from 'react';
-import { Pressable, StyleSheet, Text, View } from 'react-native';
+import { Pressable, StyleSheet, View } from 'react-native';
 import MapView, { LatLng, PROVIDER_GOOGLE } from 'react-native-maps';
 import { colors } from '@/constants';
 import useUserLocation from '@/hooks/useUserLocation';
@@ -10,6 +10,7 @@ import mapStyle from '@/style/mapStyle';
 import CustomMarker from '@/components/customMarker';
 import SlideModal from '@/components/SlideModal';
 import StopPloggingButton from '@/components/StopPloggingButton';
+import PloggingStatusText from '@/components/ploggingStatusText';
 
 function MapHomeScreen() {
   const mapRef = useRef<MapView | null>(null);
@@ -78,8 +79,8 @@ function MapHomeScreen() {
           </Pressable>
         ) : (
           <>
+            <PloggingStatusText />
             <StopPloggingButton />
-            <Text style={styles.ploggingText}>플로깅 중입니다</Text>
           </>
         )}
       </View>
@@ -98,7 +99,7 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   buttonBackground: {
-    backgroundColor: colors.PRIMARY, // 버튼 배경색
+    backgroundColor: colors.PRIMARY,
     flexDirection: 'row',
     alignItems: 'center',
     gap: 10,
@@ -107,7 +108,7 @@ const styles = StyleSheet.create({
     borderRadius: 30,
   },
   buttonText: {
-    color: colors.WHITE, // 텍스트 색상
+    color: colors.WHITE,
     fontSize: 20,
     fontWeight: 'bold',
     textAlign: 'center',
@@ -125,15 +126,7 @@ const styles = StyleSheet.create({
     shadowOffset: { width: 0, height: 4 },
     shadowOpacity: 0.3,
     shadowRadius: 5,
-    elevation: 5, // Android 그림자
-  },
-  ploggingText: {
-    position: 'absolute',
-    alignSelf: 'center',
-    bottom: 150,
-    fontSize: 18,
-    fontWeight: 'bold',
-    color: colors.PRIMARY,
+    elevation: 5,
   },
 });
 
