@@ -71,7 +71,7 @@ function SlideModal({ visible, onClose, selectedMarker, userLogin, markerType }:
             </View>
             </View>
             <View style={styles.contentPlogging}>
-                <PloggingButton userLogin={userLogin} />
+                <PloggingButton userLogin={userLogin} onPress={handleClose} />
             </View>
         </View>
       </Animated.View>
@@ -88,11 +88,10 @@ const styles = StyleSheet.create({
     position: 'absolute',
     bottom: 0,
     width: '100%',
-    height: '30%',
+    height: '35%',
     backgroundColor: colors.WHITE,
     borderTopLeftRadius: 20,
     borderTopRightRadius: 20,
-    padding: 10,
     shadowColor: colors.BLACK,
     shadowOffset: { width: 0, height: -2 },
     shadowOpacity: 0.3,
@@ -110,7 +109,7 @@ const styles = StyleSheet.create({
   },
   markerImage: {
     width: 100,
-    height: 100, // 고정된 높이 설정
+    height: 120,
   },
   title: {
     fontSize: 18,

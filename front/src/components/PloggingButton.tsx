@@ -4,10 +4,12 @@ import { colors } from '@/constants';
 
 interface PloggingButtonProps {
   userLogin: boolean;
+  onPress?: () => void;
 }
-function PloggingButton ({ userLogin }: PloggingButtonProps) {
+function PloggingButton ({ userLogin, onPress }: PloggingButtonProps) {
   return userLogin ? (
     <Pressable
+      onPress={onPress} // onPress를 연결
       style={({ pressed }) => [
         styles.actionButton,
         pressed && styles.actionButtonPressed,
