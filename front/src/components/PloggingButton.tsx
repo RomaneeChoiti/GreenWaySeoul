@@ -1,26 +1,43 @@
 import React from 'react';
 import { Pressable, StyleSheet, Text, View } from 'react-native';
-import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import { colors } from '@/constants';
+import useLoginStore from '@/store/useLoginStore';
+import {usePloggingStateStore} from '@/store/usePloggingStore';
 
 interface PloggingButtonProps {
-  userLogin: boolean;
+  onPress?: () => void;
 }
-function PloggingButton ({ userLogin }: PloggingButtonProps) {
-  return userLogin ? (
+function PloggingButton ({ onPress }: PloggingButtonProps) {
+  const isLoggedIn = useLoginStore(state => state.isLoggedIn);
+  const startPlogging = usePloggingStateStore(state => state.startPlogging);
+  const isPlogging = usePloggingStateStore(state => state.isPlogging);
+
+  const handlePress = () => {
+    startPlogging();
+    if (onPress){onPress();}
+  };
+
+  return isLoggedIn ? (
+    !isPlogging ? (
     <Pressable
+      onPress={handlePress}
       style={({ pressed }) => [
         styles.actionButton,
         pressed && styles.actionButtonPressed,
       ]}
     >
       <View style={styles.buttonBackground}>
-        <MaterialIcons name="directions-run" color={colors.WHITE} size={50} />
-        <Text style={styles.buttonText}>플로깅 시작</Text>
+        <Text style={styles.buttonText}>플로깅 시작하기</Text>
       </View>
-    </Pressable>
+    </Pressable>) :
+    (
+        <View style={styles.buttonBackground}>
+          <Text style={styles.buttonText}>플로깅 중...</Text>
+        </View>
+    )
   ) : (
     <View style={styles.noLogin}>
+      {/* TODO: {후순위} 버튼을 누르면 AUTH_HOME으로 설정 */}
       <Text style={styles.buttonText}>로그인 후 플로깅을 즐겨보세요</Text>
     </View>
   );
@@ -28,9 +45,6 @@ function PloggingButton ({ userLogin }: PloggingButtonProps) {
 
 const styles = StyleSheet.create({
   actionButton: {
-    position: 'absolute',
-    alignSelf: 'center',
-    bottom: 90,
     borderRadius: 30,
     shadowColor: colors.SECONDARY,
     shadowOffset: { width: 0, height: 0 },
@@ -48,7 +62,7 @@ const styles = StyleSheet.create({
     gap: 10,
     paddingVertical: 20,
     paddingHorizontal: 40,
-    borderRadius: 30,
+    borderRadius: 15,
   },
   buttonText: {
     color: colors.WHITE,
@@ -57,9 +71,6 @@ const styles = StyleSheet.create({
     textAlign: 'center',
   },
   noLogin: {
-    position: 'absolute',
-    alignSelf: 'center',
-    bottom: 120,
     backgroundColor: colors.PRIMARY,
     paddingVertical: 20,
     paddingHorizontal: 40,
