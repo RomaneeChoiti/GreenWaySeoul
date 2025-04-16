@@ -8,8 +8,9 @@ interface PloggingButtonProps {
   onPress?: () => void;
 }
 function PloggingButton ({ onPress }: PloggingButtonProps) {
-  const isLoggedIn = useLoginStore(state => state.isLoggedIn); // 로그인 상태 가져오기
+  const isLoggedIn = useLoginStore(state => state.isLoggedIn);
   const startPlogging = usePloggingStateStore(state => state.startPlogging);
+  const statePlogging = usePloggingStateStore(state => state.isPlogging);
 
   const handlePress = () => {
     startPlogging();
@@ -17,6 +18,7 @@ function PloggingButton ({ onPress }: PloggingButtonProps) {
   };
 
   return isLoggedIn ? (
+    !statePlogging ? (
     <Pressable
       onPress={handlePress}
       style={({ pressed }) => [
@@ -27,7 +29,12 @@ function PloggingButton ({ onPress }: PloggingButtonProps) {
       <View style={styles.buttonBackground}>
         <Text style={styles.buttonText}>플로깅 시작하기</Text>
       </View>
-    </Pressable>
+    </Pressable>) :
+    (
+        <View style={styles.buttonBackground}>
+          <Text style={styles.buttonText}>플로깅 중...</Text>
+        </View>
+    )
   ) : (
     <View style={styles.noLogin}>
       {/* TODO: {후순위} 버튼을 누르면 AUTH_HOME으로 설정 */}

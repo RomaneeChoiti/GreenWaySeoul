@@ -3,6 +3,7 @@ import { create } from 'zustand';
 interface PloggingState {
   isPlogging: boolean;
   startPlogging: () => void;
+  stopPlogging: () => void;
 }
 /*
     TODO: isPlogging이 true일 때,
@@ -14,8 +15,9 @@ interface PloggingState {
 */
 
 const usePloggingStateStore = create<PloggingState>((set) => ({
-  isPlogging: false,
-  startPlogging: () => set({ isPlogging: true }),
+    isPlogging: false,
+    startPlogging: () => set({ isPlogging: true }),
+    stopPlogging: () => set({ isPlogging: false }),
 }));
 
 /*

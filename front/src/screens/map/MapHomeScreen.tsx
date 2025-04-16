@@ -1,24 +1,25 @@
 import { useRef, useState } from 'react';
-import { Pressable, StyleSheet, View } from 'react-native';
+import { Pressable, StyleSheet, Text, View } from 'react-native';
 import MapView, { LatLng, PROVIDER_GOOGLE } from 'react-native-maps';
 import { colors } from '@/constants';
 import useUserLocation from '@/hooks/useUserLocation';
 import usePermission from '@/hooks/usePermission';
+import { usePloggingStateStore } from '@/store/usePloggingStore';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import mapStyle from '@/style/mapStyle';
 import CustomMarker from '@/components/customMarker';
 import SlideModal from '@/components/SlideModal';
-import useLoginStore from '@/store/useLoginStore';
+import StopPloggingButton from '@/components/StopPloggingButton';
 
 function MapHomeScreen() {
   const mapRef = useRef<MapView | null>(null);
   const { userLocation, isUserLocationError } = useUserLocation();
-  const isLoggedIn = useLoginStore(state => state.isLoggedIn); // 로그인 상태 가져오기
   usePermission();
 
   const [isModalVisible, setModalVisible] = useState(false);
   const [selectedMarker, setSelectedMarker] = useState<LatLng | null>(null);
   const [markerType, setMarkerType] = useState<'recycle' | 'trash'>();
+  const isPlogging = usePloggingStateStore((state) => state.isPlogging);
 
   const moveMapView = (coordinate: LatLng) => {
     mapRef.current?.animateToRegion({
@@ -69,16 +70,23 @@ function MapHomeScreen() {
           onPress={() => handleMarkerPress({ latitude: 37.5640, longitude: 126.9759 }, 'recycle')}
         />
       </MapView>
+
       <View>
-        <Pressable style={styles.locationButton} onPress={handlePressUserLocation}>
-          <MaterialIcons name="my-location" color={colors.WHITE} size={30} />
-        </Pressable>
+        {!isPlogging ? (
+          <Pressable style={styles.locationButton} onPress={handlePressUserLocation}>
+            <MaterialIcons name="my-location" color={colors.WHITE} size={30} />
+          </Pressable>
+        ) : (
+          <>
+            <StopPloggingButton />
+            <Text style={styles.ploggingText}>플로깅 중입니다</Text>
+          </>
+        )}
       </View>
       <SlideModal
         visible={isModalVisible}
         onClose={closeModal}
         selectedMarker={selectedMarker}
-        userLogin={isLoggedIn} // 로그인 상태 전달
         markerType={markerType}
       />
     </>
@@ -119,7 +127,14 @@ const styles = StyleSheet.create({
     shadowRadius: 5,
     elevation: 5, // Android 그림자
   },
-
+  ploggingText: {
+    position: 'absolute',
+    alignSelf: 'center',
+    bottom: 150,
+    fontSize: 18,
+    fontWeight: 'bold',
+    color: colors.PRIMARY,
+  },
 });
 
 export default MapHomeScreen;

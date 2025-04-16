@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useRef } from 'react';
 import { Modal, StyleSheet, View, Animated, TouchableWithoutFeedback, Text, Image } from 'react-native';
 import { colors } from '@/constants';
 import PloggingButton from '@/components/ploggingButton';
@@ -14,7 +14,7 @@ interface SlideModalProps {
 }
 
 function SlideModal({ visible, onClose, selectedMarker, markerType }: SlideModalProps) {
-  const slideAnim = React.useRef(new Animated.Value(300)).current; // Start below the screen
+  const slideAnim = useRef(new Animated.Value(300)).current; // Start below the screen
 
   useEffect(() => {
     if (visible) {
