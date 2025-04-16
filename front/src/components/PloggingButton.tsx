@@ -10,7 +10,7 @@ interface PloggingButtonProps {
 function PloggingButton ({ onPress }: PloggingButtonProps) {
   const isLoggedIn = useLoginStore(state => state.isLoggedIn);
   const startPlogging = usePloggingStateStore(state => state.startPlogging);
-  const statePlogging = usePloggingStateStore(state => state.isPlogging);
+  const isPlogging = usePloggingStateStore(state => state.isPlogging);
 
   const handlePress = () => {
     startPlogging();
@@ -18,7 +18,7 @@ function PloggingButton ({ onPress }: PloggingButtonProps) {
   };
 
   return isLoggedIn ? (
-    !statePlogging ? (
+    !isPlogging ? (
     <Pressable
       onPress={handlePress}
       style={({ pressed }) => [

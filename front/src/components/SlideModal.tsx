@@ -15,7 +15,7 @@ interface SlideModalProps {
 
 function SlideModal({ visible, onClose, selectedMarker, markerType }: SlideModalProps) {
   const slideAnim = useRef(new Animated.Value(300)).current; // Start below the screen
-
+  
   useEffect(() => {
     if (visible) {
       Animated.timing(slideAnim, {
@@ -56,8 +56,12 @@ function SlideModal({ visible, onClose, selectedMarker, markerType }: SlideModal
       <Animated.View style={[styles.modal, { transform: [{ translateY: slideAnim }] }]}>
         <View style={styles.modalContent}>
             <View style={styles.content}>
-            <Image source={getMarkerImage()} style={styles.markerImage} resizeMode="contain" />
-            <View>
+            {getMarkerImage() ? (
+                <Image source={getMarkerImage()} style={styles.markerImage} resizeMode="contain" />
+              ) : (
+                <Text style={styles.details}>No image available</Text> // 대체 텍스트 추가 (선택 사항)
+              )}
+              <View>
                 <Text style={styles.title}>Marker Details</Text>
                 {selectedMarker ? (
                     <>
