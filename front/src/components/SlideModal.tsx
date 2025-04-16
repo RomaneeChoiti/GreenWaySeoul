@@ -10,11 +10,10 @@ interface SlideModalProps {
   visible: boolean;
   onClose: () => void;
   selectedMarker: LatLng | null;
-  userLogin: boolean;
   markerType?: 'recycle' | 'trash'; // Add markerType as an optional prop
 }
 
-function SlideModal({ visible, onClose, selectedMarker, userLogin, markerType }: SlideModalProps) {
+function SlideModal({ visible, onClose, selectedMarker, markerType }: SlideModalProps) {
   const slideAnim = React.useRef(new Animated.Value(300)).current; // Start below the screen
 
   useEffect(() => {
@@ -71,7 +70,7 @@ function SlideModal({ visible, onClose, selectedMarker, userLogin, markerType }:
             </View>
             </View>
             <View style={styles.contentPlogging}>
-                <PloggingButton userLogin={userLogin} onPress={handleClose} />
+                <PloggingButton onPress={handleClose} />
             </View>
         </View>
       </Animated.View>

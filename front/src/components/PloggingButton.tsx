@@ -1,15 +1,24 @@
 import React from 'react';
 import { Pressable, StyleSheet, Text, View } from 'react-native';
 import { colors } from '@/constants';
+import useLoginStore from '@/store/useLoginStore';
+import {usePloggingStateStore} from '@/store/usePloggingStore';
 
 interface PloggingButtonProps {
-  userLogin: boolean;
   onPress?: () => void;
 }
-function PloggingButton ({ userLogin, onPress }: PloggingButtonProps) {
-  return userLogin ? (
+function PloggingButton ({ onPress }: PloggingButtonProps) {
+  const isLoggedIn = useLoginStore(state => state.isLoggedIn); // 로그인 상태 가져오기
+  const startPlogging = usePloggingStateStore(state => state.startPlogging);
+
+  const handlePress = () => {
+    startPlogging();
+    if (onPress){onPress();}
+  };
+
+  return isLoggedIn ? (
     <Pressable
-      onPress={onPress} // onPress를 연결
+      onPress={handlePress}
       style={({ pressed }) => [
         styles.actionButton,
         pressed && styles.actionButtonPressed,
@@ -21,6 +30,7 @@ function PloggingButton ({ userLogin, onPress }: PloggingButtonProps) {
     </Pressable>
   ) : (
     <View style={styles.noLogin}>
+      {/* TODO: {후순위} 버튼을 누르면 AUTH_HOME으로 설정 */}
       <Text style={styles.buttonText}>로그인 후 플로깅을 즐겨보세요</Text>
     </View>
   );

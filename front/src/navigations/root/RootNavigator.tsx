@@ -1,14 +1,14 @@
 import MainDrawerNavigator from '../drawer/MainDrawerNavigator';
 import AuthStackNavigator from '../stack/AuthStackNavigator';
+import useLoginStore from '../../store/useLoginStore';
 
 function RootNavigator() {
-    // TODO: Login 상태일 때를 기준으로
-    const isLogged = true;
+  const isLogged = useLoginStore(state => state.isLoggedIn);
 
   return (
-  <>
-  {isLogged ? <MainDrawerNavigator /> : <AuthStackNavigator />}
-  </>
+    <>
+      {isLogged ? <MainDrawerNavigator /> : <AuthStackNavigator />}
+    </>
   );
 }
 

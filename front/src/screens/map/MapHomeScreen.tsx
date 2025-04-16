@@ -8,11 +8,12 @@ import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import mapStyle from '@/style/mapStyle';
 import CustomMarker from '@/components/customMarker';
 import SlideModal from '@/components/SlideModal';
+import useLoginStore from '@/store/useLoginStore';
 
 function MapHomeScreen() {
   const mapRef = useRef<MapView | null>(null);
   const { userLocation, isUserLocationError } = useUserLocation();
-  const userLogin = true; // TODO : 로그인 상태를 zustand로 관리할 예정
+  const isLoggedIn = useLoginStore(state => state.isLoggedIn); // 로그인 상태 가져오기
   usePermission();
 
   const [isModalVisible, setModalVisible] = useState(false);
@@ -77,7 +78,7 @@ function MapHomeScreen() {
         visible={isModalVisible}
         onClose={closeModal}
         selectedMarker={selectedMarker}
-        userLogin={userLogin}
+        userLogin={isLoggedIn} // 로그인 상태 전달
         markerType={markerType}
       />
     </>
