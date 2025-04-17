@@ -1,5 +1,5 @@
-import React, { ForwardedRef, forwardRef, useRef } from 'react';
-import { Dimensions, StyleSheet, TextInput, View, TextInputProps, Text, Pressable } from 'react-native';
+import React, { ForwardedRef, forwardRef, ReactNode, useRef } from 'react';
+import { Dimensions, StyleSheet, TextInput, View, TextInputProps, Pressable, Text } from 'react-native';
 import { colors } from '@/constants';
 import { mergeRefs } from '@/utils';
 
@@ -7,6 +7,7 @@ interface InputFieldProps extends TextInputProps {
     disabled?: boolean;
     error?: string;
     touched?: boolean;
+    icon?: ReactNode;
 }
 
 const deviceHeight = Dimensions.get('screen').height;
@@ -15,6 +16,7 @@ const InputField = forwardRef(({
         disabled = false,
         error,
         touched,
+        icon = null,
         ...props
     }:InputFieldProps,
     ref?: ForwardedRef<TextInput>,
@@ -32,21 +34,23 @@ const InputField = forwardRef(({
             style={[
                 styles.container,
                 disabled && styles.disabled,
+                props.multiline && styles.multiline,
                 touched && Boolean(error) && styles.inputError,
                 ]}>
             {touched && Boolean(error) && <Text style={styles.error}>{error}</Text>}
-            <TextInput
-                // enter 내려감
-                ref={ref ? mergeRefs(innerRef, ref) : innerRef}
-                editable={!disabled}
-                placeholderTextColor={colors.PRIMARY_DARK}
-                style={styles.input}
-                // 자동 대문자 방지
-                autoCapitalize="none"
-                spellCheck={false}
-                autoCorrect={false}
-                {...props}
-            />
+            <View style={Boolean(icon) && styles.iconContainer}>
+                {icon}
+                <TextInput
+                    ref={ref ? mergeRefs(innerRef, ref) : innerRef}
+                    editable={!disabled}
+                    placeholderTextColor={colors.PRIMARY_DARK}
+                    style={styles.input}
+                    autoCapitalize="none"
+                    spellCheck={false}
+                    autoCorrect={false}
+                    {...props}
+                />
+            </View>
         </View>
     </Pressable>
   );
@@ -64,7 +68,7 @@ const styles = StyleSheet.create({
         padding: 0,
     },
     disabled: {
-        backgroundColor: colors.BLACK,
+        backgroundColor: 'gray',
     },
     inputError: {
         borderColor: colors.ERROR,
@@ -73,6 +77,14 @@ const styles = StyleSheet.create({
         color: colors.ERROR,
         fontSize: 12,
         marginBottom: 5,
+    },
+    iconContainer: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        gap: 5,
+    },
+    multiline: {
+        height: deviceHeight > 700 ? 100 : 80,
     },
 });
 

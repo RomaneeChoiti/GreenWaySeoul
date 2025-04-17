@@ -8,7 +8,7 @@ function useUserLocation(){
   const [userLocation, setUserLocation] = useState<LatLng>({ latitude: 37.5779, longitude: 126.9769 });
   const [isUserLocationError, setIsUserLocationError] = useState(false);
   const { isComeback } = useAppState();
-  const setUserLocationInStore = useLocationStore((state: { setUserLocation: (location: LatLng) => void }) => state.setUserLocation);
+  const setUserLocationInStore = useLocationStore(state => state.setUserLocation);
 
     useEffect(() => {
         Geolocation.getCurrentPosition(info =>{

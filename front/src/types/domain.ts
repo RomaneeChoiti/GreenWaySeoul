@@ -19,4 +19,9 @@ interface Profile {
   kakaoImageUri: string | null;
   loginType: 'email' | 'kakao' | 'apple';
 }
-export type { ImageUri, Marker, Profile };
+
+interface Post {
+
+}
+
+export type { ImageUri, Marker, Profile, Post };
