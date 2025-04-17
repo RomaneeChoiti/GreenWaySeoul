@@ -2,7 +2,11 @@ import React, { useEffect, useRef } from 'react';
 import { StyleSheet, View, Animated, Easing, Dimensions } from 'react-native';
 import { colors } from '@/constants';
 
-const PloggingStatusText = () => {
+interface PloggingStatusTextProps {
+  isPlogging: boolean;
+}
+
+const PloggingStatusText: React.FC<PloggingStatusTextProps> = ({ isPlogging }) => {
   const scrollAnim = useRef(new Animated.Value(0)).current;
   const screenWidth = Dimensions.get('window').width;
 
@@ -22,24 +26,25 @@ const PloggingStatusText = () => {
     outputRange: [screenWidth, -screenWidth], // Ensure continuous scrolling
   });
 
+  const renderScrollingText = (text: string) => (
+    <Animated.Text
+      style={[
+        styles.text,
+        { transform: [{ translateX }], width: screenWidth }, // Pass screenWidth dynamically
+      ]}
+    >
+      {text}
+    </Animated.Text>
+  );
+
+  const message = isPlogging
+    ? "안전에 유의하세요. 작은 행동이 큰 변화를 만듭니다"
+    : "쓰레기통을 클릭하여 플로깅을 시작해보세요";
+
   return (
     <View style={styles.container}>
-      <Animated.Text
-        style={[
-          styles.text,
-          { transform: [{ translateX }], width: screenWidth }, // Pass screenWidth dynamically
-        ]}
-      >
-        안전에 유의하세요. 작은 행동이 큰 변화를 만듭니다
-      </Animated.Text>
-      <Animated.Text
-        style={[
-          styles.text,
-          { transform: [{ translateX }], width: screenWidth }, // Pass screenWidth dynamically
-        ]}
-      >
-        안전에 유의하세요. 작은 행동이 큰 변화를 만듭니다
-      </Animated.Text>
+      {renderScrollingText(message)}
+      {renderScrollingText(message)}
     </View>
   );
 };

@@ -73,15 +73,13 @@ function MapHomeScreen() {
       </MapView>
 
       <View>
+        <PloggingStatusText isPlogging={isPlogging} />
         {!isPlogging ? (
           <Pressable style={styles.locationButton} onPress={handlePressUserLocation}>
             <MaterialIcons name="my-location" color={colors.WHITE} size={30} />
           </Pressable>
         ) : (
-          <>
-            <PloggingStatusText />
-            <StopPloggingButton />
-          </>
+          <StopPloggingButton />
         )}
       </View>
       <SlideModal
