@@ -1,22 +1,27 @@
 import React, { useState } from 'react';
 import { Pressable, StyleSheet, Text, View, Modal } from 'react-native';
-import { colors } from '@/constants';
+import { colors, mapNavigations } from '@/constants';
 import CustomButton from '@/components/CustomButton';
 import { usePloggingStateStore } from '@/store/usePloggingStore';
+import { useNavigation } from '@react-navigation/native';
+import { NativeStackNavigationProp } from '@react-navigation/native-stack';
+import { MapStackParamList } from '@/navigations/stack/MapStackNavigator';
 
-
+type NavigationProps = NativeStackNavigationProp<MapStackParamList>;
 
 const StopPloggingButton = () => {
   const [isModalVisible, setModalVisible] = useState(false);
   const stopPlogging = usePloggingStateStore((state) => state.stopPlogging);
+  const navigation = useNavigation<NavigationProps>();
 
   const handlePress = () => {
     setModalVisible(true);
   };
 
-  const handleConfirm = () => {
-    setModalVisible(false);
+  const handleAddPost = () =>{
     stopPlogging();
+    setModalVisible(false);
+    navigation.navigate(mapNavigations.ADD_POST);
   };
 
   const handleCancel = () => {
@@ -34,6 +39,23 @@ const StopPloggingButton = () => {
         animationType="fade"
         onRequestClose={handleCancel}
       >
+        {/*
+            TODO: 플로깅 중단 시 플로깅 기록 저장하는 로직 추가
+            예 버튼 Click 시
+            시스템에서 기록해주는 것
+              1. 시간 시간
+              2. 종료 시간
+              3. 이동 거리 (챌린지)
+
+            강의에서 제공하는 것
+              1. 주소
+              2. 날짜
+              3. 제목, 내용 (기록)
+              4. 평점
+              5. 사진
+            사용자가 기록하는 것
+
+        */}
         <View style={styles.modalOverlay}>
           <View style={styles.modalContent}>
             <Text style={styles.modalText}>플로깅을 중단 하겠습니까?</Text>
@@ -42,7 +64,7 @@ const StopPloggingButton = () => {
                 label="예"
                 variant="outlined"
                 size="medium"
-                onPress={handleConfirm}
+                onPress={handleAddPost}
               />
               <CustomButton
                 label="아니오"
@@ -87,7 +109,7 @@ const styles = StyleSheet.create({
   },
   modalContent: {
     backgroundColor: colors.WHITE,
-    padding: 20,
+    padding:20,
     borderRadius: 10,
     width: '80%',
     alignItems: 'center',

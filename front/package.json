@@ -18,6 +18,7 @@
     "@react-native-masked-view/masked-view": "^0.3.2",
     "@react-navigation/drawer": "^7.3.2",
     "@react-navigation/native": "^7.0.19",
+    "@react-navigation/native-stack": "^7.3.10",
     "@react-navigation/stack": "^7.2.3",
     "@tanstack/react-query": "^5.71.1",
     "axios": "^1.8.4",

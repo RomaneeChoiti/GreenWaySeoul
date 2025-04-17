@@ -41,8 +41,13 @@ const PloggingStatusText: React.FC<PloggingStatusTextProps> = ({ isPlogging }) =
     ? "안전에 유의하세요. 작은 행동이 큰 변화를 만듭니다"
     : "쓰레기통을 클릭하여 플로깅을 시작해보세요";
 
+  const containerStyle = [
+    styles.container,
+    { backgroundColor: isPlogging ? colors.ERROR : colors.PRIMARY }, // Dynamically set background color
+  ];
+
   return (
-    <View style={styles.container}>
+    <View style={containerStyle}>
       {renderScrollingText(message)}
       {renderScrollingText(message)}
     </View>
@@ -54,7 +59,6 @@ const styles = StyleSheet.create({
     position: 'absolute',
     alignSelf: 'center',
     bottom: 700,
-    backgroundColor: colors.PRIMARY,
     paddingVertical: 15,
     width: '100%',
     overflow: 'hidden', // Ensure text doesn't overflow the container
