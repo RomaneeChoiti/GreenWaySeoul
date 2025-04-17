@@ -6,7 +6,6 @@ interface PloggingState {
   stopPlogging: () => void;
 }
 
-
 const usePloggingStateStore = create<PloggingState>((set) => ({
     isPlogging: false,
     startPlogging: () => set({ isPlogging: true }),

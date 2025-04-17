@@ -80,6 +80,7 @@ function MapHomeScreen() {
           </Pressable>
         ) : (
           <StopPloggingButton />
+
         )}
       </View>
       <SlideModal

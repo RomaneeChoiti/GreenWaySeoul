@@ -6,7 +6,7 @@ interface PloggingStatusTextProps {
   isPlogging: boolean;
 }
 
-const PloggingStatusText: React.FC<PloggingStatusTextProps> = ({ isPlogging }) => {
+const PloggingStatusText = ({ isPlogging }: PloggingStatusTextProps) => {
   const scrollAnim = useRef(new Animated.Value(0)).current;
   const screenWidth = Dimensions.get('window').width;
 
@@ -58,7 +58,7 @@ const styles = StyleSheet.create({
   container: {
     position: 'absolute',
     alignSelf: 'center',
-    bottom: 700,
+    bottom: 700
     paddingVertical: 15,
     width: '100%',
     overflow: 'hidden', // Ensure text doesn't overflow the container

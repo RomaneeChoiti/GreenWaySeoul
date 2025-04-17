@@ -2,6 +2,7 @@ import React, { useEffect, useRef } from 'react';
 import { Modal, StyleSheet, View, Animated, TouchableWithoutFeedback, Text, Image } from 'react-native';
 import { colors } from '@/constants';
 import PloggingButton from '@/components/PloggingButton';
+
 import { LatLng } from 'react-native-maps';
 import recycleIcon from '@/assets/recycleIcon.png';
 import trashcanIcon from '@/assets/trashcanIcon.png';

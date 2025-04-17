@@ -7,7 +7,6 @@ import { useNavigation } from '@react-navigation/native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { MapStackParamList } from '@/navigations/stack/MapStackNavigator';
 
-type NavigationProps = NativeStackNavigationProp<MapStackParamList>;
 
 const StopPloggingButton = () => {
   const [isModalVisible, setModalVisible] = useState(false);
@@ -56,6 +55,7 @@ const StopPloggingButton = () => {
             사용자가 기록하는 것
 
         */}
+
         <View style={styles.modalOverlay}>
           <View style={styles.modalContent}>
             <Text style={styles.modalText}>플로깅을 중단 하겠습니까?</Text>
