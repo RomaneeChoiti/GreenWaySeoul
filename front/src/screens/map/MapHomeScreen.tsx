@@ -7,10 +7,10 @@ import usePermission from '@/hooks/usePermission';
 import { usePloggingStateStore } from '@/store/usePloggingStore';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import mapStyle from '@/style/mapStyle';
-import CustomMarker from '@/components/customMarker';
+import CustomMarker from '@/components/CustomMarker';
 import SlideModal from '@/components/SlideModal';
 import StopPloggingButton from '@/components/StopPloggingButton';
-import PloggingStatusText from '@/components/ploggingStatusText';
+import PloggingStatusText from '@/components/PloggingStatusText';
 
 function MapHomeScreen() {
   const mapRef = useRef<MapView | null>(null);
