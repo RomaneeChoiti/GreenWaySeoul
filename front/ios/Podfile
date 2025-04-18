@@ -20,6 +20,8 @@ setup_permissions([
   'LocationWhenInUse',
   'MediaLibrary',
   'Notifications',
+  'PhotoLibrary',
+  'PhotoLibraryAddOnly',
 ])
 
 linkage = ENV['USE_FRAMEWORKS']

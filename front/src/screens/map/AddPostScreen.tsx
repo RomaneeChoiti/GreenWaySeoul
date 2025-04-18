@@ -13,6 +13,7 @@ import useMutateCreatePost from '@/hooks/queries/useMutateCreatePost';
 import { useTrashcanStore } from '@/store/useTrashcanStore';
 import { usePloggingStateStore } from '@/store/usePloggingStore';
 import StarRating from '@/components/StarRating';
+import ImageInPut from '@/components/ImageInput';
 
 function AddPostScreen() {
   const navigation = useNavigation();
@@ -109,6 +110,7 @@ function AddPostScreen() {
               returnKeyType ="next"
               {...addPost.getTextInputProps('description')}
           />
+          <ImageInPut onChange={()=>{}}/>
           <StarRating score={score} onRate={handleStarPress} />
           <View style={styles.buttonContainer}>
             <CustomButton label="취소" variant="outlined" size="medium" onPress={handleCancel} />

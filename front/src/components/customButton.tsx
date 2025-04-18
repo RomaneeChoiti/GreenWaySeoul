@@ -78,7 +78,7 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
     },
     text:{
-        fontSize: 16,
+        fontSize: 20,
         fontWeight: '700',
     },
     filledPressed: {

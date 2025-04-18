@@ -18,7 +18,7 @@ import { TrashcanData } from '@/types/domain';
 function MapHomeScreen() {
   const mapRef = useRef<MapView | null>(null);
   const { userLocation, isUserLocationError } = useUserLocation();
-  usePermission();
+  usePermission('LOCATION');
 
   const [isModalVisible, setModalVisible] = useState(false);
   const [selectedMarker, setSelectedMarker] = useState<LatLng | null>(null);
@@ -64,6 +64,7 @@ function MapHomeScreen() {
         showsUserLocation
         followsUserLocation
         customMapStyle={mapStyle}
+        region={{...userLocation, latitudeDelta: 0.01, longitudeDelta: 0.01}}
       >
         {testData.map((data, index) => (
           <CustomMarker
