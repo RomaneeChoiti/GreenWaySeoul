@@ -35,10 +35,6 @@ function MapStackNavigator(){
             <Stack.Screen
                 name={mapNavigations.ADD_POST}
                 component={AddPostScreen}
-                options={{
-                    headerTitle:'플로깅 기록',
-                    headerShown: true,
-                }}
             />
 
         </Stack.Navigator>

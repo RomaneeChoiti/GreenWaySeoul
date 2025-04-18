@@ -20,8 +20,16 @@ interface Profile {
   loginType: 'email' | 'kakao' | 'apple';
 }
 
+interface TrashcanData {
+  Address: string;
+  Latitude: number;
+  Longitude: number;
+  canType: string;
+  설치위치: string;
+}
+
 interface Post {
 
 }
 
-export type { ImageUri, Marker, Profile, Post };
+export type { ImageUri, Marker, Profile, Post, TrashcanData };
