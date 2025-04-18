@@ -11,7 +11,7 @@ import { MapStackParamList } from '@/navigations/stack/MapStackNavigator';
 const StopPloggingButton = () => {
   const [isModalVisible, setModalVisible] = useState(false);
   const stopPlogging = usePloggingStateStore((state) => state.stopPlogging);
-  const navigation = useNavigation<NavigationProps>();
+  const navigation = useNavigation<NativeStackNavigationProp<MapStackParamList>>();
 
   const handlePress = () => {
     setModalVisible(true);
@@ -47,13 +47,10 @@ const StopPloggingButton = () => {
               3. 이동 거리 (챌린지)
 
             강의에서 제공하는 것
-              1. 주소
-              2. 날짜
-              3. 제목, 내용 (기록)
-              4. 평점
-              5. 사진
+              1. 제목, 내용 (기록)
+              2. 평점
+              3. 사진
             사용자가 기록하는 것
-
         */}
 
         <View style={styles.modalOverlay}>
