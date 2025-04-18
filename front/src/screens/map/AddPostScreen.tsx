@@ -1,4 +1,4 @@
-import React, { useRef } from 'react';
+import React, { useRef, useState } from 'react';
 import { StyleSheet, SafeAreaView, ScrollView, View, Text } from 'react-native';
 import InputField from '@/components/InputField';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
@@ -6,10 +6,15 @@ import { TextInput } from 'react-native';
 import useForm from '@/hooks/useForm';
 import { validateAddPost } from '@/utils';
 import { colors } from '@/constants';
+import { useNavigation } from '@react-navigation/native';
+import CustomButton from '@/components/CustomButton';
+import ModalComponent from '@/components/ModalComponent';
 
 interface AddPostScreenProps {}
 
 function AddPostScreen({}: AddPostScreenProps) {
+  const navigation = useNavigation();
+  const [isModalVisible, setModalVisible] = useState(false);
   const currentDate = new Date().toISOString();
   const formattedDate = new Intl.DateTimeFormat('en-CA').format(new Date(currentDate));
   const descriptionRef = useRef<TextInput | null>(null);
@@ -17,6 +22,19 @@ function AddPostScreen({}: AddPostScreenProps) {
       initialValues: { title: '', description: '' },
       validate: validateAddPost,
     });
+
+  const handleCancel = () => {
+    setModalVisible(true); // Show the modal
+  };
+
+  const handleConfirm = () => {
+    setModalVisible(false);
+    navigation.goBack(); // Navigate back to the map screen
+  };
+
+  const handleCloseModal = () => {
+    setModalVisible(false); // Close the modal
+  };
 
   return (
     <SafeAreaView style={styles.container}>
@@ -48,8 +66,18 @@ function AddPostScreen({}: AddPostScreenProps) {
               returnKeyType ="next"
               {...addPost.getTextInputProps('description')}
           />
+          <View style={styles.buttonContainer}>
+            <CustomButton label="취소" variant="outlined" size="medium" onPress={handleCancel} />
+            <CustomButton label="등록" variant="filled" size="medium" onPress={() => {}} />
+          </View>
         </View>
       </ScrollView>
+      <ModalComponent
+        visible={isModalVisible}
+        message="저장하지 않고 나가시겠습니까?"
+        onConfirm={handleConfirm}
+        onCancel={handleCloseModal}
+      />
     </SafeAreaView>
   );
 }
@@ -79,6 +107,10 @@ const styles = StyleSheet.create({
     fontSize: 18,
     color: colors.WHITE,
     fontWeight: 'bold',
+  },
+  buttonContainer: {
+    flexDirection: 'row',
+    gap: 10,
   },
 });
 
