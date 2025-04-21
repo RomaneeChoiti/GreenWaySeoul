@@ -12,7 +12,7 @@ interface LoginState {
       - isLoggedIn: false,
 */
 const useLoginStore = create<LoginState>(set => ({
-  isLoggedIn: true,
+  isLoggedIn: false,
   setLoginStatus: (status: boolean) => set({ isLoggedIn: status }),
 }));
 

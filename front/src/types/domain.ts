@@ -29,7 +29,17 @@ interface TrashcanData {
 }
 
 interface Post {
-
+  id: number;
+  title: string;
+  description: string;
+  date: Date | string;
+  address: string;
+  place: string;
+  time: string;
+  score: number;
+  distance?: string;
+  
+  imageUris: ImageUri[];
 }
 
 export type { ImageUri, Marker, Profile, Post, TrashcanData };

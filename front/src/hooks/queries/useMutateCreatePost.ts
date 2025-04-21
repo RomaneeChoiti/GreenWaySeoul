@@ -1,6 +1,6 @@
 import { useMutation } from "@tanstack/react-query";
-import { UseMutationCustomOptions } from "./common";
 import { createPost } from "@/api/post";
+import { UseMutationCustomOptions } from "@/types";
 
 
 function useMutateCreatePost(mutationOptions?: UseMutationCustomOptions) {
