@@ -4,7 +4,7 @@ import { getAccessToken, getProfile, postLogin, postSignup } from '@/api/auth';
 import { removeEncryptStorage, setEncryptStorage } from '@/utils/encryptStorage';
 import { removeHeader, setHeader } from '@/utils/header';
 import queryClient from '@/api/queryClient';
-import { UseMutationCustomOptions } from '@/types';
+import { UseMutationCustomOptions, UseQueryCustomOptions } from '@/types';
 
 function useSignup(mutationOptions ? : UseMutationCustomOptions) {
  return useMutation({
@@ -22,7 +22,7 @@ function useLogin(mutationOptions ? : UseMutationCustomOptions) {
         },
         onSettled: () => {
             queryClient.refetchQueries({queryKey: ['auth', 'getAccessToken']});
-            queryClient.refetchQueries({queryKey: ['auth', 'getProfile']});
+            queryClient.invalidateQueries({queryKey: ['auth', 'getProfile']});
         },
         ...mutationOptions,
     });
@@ -33,8 +33,12 @@ function useGetRefreshToken() {
     const {isSuccess, data, isError} = useQuery({
         queryKey: ['auth', 'getAccessToken'],
         queryFn: getAccessToken,
-        staleTime: 1000 * 60 * 30 - 1000 * 60 * 3, // 시간 주기
-        refetchInterval: 1000 * 60 * 30 - 1000 * 60 * 3,
+        /*
+            TODO
+                1. 로그인을 한 번하면 캐시를 지우지 않는 이상 계속 로그인 되게끔.
+        */
+        staleTime: 1000 * 60 * 30, // 시간 주기
+        refetchInterval: 1000 * 60 * 30,
         refetchOnReconnect: true,
         refetchIntervalInBackground: true,
     });
@@ -44,7 +48,7 @@ function useGetRefreshToken() {
             setHeader('Authorization', `Bearer ${data.accessToken}`);
             setEncryptStorage('refreshToken', data.refreshToken); // 갱신
         }
-    },[isSuccess]);
+    },[isSuccess, data?.accessToken, data?.refreshToken]);
 
     // 실패한다면
     useEffect(() => {
@@ -57,11 +61,26 @@ function useGetRefreshToken() {
     return {isSuccess, isError};
 }
 
-function useGetProfile(){
+
+function useGetProfile(queryOptions? : UseQueryCustomOptions){
     return useQuery({
         queryKey: ['auth', 'getProfile'],
         queryFn: getProfile,
+        ...queryOptions,
     });
 }
 
-export { useSignup, useLogin, useGetRefreshToken, useGetProfile };
+function useAuth(){
+    const signupMutation = useSignup();
+    const refreshTokenQuery = useGetRefreshToken();
+    const getProfileQuery = useGetProfile({
+        enabled: refreshTokenQuery.isSuccess,
+    });
+    const isLogin = getProfileQuery.isSuccess;
+    const loginMutation = useLogin();
+
+    return { signupMutation, loginMutation, isLogin, getProfileQuery };
+
+}
+
+export default useAuth;
