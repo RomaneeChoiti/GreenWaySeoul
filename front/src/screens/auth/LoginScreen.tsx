@@ -16,8 +16,8 @@ function LoginScreen(){
 
     const handleSubmit = () => {
         loginMutation.mutate(login.values);
+        console.log('1단계 login', login.values);
     };
-
 
     return (
         <SafeAreaView style={styles.container}>

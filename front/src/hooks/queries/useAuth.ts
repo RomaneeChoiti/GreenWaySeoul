@@ -17,7 +17,7 @@ function useLogin(mutationOptions ? : UseMutationCustomOptions) {
     return useMutation({
         mutationFn: postLogin,
         onSuccess: ({accessToken, refreshToken}) => {
-            setEncryptStorage('accessToken', refreshToken);
+            setEncryptStorage('refreshToken', refreshToken);
             setHeader('Authorization', `Bearer ${accessToken}`);
         },
         onSettled: () => {

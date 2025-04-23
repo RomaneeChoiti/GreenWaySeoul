@@ -1,5 +1,5 @@
-import { QueryKey, UseMutationOptions, UseQueryOptions } from '@tanstack/react-query';
 import { AxiosError } from 'axios';
+import { QueryKey, UseMutationOptions, UseQueryOptions } from '@tanstack/react-query';
 
 type ResponseError = AxiosError<{
     statusCode: string;
