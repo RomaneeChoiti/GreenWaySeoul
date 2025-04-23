@@ -29,8 +29,6 @@ function AddPostScreen() {
   const imagePicker = useImagePicker({ initialImages: [] });
   usePermission('PHOTO');
 
-  console.log('imagePicker.imageUris', imagePicker.imageUris);
-
   /*
     TODO: 이동 거리는 후순위로
     const [distance, setDistance] = useState('0km');

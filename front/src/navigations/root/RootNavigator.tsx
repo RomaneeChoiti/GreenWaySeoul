@@ -1,20 +1,20 @@
+import { useEffect } from 'react';
 import MainDrawerNavigator from '../drawer/MainDrawerNavigator';
 import AuthStackNavigator from '../stack/AuthStackNavigator';
 import useAuth from '@/hooks/queries/useAuth';
-// import useLoginStore from '../../store/useLoginStore';
-// import { useEffect } from 'react';
+import useLoginStore from '../../store/useLoginStore';
 
 function RootNavigator() {
-  // const { isLoggedIn, setLoginStatus } = useLoginStore();
+  const { isLoggedIn, setLoginStatus } = useLoginStore();
   const { isLogin } = useAuth();
 
-  // useEffect(() => {
-  //   setLoginStatus(isLogin);
-  // }, [isLogin, setLoginStatus]);
+  useEffect(() => {
+    setLoginStatus(isLogin);
+  }, [isLogin, setLoginStatus]);
 
   return (
     <>
-      {isLogin ? <MainDrawerNavigator /> : <AuthStackNavigator />}
+      {isLoggedIn ? <MainDrawerNavigator /> : <AuthStackNavigator />}
     </>
   );
 }
