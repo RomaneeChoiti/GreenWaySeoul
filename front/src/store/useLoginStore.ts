@@ -11,8 +11,9 @@ interface LoginState {
     2. 비로그인 상태를 false로 변경
       - isLoggedIn: false,
 */
+
 const useLoginStore = create<LoginState>(set => ({
-  isLoggedIn: true,
+  isLoggedIn: false,
   setLoginStatus: (status: boolean) => set({ isLoggedIn: status }),
 }));
 

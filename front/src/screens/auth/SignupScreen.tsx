@@ -4,18 +4,23 @@ import InputField from '@/components/InputField';
 import useForm from '@/hooks/useForm';
 import CustomButton from '@/components/CustomButton';
 import { validateSignUp } from '@/utils';
-
+import useAuth from '@/hooks/queries/useAuth';
 
 function SignUpScreen() {
-    const passwordRf = useRef<TextInput>(null);
-    const passwordConfirmationRf = useRef<TextInput>(null);
+    const passwordRf = useRef<TextInput | null>(null);
+    const { signupMutation, loginMutation } = useAuth();
+    const passwordConfirmationRf = useRef<TextInput | null>(null);
     const signUp = useForm({
         initialValues: { email: '', password: '', passwordConfirmation: '' },
         validate: validateSignUp,
     });
 
-    const handleSumbit = () => {
-        console.log(signUp.values);
+    const handleSummit = () => {
+        const { email, password } = signUp.values;
+        signupMutation.mutate({ email, password }, {
+                onSuccess: () => loginMutation.mutate(signUp.values),
+            },
+        );
     };
 
     return (
@@ -49,7 +54,7 @@ function SignUpScreen() {
                     error={signUp.errors.passwordConfirmation}
                     touched={signUp.touched.passwordConfirmation}
                     {...signUp.getTextInputProps('passwordConfirmation')}
-                    onSubmitEditing={handleSumbit}
+                    onSubmitEditing={handleSummit}
                     secureTextEntry
                 />
             </View>
@@ -57,7 +62,7 @@ function SignUpScreen() {
                 label="회원가입"
                 variant="filled"
                 size="large"
-                onPress={handleSumbit}
+                onPress={handleSummit}
             />
         </SafeAreaView>
     );

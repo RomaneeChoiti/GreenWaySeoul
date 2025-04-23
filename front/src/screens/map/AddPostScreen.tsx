@@ -14,6 +14,9 @@ import { useTrashcanStore } from '@/store/useTrashcanStore';
 import { usePloggingStateStore } from '@/store/usePloggingStore';
 import StarRating from '@/components/StarRating';
 import ImageInPut from '@/components/ImageInput';
+import usePermission from '@/hooks/usePermission';
+import useImagePicker from '@/hooks/useImagePicker';
+
 
 function AddPostScreen() {
   const navigation = useNavigation();
@@ -23,9 +26,15 @@ function AddPostScreen() {
   const day = new Intl.DateTimeFormat('ko-KR', { weekday: 'long' }).format(new Date(currentDate));
   const descriptionRef = useRef<TextInput | null>(null);
   const createPost = useMutateCreatePost();
+  const imagePicker = useImagePicker({ initialImages: [] });
+  usePermission('PHOTO');
+
+  console.log('imagePicker.imageUris', imagePicker.imageUris);
+
   /*
-   TODO: 이동 거리는 후순위로
-   const [distance, setDistance] = useState('0km');
+    TODO: 이동 거리는 후순위로
+    const [distance, setDistance] = useState('0km');
+
   */
   const [score, setScore] = useState(0);
 
@@ -110,7 +119,8 @@ function AddPostScreen() {
               returnKeyType ="next"
               {...addPost.getTextInputProps('description')}
           />
-          <ImageInPut onChange={()=>{}}/>
+          <ImageInPut onChange={imagePicker.handleChange}/>
+
           <StarRating score={score} onRate={handleStarPress} />
           <View style={styles.buttonContainer}>
             <CustomButton label="취소" variant="outlined" size="medium" onPress={handleCancel} />

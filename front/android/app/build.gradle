@@ -86,7 +86,7 @@ android {
         versionCode 1
         versionName "1.0"
         resValue "string", "build_config_package", "com.greenwayseoulrn"
-
+        vectorDrawables.useSupportLibrary = true
     }
     signingConfigs {
         debug {

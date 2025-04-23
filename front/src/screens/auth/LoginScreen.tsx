@@ -4,19 +4,20 @@ import InputField from '@/components/InputField';
 import CustomButton from '@/components/CustomButton';
 import useForm from '@/hooks/useForm';
 import { validateLogin } from '@/utils';
+import useAuth from '@/hooks/queries/useAuth';
 
 function LoginScreen(){
-
+    const passwordRf = useRef<TextInput | null>(null);
+    const {loginMutation} = useAuth();
     const login = useForm({
         initialValues: { email: '', password: '' },
         validate: validateLogin,
     });
-    const passwordRf = useRef<TextInput>(null);
 
     const handleSubmit = () => {
-        console.log(login.values);
+        loginMutation.mutate(login.values);
+        console.log('1단계 login', login.values);
     };
-
 
     return (
         <SafeAreaView style={styles.container}>
