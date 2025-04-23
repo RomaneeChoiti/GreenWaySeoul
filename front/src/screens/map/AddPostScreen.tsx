@@ -17,6 +17,7 @@ import ImageInPut from '@/components/ImageInput';
 import usePermission from '@/hooks/usePermission';
 import useImagePicker from '@/hooks/useImagePicker';
 
+
 function AddPostScreen() {
   const navigation = useNavigation();
   const [isModalVisible, setModalVisible] = useState(false);
@@ -33,6 +34,7 @@ function AddPostScreen() {
   /*
     TODO: 이동 거리는 후순위로
     const [distance, setDistance] = useState('0km');
+
   */
   const [score, setScore] = useState(0);
 
@@ -118,6 +120,7 @@ function AddPostScreen() {
               {...addPost.getTextInputProps('description')}
           />
           <ImageInPut onChange={imagePicker.handleChange}/>
+
           <StarRating score={score} onRate={handleStarPress} />
           <View style={styles.buttonContainer}>
             <CustomButton label="취소" variant="outlined" size="medium" onPress={handleCancel} />

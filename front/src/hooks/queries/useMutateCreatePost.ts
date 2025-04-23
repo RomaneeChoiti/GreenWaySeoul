@@ -3,6 +3,7 @@ import { createPost } from "@/api/post";
 import { UseMutationCustomOptions } from "@/types";
 
 
+
 function useMutateCreatePost(mutationOptions?: UseMutationCustomOptions) {
     return useMutation({
         mutationFn: createPost,
