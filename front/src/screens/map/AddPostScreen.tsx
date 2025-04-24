@@ -13,7 +13,7 @@ import useMutateCreatePost from '@/hooks/queries/useMutateCreatePost';
 import { useTrashcanStore } from '@/store/useTrashcanStore';
 import { usePloggingStateStore } from '@/store/usePloggingStore';
 import StarRating from '@/components/StarRating';
-import ImageInPut from '@/components/ImageInput';
+import ImageInput from '@/components/ImageInput';
 import usePermission from '@/hooks/usePermission';
 import useImagePicker from '@/hooks/useImagePicker';
 import PreviewImageList from '@/components/PreviewImageList';
@@ -150,7 +150,7 @@ const handleSubmit = () => {
               {...addPost.getTextInputProps('description')}
           />
           <View style={styles.imagesViewer}>
-            <ImageInPut onChange={imagePicker.handleChange}/>
+            <ImageInput onChange={imagePicker.handleChange}/>
             <PreviewImageList
               imageUris={imagePicker.imageUris}
               onDelete={imagePicker.delete}

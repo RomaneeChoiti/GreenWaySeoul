@@ -9,7 +9,6 @@ interface PloggingButtonProps {
 }
 function PloggingButton ({ onPress }: PloggingButtonProps) {
   const isLoggedIn = useLoginStore(state => state.isLoggedIn);
-  console.log('login', isLoggedIn);
   const startPlogging = usePloggingStateStore(state => state.startPlogging);
   const isPlogging = usePloggingStateStore(state => state.isPlogging);
 
