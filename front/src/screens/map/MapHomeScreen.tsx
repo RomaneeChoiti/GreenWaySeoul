@@ -45,7 +45,13 @@ function MapHomeScreen() {
   const handleMarkerPress = (coordinate: LatLng, type: 'recycle' | 'trash', data: TrashcanData) => {
     setSelectedMarker(coordinate);
     setMarkerType(type);
-    setTrashcanInfo(data.설치위치, data.Address, data.canType); // Store marker info
+    setTrashcanInfo(
+        data.설치위치,
+        data.Address,
+        data.canType,
+        data.Latitude,
+        data.Longitude,
+    );
     setModalVisible(true);
     moveMapView(coordinate);
   };
@@ -75,7 +81,7 @@ function MapHomeScreen() {
               handleMarkerPress(
                 { latitude: data.Latitude, longitude: data.Longitude },
                 data.canType === '재활용' ? 'recycle' : 'trash',
-                data // Pass marker data
+                data,
               )
             }
           />
