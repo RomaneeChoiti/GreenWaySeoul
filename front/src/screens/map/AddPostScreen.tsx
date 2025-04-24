@@ -16,6 +16,7 @@ import StarRating from '@/components/StarRating';
 import ImageInPut from '@/components/ImageInput';
 import usePermission from '@/hooks/usePermission';
 import useImagePicker from '@/hooks/useImagePicker';
+import PreviewImageList from '@/components/PreviewImageList';
 
 
 function AddPostScreen() {
@@ -117,7 +118,13 @@ function AddPostScreen() {
               returnKeyType ="next"
               {...addPost.getTextInputProps('description')}
           />
-          <ImageInPut onChange={imagePicker.handleChange}/>
+          <View style={styles.imagesViewer}>
+            <ImageInPut onChange={imagePicker.handleChange}/>
+            <PreviewImageList
+              imageUris={imagePicker.imageUris}
+              onDelete={imagePicker.delete}
+            />
+          </View>
 
           <StarRating score={score} onRate={handleStarPress} />
           <View style={styles.buttonContainer}>
@@ -175,6 +182,11 @@ const styles = StyleSheet.create({
     fontSize: 25,
     color: colors.PRIMARY,
     fontWeight: 'bold',
+  },
+  imagesViewer: {
+    flexDirection: 'row',
+    gap: 10,
+
   },
 });
 
