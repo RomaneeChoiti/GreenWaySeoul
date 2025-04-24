@@ -75,7 +75,7 @@ const handleSubmit = () => {
     // place: place || '위치 없음',
     // distance: distance,
     // time: formattedTime,
-    imageUris: [],
+    imageUris: imagePicker.imageUris,
   };
   createPost.mutate({...body}, {
     onSuccess: () => {
