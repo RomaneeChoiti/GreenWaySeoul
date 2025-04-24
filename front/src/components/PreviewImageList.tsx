@@ -14,9 +14,11 @@ function PreviewImageList({ imageUris, onDelete }: PreviewImageListProps) {
                 <View style={styles.container}>
                     {imageUris.map(({ uri }, index) => {
                     return (
-                        <Pressable style={styles.wrapper}>
-                            <Image
+                        <Pressable
+                            style={styles.wrapper}
                             key={index}
+                            >
+                            <Image
                             resizeMode = "cover"
                             source={{
                                 uri: `${

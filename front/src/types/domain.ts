@@ -4,12 +4,12 @@ interface ImageUri {
   uri: string;
 }
 
-interface Marker {
-  id: number;
-  latitude: number;
-  longitude: number;
-  markerType: 'trash' | 'recycle';
-}
+// interface Marker {
+//   id: number;
+//   latitude: number;
+//   longitude: number;
+//   markerType: 'trash' | 'recycle';
+// }
 
 interface Profile {
   id: number;
@@ -28,18 +28,33 @@ interface TrashcanData {
   설치위치: string;
 }
 
-interface Post {
+// interface Post {
+//   id: number;
+//   title: string;
+//   description: string;
+//   date: Date | string;
+//   address: string;
+//   place: string;
+//   time: string;
+//   score: number;
+//   distance?: string;
+//   imageUris: ImageUri[];
+// }
+
+
+interface Marker {
   id: number;
-  title: string;
-  description: string;
-  date: Date | string;
-  address: string;
-  place: string;
-  time: string;
+  latitude: number;
+  longitude: number;
+  color?: string;
   score: number;
-  distance?: string;
-  
-  imageUris: ImageUri[];
+}
+
+interface Post extends Marker {
+  title: string;
+  address: string;
+  date: Date | string;
+  description: string;
 }
 
 export type { ImageUri, Marker, Profile, Post, TrashcanData };

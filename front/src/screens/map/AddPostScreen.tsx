@@ -38,7 +38,7 @@ function AddPostScreen() {
   const [score, setScore] = useState(0);
 
   // zustand Store
-  const { address: trashcanAddress, location: place } = useTrashcanStore();
+  const { address: trashcanAddress, location: place, latitude, longitude } = useTrashcanStore();
   const { ploggingTime } = usePloggingStateStore();
   const formattedTime = ploggingTime
     ? new Date(ploggingTime).toISOString().substr(11, 8) // Format as HH:mm:ss
@@ -60,24 +60,55 @@ function AddPostScreen() {
   const handleCloseModal = () => {
     setModalVisible(false); // Close the modal
   };
-  const handleSubmit = () => {
-    const body = {
-      date: formattedDate,
-      address: trashcanAddress || '주소 없음',
-      place: place || '위치 없음',
-      // distance: distance,
-      time: formattedTime,
-      title: addPost.values.title,
-      description: addPost.values.description,
-      score,
-      imageUris: [],
-    };
-    createPost.mutate({...body}, {
-      onSuccess: () => {
-        navigation.goBack();
-      },
-    });
+// 임시로 타입을 변경
+// 임시 타입
+const handleSubmit = () => {
+  const body = {
+    date: formattedDate,
+    title: addPost.values.title,
+    description: addPost.values.description,
+    color: 'red', // 명시적으로 일단 값을 줌
+    score,
+    address: trashcanAddress || '주소 없음',
+    latitude: latitude || 0, // Provide default value if latitude is undefined
+    longitude: longitude || 0, // Provide default value if longitude is undefined
+    // place: place || '위치 없음',
+    // distance: distance,
+    // time: formattedTime,
+    imageUris: [],
   };
+  createPost.mutate({...body}, {
+    onSuccess: () => {
+      navigation.goBack();
+    },
+    onError: (error) => {
+      console.error('Error creating post:', error);
+    },
+  });
+};
+
+// 원래 타입
+// const handleSubmit = () => {
+//   const body = {
+//     date: formattedDate,
+//     address: trashcanAddress || '주소 없음',
+//     place: place || '위치 없음',
+//     // distance: distance,
+//     time: formattedTime,
+//     title: addPost.values.title,
+//     description: addPost.values.description,
+//     score,
+//     imageUris: [],
+//   };
+//   createPost.mutate({...body}, {
+//     onSuccess: () => {
+//       navigation.goBack();
+//     },
+//     onError: (error) => {
+//       console.error('Error creating post:', error);
+//     },
+//   });
+// };
 
   const handleStarPress = (rating: number) => {
     setScore(rating); // Update the score when a star is clicked
