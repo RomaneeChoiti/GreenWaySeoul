@@ -36,7 +36,6 @@ function AuthStackNavigator(){
                     headerTitle:'Find Your Way',
                 }}
             />
-            {/* 네비게이션 루트 추가 */}
             <Stack.Screen
                 name={authNavigations.MAP}
                 component={MapHomeScreen}

@@ -7,10 +7,20 @@ const authNavigations = {
     SIGNUP: 'Signup',
 } as const;
 
+const mainNavigations = {
+    HOME: 'Home',
+    FEED: 'Feed',
+} as const;
+
 const mapNavigations = {
     MAP_HOME: 'MapHome',
     ADD_POST: 'AddPost',
 } as const;
 
+const feedNavigations = {
+    FEED_HOME: 'FeedHome',
+    FEED_DETAIL: 'FeedDetail',
+} as const;
 
-export { authNavigations, mapNavigations };
+
+export { authNavigations, mapNavigations, feedNavigations, mainNavigations };
