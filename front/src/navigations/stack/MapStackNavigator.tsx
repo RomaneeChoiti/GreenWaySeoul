@@ -2,6 +2,7 @@ import { createStackNavigator } from '@react-navigation/stack';
 import { mapNavigations } from '@/constants';
 import MapHomeScreen from '@/screens/map/MapHomeScreen';
 import AddPostScreen from '@/screens/map/AddPostScreen';
+import { HeaderLeft } from './FeedStackNavigator';
 
 export type MapStackParamList = {
     [mapNavigations.MAP_HOME]: undefined;
@@ -10,10 +11,11 @@ export type MapStackParamList = {
 
 const Stack = createStackNavigator<MapStackParamList>();
 
+
 function MapStackNavigator(){
     return (
         <Stack.Navigator screenOptions={{
-            headerShown: false,
+            headerShown: true,
             cardStyle: {
                 backgroundColor: 'white',
             },
@@ -29,17 +31,19 @@ function MapStackNavigator(){
                 name={mapNavigations.MAP_HOME}
                 component={MapHomeScreen}
                 options={{
-                    headerTitle:'Find Your Way',
+                    headerTitle: '지도',
+                    headerLeft: HeaderLeft, // Use the separate component here
                 }}
             />
             <Stack.Screen
                 name={mapNavigations.ADD_POST}
                 component={AddPostScreen}
+                options={{
+                    headerTitle: '오늘의 플로깅 작성',
+                }}
             />
-
         </Stack.Navigator>
     );
 }
-
 
 export default MapStackNavigator;

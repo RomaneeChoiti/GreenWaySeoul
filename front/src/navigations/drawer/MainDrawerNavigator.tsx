@@ -1,13 +1,19 @@
 import { createDrawerNavigator } from '@react-navigation/drawer';
-import FeedHomeScreen from '@/screens/feed/FeedHomeScreen';
-import MapStackNavigator from '../stack/MapStackNavigator';
+import MapStackNavigator, { MapStackParamList } from '../stack/MapStackNavigator';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
-import { colors } from '@/constants';
+import { colors, mainNavigations } from '@/constants';
 import { Dimensions } from 'react-native';
 import CustomDrawerContent from './CustomDrawerContent';
 import { DrawerContentComponentProps } from '@react-navigation/drawer';
+import FeedStackNavigator from '../stack/FeedStackNavigator';
+import { NavigatorScreenParams } from '@react-navigation/native';
 
-const Drawer = createDrawerNavigator();
+export type MainDrawerParamList = {
+  [mainNavigations.HOME]: NavigatorScreenParams<MapStackParamList>;
+  [mainNavigations.FEED]: undefined;
+}
+
+const Drawer = createDrawerNavigator<MainDrawerParamList>();
 
 const getDrawerIcon = (iconName: string, focused: boolean) => (
     <MaterialIcons name={iconName} color={focused ? colors.PRIMARY : 'gray'} size={30} />
@@ -32,19 +38,21 @@ function MainDrawerNavigator() {
       },
     }}>
           <Drawer.Screen
-            name="MapHome"
+            name={mainNavigations.HOME}
             component={MapStackNavigator}
             options={{
               title: '맵',
               drawerIcon: ({ focused }) => getDrawerIcon('map', focused),
+              headerShown: false, // Disable the parent header for MapStackNavigator
             }}
           />
           <Drawer.Screen
-            name="FeedHome"
-            component={FeedHomeScreen}
+            name={mainNavigations.FEED}
+            component={FeedStackNavigator}
             options={{
               title: '피드',
               drawerIcon: ({ focused }) => getDrawerIcon('book', focused),
+              headerShown: false,
             }}
           />
     </Drawer.Navigator>

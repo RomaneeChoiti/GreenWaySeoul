@@ -4,6 +4,7 @@ const queryKeys = {
     GET_PROFILE: 'getProfile',
     POST: 'post',
     GET_POST: 'getPost',
+    GET_POSTS: 'getPosts',
 } as const;
 
 const storageKeys = {
