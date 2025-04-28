@@ -1,14 +1,26 @@
-import { Dimensions, Image, Platform, StyleSheet, Text, View } from 'react-native';
+import { Dimensions, Image, Platform, Pressable, StyleSheet, Text, View } from 'react-native';
 import { ResponsePost } from '@/api/post';
-import { colors } from '@/constants';
+import { colors, feedNavigations } from '@/constants';
+import { useNavigation } from '@react-navigation/native';
+import { StackNavigationProp } from '@react-navigation/stack';
+import { FeedStackParamList } from '@/navigations/stack/FeedStackNavigator';
+import { formatDate } from '@/utils/date'; // Import the utility function
 
 interface FeedItemProps {
     post: ResponsePost
 }
 
+type Navigation = StackNavigationProp<FeedStackParamList>;
+
 function FeedItem({post}:FeedItemProps){
+    const navigation = useNavigation<Navigation>();
+
+    const handlePressFeed = () => {
+        navigation.navigate(feedNavigations.FEED_DETAIL, { id: post.id, title: post.title }); // Pass title
+    };
+
     return (
-    <View style={styles.container}>
+    <Pressable style={styles.container} onPress={handlePressFeed}>
         <View>
             {post.images.length > 0 && (
                 <View
@@ -34,7 +46,7 @@ function FeedItem({post}:FeedItemProps){
             )}
             <View style={styles.textContainer}>
                 <Text style={styles.date}>
-                    {post.date instanceof Date ? post.date.toString() : post.date}
+                    {formatDate(post.date)}
                 </Text>
                 <Text style={styles.title}>{post.title}</Text>
                 <Text style={styles.description} numberOfLines={1}>
@@ -42,7 +54,7 @@ function FeedItem({post}:FeedItemProps){
                 </Text>
             </View>
         </View>
-    </View>
+    </Pressable>
     );
 }
 

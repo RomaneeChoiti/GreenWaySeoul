@@ -1,30 +1,31 @@
 import React, { useRef, useState } from 'react';
 import { StyleSheet, SafeAreaView, ScrollView, View, Text } from 'react-native';
-import InputField from '@/components/InputField';
+import InputField from '@/components/common/InputField';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import { TextInput } from 'react-native';
 import useForm from '@/hooks/useForm';
 import { validateAddPost } from '@/utils';
 import { colors } from '@/constants';
 import { useNavigation } from '@react-navigation/native';
-import CustomButton from '@/components/CustomButton';
-import ModalComponent from '@/components/ModalComponent';
+import CustomButton from '@/components/common/CustomButton';
+import ModalComponent from '@/components/map/ModalComponent';
 import useMutateCreatePost from '@/hooks/queries/useMutateCreatePost';
 import { useTrashcanStore } from '@/store/useTrashcanStore';
 import { usePloggingStateStore } from '@/store/usePloggingStore';
-import StarRating from '@/components/StarRating';
-import ImageInput from '@/components/ImageInput';
+import StarRating from '@/components/post/StarRating';
+import ImageInput from '@/components/post/ImageInput';
 import usePermission from '@/hooks/usePermission';
 import useImagePicker from '@/hooks/useImagePicker';
-import PreviewImageList from '@/components/PreviewImageList';
+import PreviewImageList from '@/components/common/PreviewImageList';
+import { formatDate } from '@/utils/date';
 
 
 function AddPostScreen() {
   const navigation = useNavigation();
   const [isModalVisible, setModalVisible] = useState(false);
-  const currentDate = new Date().toISOString();
-  const formattedDate = new Intl.DateTimeFormat('en-CA').format(new Date(currentDate));
-  const day = new Intl.DateTimeFormat('ko-KR', { weekday: 'long' }).format(new Date(currentDate));
+  const currentDate = new Date();
+  const formattedDate = formatDate(currentDate); // Format as yyyy-mm-dd
+  const day = new Intl.DateTimeFormat('ko-KR', { weekday: 'long' }).format(currentDate);
   const descriptionRef = useRef<TextInput | null>(null);
   const createPost = useMutateCreatePost();
   const imagePicker = useImagePicker({ initialImages: [] });
@@ -154,6 +155,7 @@ const handleSubmit = () => {
             <PreviewImageList
               imageUris={imagePicker.imageUris}
               onDelete={imagePicker.delete}
+              showOptions
             />
           </View>
 
