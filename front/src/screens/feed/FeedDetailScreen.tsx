@@ -15,7 +15,7 @@ type FeedDetailScreenProps = StackScreenProps<
 >;
 
 function FeedDetailScreen({ route }: FeedDetailScreenProps) {
-    const { id } = route.params; // Destructure title
+    const { id } = route.params;
     const { data: post, isPending, isError } = useGetPost(id);
 
     if (isPending || isError) {
@@ -51,7 +51,7 @@ function FeedDetailScreen({ route }: FeedDetailScreenProps) {
                     <View style={styles.rowContainer}>
                         <MaterialIcons name="date-range" size={20} color={'green'} />
                         <Text style={styles.date}>
-                            활동 날짜 : {}
+                            활동 날짜 :
                                 <Text style={styles.dateDetail}>
                                     {formatDate(post.date)}
                                 </Text>
