@@ -6,9 +6,14 @@ import { colors } from '@/constants';
 interface PreviewImageListProps {
     imageUris: ImageUri[];
     onDelete?: (uri: string) => void;
+    showOptions?: boolean;
 }
 
-function PreviewImageList({ imageUris, onDelete }: PreviewImageListProps) {
+function PreviewImageList({
+    imageUris,
+    onDelete,
+    showOptions = false,
+    }: PreviewImageListProps) {
   return (
     <ScrollView horizontal showsHorizontalScrollIndicator={false}>
                 <View style={styles.container}>
@@ -29,11 +34,12 @@ function PreviewImageList({ imageUris, onDelete }: PreviewImageListProps) {
                             }}
                             style={styles.image}
                             />
-                            <Pressable
+                            { showOptions &&
+                                <Pressable
                                 style={[styles.imageButton, styles.deleteButton]}
                                 onPress={() => onDelete?.(uri)}>
                                 <Ionicon name="close" size={16} color={colors.ERROR}/>
-                            </Pressable>
+                            </Pressable>}
                         </Pressable>
                     );
                     })}

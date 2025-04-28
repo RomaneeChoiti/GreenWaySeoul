@@ -17,14 +17,15 @@ import ImageInput from '@/components/post/ImageInput';
 import usePermission from '@/hooks/usePermission';
 import useImagePicker from '@/hooks/useImagePicker';
 import PreviewImageList from '@/components/common/PreviewImageList';
+import { formatDate } from '@/utils/date';
 
 
 function AddPostScreen() {
   const navigation = useNavigation();
   const [isModalVisible, setModalVisible] = useState(false);
-  const currentDate = new Date().toISOString();
-  const formattedDate = new Intl.DateTimeFormat('en-CA').format(new Date(currentDate));
-  const day = new Intl.DateTimeFormat('ko-KR', { weekday: 'long' }).format(new Date(currentDate));
+  const currentDate = new Date();
+  const formattedDate = formatDate(currentDate); // Format as yyyy-mm-dd
+  const day = new Intl.DateTimeFormat('ko-KR', { weekday: 'long' }).format(currentDate);
   const descriptionRef = useRef<TextInput | null>(null);
   const createPost = useMutateCreatePost();
   const imagePicker = useImagePicker({ initialImages: [] });
@@ -154,6 +155,7 @@ const handleSubmit = () => {
             <PreviewImageList
               imageUris={imagePicker.imageUris}
               onDelete={imagePicker.delete}
+              showOptions
             />
           </View>
 

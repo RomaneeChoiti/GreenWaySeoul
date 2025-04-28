@@ -5,12 +5,12 @@ import { colors, mainNavigations } from '@/constants';
 import { Dimensions } from 'react-native';
 import CustomDrawerContent from './CustomDrawerContent';
 import { DrawerContentComponentProps } from '@react-navigation/drawer';
-import FeedStackNavigator from '../stack/FeedStackNavigator';
+import FeedStackNavigator, { FeedStackParamList } from '../stack/FeedStackNavigator';
 import { NavigatorScreenParams } from '@react-navigation/native';
 
 export type MainDrawerParamList = {
   [mainNavigations.HOME]: NavigatorScreenParams<MapStackParamList>;
-  [mainNavigations.FEED]: undefined;
+  [mainNavigations.FEED]: NavigatorScreenParams<FeedStackParamList>;
 }
 
 const Drawer = createDrawerNavigator<MainDrawerParamList>();
