@@ -12,4 +12,18 @@ const useLocationStore = create<LocationState>(set => ({
         set({ userLocation }),
 }));
 
-export { useLocationStore };
+interface FeedLocationState {
+    feedLocation: LatLng | null;
+    setFeedLocation: (feedLocation: LatLng) => void;
+}
+
+const useFeedLocationStore = create<FeedLocationState>(set => ({
+    feedLocation: null,
+    setFeedLocation: (feedLocation: LatLng) => {
+        set({
+            feedLocation,
+        });
+    },
+}));
+
+export { useLocationStore, useFeedLocationStore };

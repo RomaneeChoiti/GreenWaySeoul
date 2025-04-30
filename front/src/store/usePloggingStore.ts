@@ -31,7 +31,6 @@ const usePloggingStateStore = create<PloggingState>((set) => ({
     }),
 }));
 
-const usePloggingSuccessStore = create(() => ({
-}));
 
-export { usePloggingStateStore, usePloggingSuccessStore };
+
+export { usePloggingStateStore };
