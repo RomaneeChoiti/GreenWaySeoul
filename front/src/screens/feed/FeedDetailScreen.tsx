@@ -7,7 +7,7 @@ import { StackScreenProps } from '@react-navigation/stack';
 import { Image, Platform, Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import Ionicons from 'react-native-vector-icons/Ionicons';
-import Octions from 'react-native-vector-icons/Octicons';
+import Octicons from 'react-native-vector-icons/Octicons';
 import PreviewImageList from '@/components/common/PreviewImageList';
 import CustomButton from '@/components/common/CustomButton';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
@@ -111,7 +111,7 @@ function FeedDetailScreen({ route, navigation }: FeedDetailScreenProps) {
         <View style={[styles.bottomContainer, {paddingBottom: insets.bottom}]}>
             <View style={[styles.tabContainer, insets.bottom === 0 && styles.tabContainerNoInsets]}>
                 <Pressable style={styles.bookmarkContainer} onPress={toggleBookmark}>
-                    <Octions
+                    <Octicons
                         name="star-fill"
                         size={30}
                         color={isBookmarked ? colors.PRIMARY : 'gray'} // 색상 변경
