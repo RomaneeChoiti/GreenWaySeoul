@@ -1,5 +1,15 @@
 import { PropsWithChildren, ReactNode } from "react";
-import { GestureResponderEvent, Modal, ModalProps, Pressable, PressableProps, SafeAreaView, StyleSheet, Text, View } from "react-native";
+import {
+    GestureResponderEvent,
+    Modal,
+    ModalProps,
+    Pressable,
+    PressableProps,
+    SafeAreaView,
+    StyleSheet,
+    Text,
+    View,
+} from 'react-native';
 
 interface OptionMainProps extends ModalProps{
     children: ReactNode;
@@ -16,12 +26,6 @@ function OptionMain({
     ...props
 }:OptionMainProps){
 
-    const handlePress = (e: GestureResponderEvent) => {
-        if (e.target === e.currentTarget) {
-            hideOption();
-        }
-    };
-
     return(
         <Modal
             visible={isVisible}
@@ -30,12 +34,14 @@ function OptionMain({
             onRequestClose={hideOption}
             {...props}
             >
-            <SafeAreaView
+            <Pressable
                 style={styles.optionBackground}
-                onTouchEnd={handlePress}
-                >
-                {children}
-            </SafeAreaView>
+                onPress={hideOption}
+            >
+                <SafeAreaView style={styles.safeArea}>
+                    {children}
+                </SafeAreaView>
+            </Pressable>
         </Modal>
     );
 }
@@ -98,6 +104,10 @@ const styles = StyleSheet.create({
     optionBackground:{
         flex: 1,
         backgroundColor: 'rgba(0, 0, 0, 0.5)',
+        justifyContent: 'flex-end',
+    },
+    safeArea: {
+        flex: 1,
         justifyContent: 'flex-end',
     },
     optionContainer:{

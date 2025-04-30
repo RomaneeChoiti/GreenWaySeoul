@@ -79,12 +79,13 @@ function FeedDetailScreen({ route, navigation }: FeedDetailScreenProps) {
                             <MaterialIcons name="location-on" size={20} color={'green'} />
                             <Text style={styles.address}>{post.address}</Text>
                         </View>
-                        <Ionicons
-                            name="settings-sharp"
-                            size={30}
-                            color={'gray'}
-                            onPress={detailOption.show}
-                        />
+                        <Pressable onPress={detailOption.show}>
+                            <Ionicons
+                                name="settings-sharp"
+                                size={30}
+                                color={'gray'}
+                            />
+                        </Pressable>
                     </View>
                     <Text style={styles.title}>{post.title}</Text>
                     <View style={styles.rowContainer}>
