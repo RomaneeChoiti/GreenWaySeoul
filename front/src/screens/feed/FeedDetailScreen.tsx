@@ -15,6 +15,8 @@ import { CompositeScreenProps } from '@react-navigation/native';
 import { DrawerScreenProps } from '@react-navigation/drawer';
 import { MainDrawerParamList } from '@/navigations/drawer/MainDrawerNavigator';
 import { useFeedLocationStore } from '@/store/useLocationStore';
+import useModal from '@/hooks/useModal';
+import FeedDetailOption from './FeedDetailOption';
 
 
 type FeedDetailScreenProps = CompositeScreenProps<
@@ -28,6 +30,7 @@ function FeedDetailScreen({ route, navigation }: FeedDetailScreenProps) {
     const insets = useSafeAreaInsets();
     const {setFeedLocation} = useFeedLocationStore();
     const [isBookmarked, setIsBookmarked] = useState(false); // 북마크 상태 추가
+    const detailOption = useModal();
 
     const toggleBookmark = () => {
         setIsBookmarked((prev) => !prev); // 상태 토글
@@ -71,9 +74,17 @@ function FeedDetailScreen({ route, navigation }: FeedDetailScreenProps) {
                     </View>
                 )}
                 <View style={styles.contentContainer}>
-                    <View style={styles.rowContainer}>
-                        <MaterialIcons name="location-on" size={20} color={'green'} />
-                        <Text style={styles.address}>{post.address}</Text>
+                    <View style={styles.optionContainer}>
+                        <View style={styles.rowContainer}>
+                            <MaterialIcons name="location-on" size={20} color={'green'} />
+                            <Text style={styles.address}>{post.address}</Text>
+                        </View>
+                        <Ionicons
+                            name="settings-sharp"
+                            size={30}
+                            color={'gray'}
+                            onPress={detailOption.show}
+                        />
                     </View>
                     <Text style={styles.title}>{post.title}</Text>
                     <View style={styles.rowContainer}>
@@ -125,6 +136,8 @@ function FeedDetailScreen({ route, navigation }: FeedDetailScreenProps) {
                 />
             </View>
         </View>
+
+        <FeedDetailOption isVisible={detailOption.isVisible} hideOption={detailOption.hide}/>
         </>
     );
 }
@@ -169,6 +182,11 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         alignItems: 'center',
         marginBottom: 10,
+    },
+    optionContainer:{
+        flexDirection: 'row',
+        alignItems: 'center',
+        justifyContent: 'space-between',
     },
     address: {
         color: 'green',
