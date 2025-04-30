@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { colors, feedNavigations } from '@/constants';
+import { colors, feedNavigations, mainNavigations, mapNavigations } from '@/constants';
 import useGetPost from '@/hooks/queries/useGetPost';
 import { formatDate } from '@/utils/date'; // Import the utility function
 import { FeedStackParamList } from '@/navigations/stack/FeedStackNavigator';
@@ -11,21 +11,35 @@ import Octions from 'react-native-vector-icons/Octicons';
 import PreviewImageList from '@/components/common/PreviewImageList';
 import CustomButton from '@/components/common/CustomButton';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import { CompositeScreenProps } from '@react-navigation/native';
+import { DrawerScreenProps } from '@react-navigation/drawer';
+import { MainDrawerParamList } from '@/navigations/drawer/MainDrawerNavigator';
+import { useFeedLocationStore } from '@/store/useLocationStore';
 
 
-type FeedDetailScreenProps = StackScreenProps<
-    FeedStackParamList,
-    typeof feedNavigations.FEED_DETAIL
+type FeedDetailScreenProps = CompositeScreenProps<
+    StackScreenProps<FeedStackParamList, typeof feedNavigations.FEED_DETAIL>,
+    DrawerScreenProps<MainDrawerParamList>
 >;
 
-function FeedDetailScreen({ route }: FeedDetailScreenProps) {
+function FeedDetailScreen({ route, navigation }: FeedDetailScreenProps) {
     const { id } = route.params;
     const { data: post, isPending, isError } = useGetPost(id);
     const insets = useSafeAreaInsets();
+    const {setFeedLocation} = useFeedLocationStore();
     const [isBookmarked, setIsBookmarked] = useState(false); // 북마크 상태 추가
 
     const toggleBookmark = () => {
         setIsBookmarked((prev) => !prev); // 상태 토글
+    };
+
+    const handlePressFeedLocation = () => {
+        if (!post) {return;}
+        const { latitude, longitude } = post;
+        setFeedLocation({latitude, longitude});
+        navigation.navigate(mainNavigations.HOME, {
+            screen: mapNavigations.MAP_HOME,
+        });
     };
 
     if (isPending || isError) {
@@ -107,7 +121,7 @@ function FeedDetailScreen({ route }: FeedDetailScreenProps) {
                     label="위치보기"
                     size="medium"
                     variant="filled"
-                    onPress={() => {}}
+                    onPress={handlePressFeedLocation}
                 />
             </View>
         </View>

@@ -1,4 +1,4 @@
-import { useRef, useState } from 'react';
+import { useState } from 'react';
 import { Pressable, StyleSheet, View } from 'react-native';
 import MapView, { LatLng, PROVIDER_GOOGLE } from 'react-native-maps';
 import { colors } from '@/constants';
@@ -14,9 +14,9 @@ import testData from '@/api/testData.json';
 import { usePloggingStateStore } from '@/store/usePloggingStore';
 import { useTrashcanStore } from '@/store/useTrashcanStore';
 import { TrashcanData } from '@/types/domain';
+import useMoveMapView from '@/hooks/useMoveMapView';
 
 function MapHomeScreen() {
-  const mapRef = useRef<MapView | null>(null);
   const { userLocation, isUserLocationError } = useUserLocation();
   usePermission('LOCATION');
 
@@ -25,14 +25,7 @@ function MapHomeScreen() {
   const [markerType, setMarkerType] = useState<'recycle' | 'trash'>();
   const isPlogging = usePloggingStateStore((state) => state.isPlogging);
   const setTrashcanInfo = useTrashcanStore((state) => state.setTrashcanInfo);
-
-  const moveMapView = (coordinate: LatLng) => {
-    mapRef.current?.animateToRegion({
-      ...coordinate,
-      latitudeDelta: 0.01,
-      longitudeDelta: 0.01,
-    });
-  };
+  const {mapRef, moveMapView} = useMoveMapView();
 
   const handlePressUserLocation = () => {
     if (isUserLocationError) {
@@ -45,6 +38,7 @@ function MapHomeScreen() {
   const handleMarkerPress = (coordinate: LatLng, type: 'recycle' | 'trash', data: TrashcanData) => {
     setSelectedMarker(coordinate);
     setMarkerType(type);
+    // TODO: 스프레드 연산자를 사용하여 data를 펼쳐서 setTrashcanInfo에 전달
     setTrashcanInfo(
         data.설치위치,
         data.Address,
@@ -60,6 +54,7 @@ function MapHomeScreen() {
     setModalVisible(false);
     setSelectedMarker(null);
   };
+
 
   return (
     <>
