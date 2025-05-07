@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { colors, feedNavigations, mainNavigations, mapNavigations } from '@/constants';
 import useGetPost from '@/hooks/queries/useGetPost';
 import { formatDate } from '@/utils/date'; // Import the utility function
@@ -17,6 +17,7 @@ import { MainDrawerParamList } from '@/navigations/drawer/MainDrawerNavigator';
 import { useFeedLocationStore } from '@/store/useLocationStore';
 import useModal from '@/hooks/useModal';
 import FeedDetailOption from './FeedDetailOption';
+import { useDetailPostStore } from '@/store/usePostStore';
 
 
 type FeedDetailScreenProps = CompositeScreenProps<
@@ -28,9 +29,15 @@ function FeedDetailScreen({ route, navigation }: FeedDetailScreenProps) {
     const { id } = route.params;
     const { data: post, isPending, isError } = useGetPost(id);
     const insets = useSafeAreaInsets();
-    const {setFeedLocation} = useFeedLocationStore();
-    const [isBookmarked, setIsBookmarked] = useState(false); // 북마크 상태 추가
     const detailOption = useModal();
+    const [isBookmarked, setIsBookmarked] = useState(false); // 북마크 상태 추가
+
+    const {setFeedLocation} = useFeedLocationStore();
+    const { setDetailPost } = useDetailPostStore();
+
+    useEffect(() => {
+        post && setDetailPost(post);
+    }, [ post, setDetailPost ]);
 
     const toggleBookmark = () => {
         setIsBookmarked((prev) => !prev); // 상태 토글
