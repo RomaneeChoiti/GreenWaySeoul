@@ -1,6 +1,5 @@
-import { PropsWithChildren, ReactNode } from "react";
+import { PropsWithChildren, ReactNode } from 'react';
 import {
-    GestureResponderEvent,
     Modal,
     ModalProps,
     Pressable,

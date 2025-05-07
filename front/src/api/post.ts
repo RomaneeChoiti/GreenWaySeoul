@@ -23,5 +23,11 @@ const getPosts = async(page = 1): Promise<ResponsePost[]> => {
     return data;
 };
 
-export { createPost, getPost,  getPosts };
+const deletePost = async(id: number): Promise<void> => {
+    const { data } = await axiosInstance.delete(`/posts/${id}`);
+    return data;
+};
+
+
+export { createPost, getPost,  getPosts, deletePost };
 export type { RequestCreatePost, ResponsePost, ResponseSinglePost };

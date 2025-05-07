@@ -1,14 +1,12 @@
-import { useMutation } from "@tanstack/react-query";
-import { createPost } from "@/api/post";
-import { UseMutationCustomOptions } from "@/types";
+import { deletePost } from "@/api/post";
 import queryClient from "@/api/queryClient";
 import { queryKeys } from "@/constants/keys";
+import { UseMutationCustomOptions } from "@/types";
+import { useMutation } from "@tanstack/react-query";
 
-
-
-function useMutateCreatePost(mutationOptions?: UseMutationCustomOptions) {
+function useMutateDeletePost(mutationOptions?: UseMutationCustomOptions) {
     return useMutation({
-        mutationFn: createPost,
+        mutationFn: deletePost,
         onSuccess: () => {
             queryClient.invalidateQueries({
                 queryKey: [queryKeys.POST, queryKeys.GET_POSTS],
@@ -18,4 +16,4 @@ function useMutateCreatePost(mutationOptions?: UseMutationCustomOptions) {
     });
 }
 
-export default useMutateCreatePost;
+export default useMutateDeletePost;
