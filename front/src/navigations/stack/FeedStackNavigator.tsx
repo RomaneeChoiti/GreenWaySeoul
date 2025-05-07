@@ -9,7 +9,6 @@ import { ResponsePost } from '@/api/post';
 export type FeedStackParamList = {
     [feedNavigations.FEED_HOME]: undefined;
     [feedNavigations.FEED_DETAIL]: { id: number; title: string };
-    // EditPost: { post: ResponsePost }; // Add EditPost with its parameter type
     [feedNavigations.EDIT_POST]: { post: ResponsePost };
 };
 
@@ -46,7 +45,7 @@ function FeedStackNavigator(){
                 name={feedNavigations.FEED_DETAIL}
                 component={FeedDetailScreen}
                 options={({ route }) => ({
-                    headerTitle: route.params.title, // Use the title from route params
+                    headerTitle: route.params.title,
                 })}
             />
             <Stack.Screen
