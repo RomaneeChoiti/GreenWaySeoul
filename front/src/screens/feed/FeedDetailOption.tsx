@@ -47,12 +47,6 @@ function FeedDetailOption({isVisible, hideOption}: FeedDetailOptionProps) {
     ]);
   };
 
-  const handleEditPost = () => {
-    if (!detailPost) {return;}
-    hideOption();
-    navigation.navigate('EditPost', { post: detailPost }); // Navigate to EditPostScreen with post data
-  };
-
   return (
     <CompoundOption isVisible={isVisible} hideOption={hideOption}>
         <CompoundOption.Container>
@@ -60,7 +54,7 @@ function FeedDetailOption({isVisible, hideOption}: FeedDetailOptionProps) {
               삭제하기
             </CompoundOption.Button>
             <CompoundOption.Divider />
-            <CompoundOption.Button onPress={handleEditPost}>
+            <CompoundOption.Button>
               수정하기
             </CompoundOption.Button>
         </CompoundOption.Container>
