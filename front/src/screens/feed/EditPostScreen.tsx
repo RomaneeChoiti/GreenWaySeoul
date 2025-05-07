@@ -15,6 +15,7 @@ type EditPostScreenRouteProp = RouteProp<
     typeof feedNavigations.EDIT_POST
 >;
 
+
 function EditPostScreen() {
   const navigation = useNavigation();
   const { params } = useRoute<EditPostScreenRouteProp>();
