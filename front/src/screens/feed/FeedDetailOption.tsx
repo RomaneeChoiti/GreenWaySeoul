@@ -33,6 +33,13 @@ function FeedDetailOption({isVisible, hideOption}: FeedDetailOptionProps) {
               hideOption();
               navigation.goBack();
             },
+            onError: () => {
+              Alert.alert(
+                alerts.DELETE_POST.ERROR_TITLE,
+                alerts.DELETE_POST.ERROR_DESCRIPTION,
+              );
+              navigation.goBack();
+            },
           });
         },
         style: 'destructive',

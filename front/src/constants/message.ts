@@ -11,6 +11,8 @@ const alerts = {
     DELETE_POST: {
         TITLE : '게시물 삭제',
         DESCRIPTION : '정말로 게시물을 삭제하시겠습니까?',
+        ERROR_TITLE : '게시물 삭제 실패',
+        ERROR_DESCRIPTION : '게시물 삭제에 실패했습니다. 다시 시도해주세요.',
     },
 } as const;
 
