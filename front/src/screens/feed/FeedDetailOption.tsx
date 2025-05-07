@@ -1,5 +1,5 @@
 import { CompoundOption } from "@/components/common/CompoundOption";
-import { alerts } from "@/constants";
+import { alerts, feedNavigations } from "@/constants";
 import useMutateDeletePost from "@/hooks/queries/useMutateDeletePost";
 import { FeedStackParamList } from "@/navigations/stack/FeedStackNavigator";
 import { useDetailPostStore } from "@/store/usePostStore";
@@ -50,7 +50,8 @@ function FeedDetailOption({isVisible, hideOption}: FeedDetailOptionProps) {
   const handleEditPost = () => {
     if (!detailPost) {return;}
     hideOption();
-    navigation.navigate('EditPost', { post: detailPost }); // Navigate to EditPostScreen with post data
+    // navigation.navigate('EditPost', { post: detailPost }); // Navigate to EditPostScreen with post data
+        navigation.navigate(feedNavigations.EDIT_POST, { post: detailPost }); // Navigate to EditPostScreen with post data
   };
 
   return (

@@ -8,8 +8,12 @@ import useImagePicker from '@/hooks/useImagePicker';
 import { RouteProp, useNavigation, useRoute } from '@react-navigation/native';
 import { FeedStackParamList } from '@/navigations/stack/FeedStackNavigator';
 import useMutateUpdatePost from '@/hooks/queries/useMutateUpdatePost';
+import { feedNavigations } from '@/constants/navigations';
 
-type EditPostScreenRouteProp = RouteProp<FeedStackParamList, 'EditPost'>;
+type EditPostScreenRouteProp = RouteProp<
+    FeedStackParamList,
+    typeof feedNavigations.EDIT_POST
+>;
 
 function EditPostScreen() {
   const navigation = useNavigation();
