@@ -9,19 +9,19 @@ interface PreviewImageListProps {
     imageUris: ImageUri[];
     onDelete?: (uri: string) => void;
     showOptions?: boolean;
-    imgEnabled?: boolean;
+    imagePreviewEnabled?: boolean;
 }
 
 function PreviewImageList({
     imageUris,
     onDelete,
     showOptions = false,
-    imgEnabled = false,
+    imagePreviewEnabled = false,
     }: PreviewImageListProps) {
     const navigation = useNavigation<NavigationProp<FeedStackParamList>>();
 
     const handlePressImage = (index: number) => {
-        if(imgEnabled){
+        if(imagePreviewEnabled){
             navigation.navigate(feedNavigations.IMAGE_SCREEN,{
                 index,
             });
