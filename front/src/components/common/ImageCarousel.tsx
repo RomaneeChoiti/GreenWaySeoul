@@ -28,7 +28,7 @@ function ImageCarousel({images, pressedIndex = 0}: ImageCarouselProps) {
     const navigation = useNavigation();
     const [initialIndex, setInitialIndex] = useState(pressedIndex);
     const [page, setPage] = useState(pressedIndex);
-    const handleScrool = (event: NativeSyntheticEvent<NativeScrollEvent>) => {
+    const handleScroll = (event: NativeSyntheticEvent<NativeScrollEvent>) => {
         const contentOffsetX = event.nativeEvent.contentOffset.x;
         const index = Math.floor(contentOffsetX / deviceWidth);
         setPage(index);
@@ -66,7 +66,12 @@ function ImageCarousel({images, pressedIndex = 0}: ImageCarouselProps) {
         onScrollToIndexFailed={()=>{
             setInitialIndex(0);
         }}
-        onScroll={handleScrool}
+        onScroll={handleScroll}
+        getItemLayout={(_, index) => ({
+            length: deviceWidth,
+            offset: deviceWidth * index,
+            index,
+        })}
         />
         <View style={[styles.dotContainer, {bottom: insets.bottom + 15}]}>
             {Array.from({length: images.length}, (_, index) => (
