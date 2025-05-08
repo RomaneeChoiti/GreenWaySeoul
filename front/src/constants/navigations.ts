@@ -24,5 +24,9 @@ const feedNavigations = {
     IMAGE_SCREEN: 'ImageScreen',
 } as const;
 
+const feedTabNavigations = {
+    FEED_HOME: 'FeedTabHome',
+    FEED_FAVORITE: 'FeedTabFavorite',
+} as const;
 
-export { authNavigations, mapNavigations, feedNavigations, mainNavigations };
+export { authNavigations, mapNavigations, feedNavigations, mainNavigations, feedTabNavigations };

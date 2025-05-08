@@ -1,4 +1,4 @@
-import { getFavoritePosts, getPosts, ResponsePost } from '@/api/post';
+import { getFavoritePosts, ResponsePost } from '@/api/post';
 import { queryKeys } from '@/constants/keys';
 import { ResponseError } from '@/types';
 import { InfiniteData, QueryKey, useInfiniteQuery, UseInfiniteQueryOptions } from '@tanstack/react-query';
