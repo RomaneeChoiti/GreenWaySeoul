@@ -5,12 +5,12 @@ import { colors, mainNavigations } from '@/constants';
 import { Dimensions } from 'react-native';
 import CustomDrawerContent from './CustomDrawerContent';
 import { DrawerContentComponentProps } from '@react-navigation/drawer';
-import FeedStackNavigator, { FeedStackParamList } from '../stack/FeedStackNavigator';
 import { NavigatorScreenParams } from '@react-navigation/native';
+import FeedTabNavigator, { FeedTabParamList } from '../tab/FeedTabNavigator';
 
 export type MainDrawerParamList = {
   [mainNavigations.HOME]: NavigatorScreenParams<MapStackParamList>;
-  [mainNavigations.FEED]: NavigatorScreenParams<FeedStackParamList>;
+  [mainNavigations.FEED]: NavigatorScreenParams<FeedTabParamList>;
 }
 
 const Drawer = createDrawerNavigator<MainDrawerParamList>();
@@ -43,12 +43,12 @@ function MainDrawerNavigator() {
             options={{
               title: '맵',
               drawerIcon: ({ focused }) => getDrawerIcon('map', focused),
-              headerShown: false, // Disable the parent header for MapStackNavigator
+              headerShown: false,
             }}
           />
           <Drawer.Screen
             name={mainNavigations.FEED}
-            component={FeedStackNavigator}
+            component={FeedTabNavigator}
             options={{
               title: '피드',
               drawerIcon: ({ focused }) => getDrawerIcon('book', focused),
