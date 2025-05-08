@@ -51,7 +51,7 @@ function FeedDetailOption({isVisible, hideOption}: FeedDetailOptionProps) {
     if (!detailPost) {return;}
     hideOption();
         navigation.navigate(feedNavigations.EDIT_POST, { post: detailPost }); // Navigate to EditPostScreen with post data
-
+  };
 
   return (
     <CompoundOption isVisible={isVisible} hideOption={hideOption}>
