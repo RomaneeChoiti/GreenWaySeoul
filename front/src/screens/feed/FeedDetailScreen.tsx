@@ -45,10 +45,9 @@ function FeedDetailScreen({ route, navigation }: FeedDetailScreenProps) {
         if (!post) {
             return;
         }
-         // 서버 요청
+        setIsBookmarked((prev) => !prev);
         favoriteMutate.mutate(post.id, {
             onError: () => {
-                setIsBookmarked((prev) => !prev);
                 Alert.alert(alerts.BOOKMARK_POST_ERROR.TITLE, alerts.BOOKMARK_POST_ERROR.DESCRIPTION);
             },
         });

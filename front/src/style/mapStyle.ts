@@ -1,55 +1,55 @@
 const mapStyle = [
     {
-      "featureType": "poi",
-      "elementType": "labels.icon",
-      "stylers": [
+      'featureType': 'poi',
+      'elementType': 'labels.icon',
+      'stylers': [
         {
-          "visibility": "off"
+          'visibility': 'off',
         },
       ],
     },
     {
-      "featureType": "road.arterial",
-      "elementType": "labels.text",
-      "stylers": [
+      'featureType': 'road.arterial',
+      'elementType': 'labels.text',
+      'stylers': [
         {
-          "visibility": "off"
+          'visibility': 'off',
         },
       ],
     },
     {
-      "featureType": "road.highway",
-      "elementType": "labels.icon",
-      "stylers": [
+      'featureType': 'road.highway',
+      'elementType': 'labels.icon',
+      'stylers': [
         {
-          "visibility": "off"
+          'visibility': 'off',
         },
       ],
     },
     {
-      "featureType": "road.local",
-      "elementType": "labels.text",
-      "stylers": [
+      'featureType': 'road.local',
+      'elementType': 'labels.text',
+      'stylers': [
         {
-          "visibility": "off"
+          'visibility': 'off',
         },
       ],
     },
     {
-      "featureType": "transit",
-      "elementType": "labels.icon",
-      "stylers": [
+      'featureType': 'transit',
+      'elementType': 'labels.icon',
+      'stylers': [
         {
-          "visibility": "off"
+          'visibility': 'off',
         },
       ],
     },
     {
-      "featureType": "transit.station.bus",
-      "elementType": "labels.icon",
-      "stylers": [
+      'featureType': 'transit.station.bus',
+      'elementType': 'labels.icon',
+      'stylers': [
         {
-          "visibility": "off"
+          'visibility': 'off',
         },
       ],
     },

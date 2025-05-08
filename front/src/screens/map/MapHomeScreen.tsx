@@ -7,7 +7,7 @@ import usePermission from '@/hooks/usePermission';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import mapStyle from '@/style/mapStyle';
 import CustomMarker from '@/components/common/CustomMarker';
-import SlideModal from '@/components/SlideModal';
+import SlideModal from '@/components/common/SlideModal';
 import StopPloggingButton from '@/components/plogging/StopPloggingButton';
 import PloggingStatusText from '@/components/plogging/PloggingStatusText';
 import testData from '@/api/testData.json';
