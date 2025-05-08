@@ -1,19 +1,33 @@
 import { Image, Platform, Pressable, ScrollView, StyleSheet, View } from 'react-native';
 import { ImageUri } from '@/types';
 import Ionicon from 'react-native-vector-icons/Ionicons';
-import { colors } from '@/constants';
+import { colors, feedNavigations } from '@/constants';
+import { NavigationProp, useNavigation } from '@react-navigation/native';
+import { FeedStackParamList } from '@/navigations/stack/FeedStackNavigator';
 
 interface PreviewImageListProps {
     imageUris: ImageUri[];
     onDelete?: (uri: string) => void;
     showOptions?: boolean;
+    imagePreviewEnabled?: boolean;
 }
 
 function PreviewImageList({
     imageUris,
     onDelete,
     showOptions = false,
+    imagePreviewEnabled = false,
     }: PreviewImageListProps) {
+    const navigation = useNavigation<NavigationProp<FeedStackParamList>>();
+
+    const handlePressImage = (index: number) => {
+        if(imagePreviewEnabled){
+            navigation.navigate(feedNavigations.IMAGE_SCREEN,{
+                index,
+            });
+        }
+    };
+
   return (
     <ScrollView horizontal showsHorizontalScrollIndicator={false}>
                 <View style={styles.container}>
@@ -22,6 +36,7 @@ function PreviewImageList({
                         <Pressable
                             style={styles.wrapper}
                             key={index}
+                            onPress={() => handlePressImage(index)}
                             >
                             <Image
                             resizeMode = "cover"

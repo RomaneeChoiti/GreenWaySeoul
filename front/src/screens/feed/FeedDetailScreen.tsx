@@ -123,7 +123,7 @@ function FeedDetailScreen({ route, navigation }: FeedDetailScreenProps) {
             </View>
             {post.images.length > 0 &&
                 <View style={styles.postImageContainer}>
-                    <PreviewImageList imageUris={post.images}/>
+                    <PreviewImageList imageUris={post.images} imagePreviewEnabled/>
                 </View>
             }
         </ScrollView>
