@@ -1,11 +1,11 @@
 import { createStackNavigator } from '@react-navigation/stack';
-import { DrawerToggleButton } from '@react-navigation/drawer';
 import { feedNavigations } from '@/constants';
 import FeedHomeScreen from '@/screens/feed/FeedHomeScreen';
 import FeedDetailScreen from '@/screens/feed/FeedDetailScreen';
 import EditPostScreen from '@/screens/feed/EditPostScreen';
 import { ResponsePost } from '@/api/post';
 import ImageScreen from '@/screens/feed/imageScreen';
+import { HeaderLeft, HeaderLeftBack } from '@/components/common/HeaderLeftButton';
 
 export type FeedStackParamList = {
     [feedNavigations.FEED_HOME]: undefined;
@@ -16,9 +16,6 @@ export type FeedStackParamList = {
 
 const Stack = createStackNavigator<FeedStackParamList>();
 
-export function HeaderLeft() {
-    return <DrawerToggleButton />;
-}
 
 function FeedStackNavigator(){
 
@@ -48,12 +45,15 @@ function FeedStackNavigator(){
                 component={FeedDetailScreen}
                 options={({ route }) => ({
                     headerTitle: route.params.title,
+                    headerLeft: HeaderLeftBack,
                 })}
             />
             <Stack.Screen
                 name={feedNavigations.EDIT_POST}
                 component={EditPostScreen}
-                options={{ title: '게시물 수정' }}
+                options={{
+                    headerTitle: '게시물 수정',
+                }}
             />
             <Stack.Screen
                 name={feedNavigations.IMAGE_SCREEN}

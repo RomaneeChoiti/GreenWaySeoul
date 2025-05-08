@@ -2,7 +2,7 @@ import { createStackNavigator } from '@react-navigation/stack';
 import { mapNavigations } from '@/constants';
 import MapHomeScreen from '@/screens/map/MapHomeScreen';
 import AddPostScreen from '@/screens/map/AddPostScreen';
-import { HeaderLeft } from './FeedStackNavigator';
+import { HeaderLeft } from '@/components/common/HeaderLeftButton';
 
 export type MapStackParamList = {
     [mapNavigations.MAP_HOME]: undefined;
@@ -15,7 +15,6 @@ const Stack = createStackNavigator<MapStackParamList>();
 function MapStackNavigator(){
     return (
         <Stack.Navigator screenOptions={{
-            headerShown: true,
             cardStyle: {
                 backgroundColor: 'white',
             },
@@ -32,7 +31,7 @@ function MapStackNavigator(){
                 component={MapHomeScreen}
                 options={{
                     headerTitle: '지도',
-                    headerLeft: HeaderLeft, // Use the separate component here
+                    headerLeft: HeaderLeft,
                 }}
             />
             <Stack.Screen

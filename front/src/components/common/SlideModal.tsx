@@ -16,7 +16,7 @@ interface SlideModalProps {
 
 function SlideModal({ visible, onClose, selectedMarker, markerType }: SlideModalProps) {
   const slideAnim = useRef(new Animated.Value(300)).current; // Start below the screen
-  
+
   useEffect(() => {
     if (visible) {
       Animated.timing(slideAnim, {

@@ -31,7 +31,6 @@ function FeedDetailScreen({ route, navigation }: FeedDetailScreenProps) {
     const { data: post, isPending, isError } = useGetPost(id);
     const insets = useSafeAreaInsets();
     const detailOption = useModal();
-    const [isBookmarked, setIsBookmarked] = useState(false); // 북마크 상태 추가
     const favoriteMutate = useMutateFavoritePost();
 
     const {setFeedLocation} = useFeedLocationStore();
@@ -45,10 +44,8 @@ function FeedDetailScreen({ route, navigation }: FeedDetailScreenProps) {
         if (!post) {
             return;
         }
-         // 서버 요청
         favoriteMutate.mutate(post.id, {
             onError: () => {
-                setIsBookmarked((prev) => !prev);
                 Alert.alert(alerts.BOOKMARK_POST_ERROR.TITLE, alerts.BOOKMARK_POST_ERROR.DESCRIPTION);
             },
         });
@@ -146,7 +143,7 @@ function FeedDetailScreen({ route, navigation }: FeedDetailScreenProps) {
                     <Octicons
                         name="star-fill"
                         size={30}
-                        color={isBookmarked ? colors.PRIMARY : 'gray'}
+                        color={post.isFavorite ? colors.PRIMARY : 'gray'}
                     />
                 </Pressable>
                 <CustomButton
