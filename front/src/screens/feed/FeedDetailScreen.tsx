@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from 'react';
-import { colors, feedNavigations, mainNavigations, mapNavigations } from '@/constants';
+import { alerts, colors, feedNavigations, mainNavigations, mapNavigations } from '@/constants';
 import useGetPost from '@/hooks/queries/useGetPost';
 import { formatDate } from '@/utils/date'; // Import the utility function
 import { FeedStackParamList } from '@/navigations/stack/FeedStackNavigator';
 import { StackScreenProps } from '@react-navigation/stack';
-import { Image, Platform, Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
+import { Alert, Image, Platform, Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import Octicons from 'react-native-vector-icons/Octicons';
@@ -18,6 +18,7 @@ import { useFeedLocationStore } from '@/store/useLocationStore';
 import useModal from '@/hooks/useModal';
 import FeedDetailOption from './FeedDetailOption';
 import { useDetailPostStore } from '@/store/usePostStore';
+import useMutateFavoritePost from '@/hooks/queries/useMutateFavoritePost';
 
 
 type FeedDetailScreenProps = CompositeScreenProps<
@@ -31,6 +32,7 @@ function FeedDetailScreen({ route, navigation }: FeedDetailScreenProps) {
     const insets = useSafeAreaInsets();
     const detailOption = useModal();
     const [isBookmarked, setIsBookmarked] = useState(false); // 북마크 상태 추가
+    const favoriteMutate = useMutateFavoritePost();
 
     const {setFeedLocation} = useFeedLocationStore();
     const { setDetailPost } = useDetailPostStore();
@@ -39,8 +41,17 @@ function FeedDetailScreen({ route, navigation }: FeedDetailScreenProps) {
         post && setDetailPost(post);
     }, [ post, setDetailPost ]);
 
-    const toggleBookmark = () => {
-        setIsBookmarked((prev) => !prev); // 상태 토글
+    const handlePressFavorite = () => {
+        if (!post) {
+            return;
+        }
+         // 서버 요청
+        favoriteMutate.mutate(post.id, {
+            onError: () => {
+                setIsBookmarked((prev) => !prev);
+                Alert.alert(alerts.BOOKMARK_POST_ERROR.TITLE, alerts.BOOKMARK_POST_ERROR.DESCRIPTION);
+            },
+        });
     };
 
     const handlePressFeedLocation = () => {
@@ -129,11 +140,13 @@ function FeedDetailScreen({ route, navigation }: FeedDetailScreenProps) {
         </ScrollView>
         <View style={[styles.bottomContainer, {paddingBottom: insets.bottom}]}>
             <View style={[styles.tabContainer, insets.bottom === 0 && styles.tabContainerNoInsets]}>
-                <Pressable style={styles.bookmarkContainer} onPress={toggleBookmark}>
+                <Pressable
+                    style={styles.bookmarkContainer}
+                    onPress={handlePressFavorite}>
                     <Octicons
                         name="star-fill"
                         size={30}
-                        color={isBookmarked ? colors.PRIMARY : 'gray'} // 색상 변경
+                        color={isBookmarked ? colors.PRIMARY : 'gray'}
                     />
                 </Pressable>
                 <CustomButton
