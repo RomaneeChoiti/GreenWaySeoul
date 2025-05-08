@@ -18,6 +18,7 @@ import { useFeedLocationStore } from '@/store/useLocationStore';
 import useModal from '@/hooks/useModal';
 import FeedDetailOption from './FeedDetailOption';
 import { useDetailPostStore } from '@/store/usePostStore';
+import useMutateFavoritePost from '@/hooks/queries/useMutateFavoritePost';
 
 
 type FeedDetailScreenProps = CompositeScreenProps<
@@ -31,6 +32,7 @@ function FeedDetailScreen({ route, navigation }: FeedDetailScreenProps) {
     const insets = useSafeAreaInsets();
     const detailOption = useModal();
     const [isBookmarked, setIsBookmarked] = useState(false); // 북마크 상태 추가
+    const favoriteMutate = useMutateFavoritePost()
 
     const {setFeedLocation} = useFeedLocationStore();
     const { setDetailPost } = useDetailPostStore();
@@ -39,8 +41,12 @@ function FeedDetailScreen({ route, navigation }: FeedDetailScreenProps) {
         post && setDetailPost(post);
     }, [ post, setDetailPost ]);
 
-    const toggleBookmark = () => {
+    const handlePressFavorite = () => {
         setIsBookmarked((prev) => !prev); // 상태 토글
+        if (!post) {
+            return;
+        }
+        favoriteMutate.mutate(post.id);
     };
 
     const handlePressFeedLocation = () => {
@@ -129,11 +135,13 @@ function FeedDetailScreen({ route, navigation }: FeedDetailScreenProps) {
         </ScrollView>
         <View style={[styles.bottomContainer, {paddingBottom: insets.bottom}]}>
             <View style={[styles.tabContainer, insets.bottom === 0 && styles.tabContainerNoInsets]}>
-                <Pressable style={styles.bookmarkContainer} onPress={toggleBookmark}>
+                <Pressable
+                    style={styles.bookmarkContainer}
+                    onPress={handlePressFavorite}>
                     <Octicons
                         name="star-fill"
                         size={30}
-                        color={isBookmarked ? colors.PRIMARY : 'gray'} // 색상 변경
+                        color={isBookmarked ? colors.PRIMARY : 'gray'}
                     />
                 </Pressable>
                 <CustomButton
