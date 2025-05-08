@@ -14,6 +14,10 @@ const alerts = {
         ERROR_TITLE : '게시물 삭제 실패',
         ERROR_DESCRIPTION : '게시물 삭제에 실패했습니다. 다시 시도해주세요.',
     },
+    BOOKMARK_POST_ERROR: {
+        TITLE : '오류',
+        DESCRIPTION : '북마크 상태를 변경할 수 없습니다. 다시 시도해주세요',
+    },
 } as const;
 
 
