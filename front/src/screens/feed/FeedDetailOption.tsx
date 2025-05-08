@@ -48,9 +48,11 @@ function FeedDetailOption({isVisible, hideOption}: FeedDetailOptionProps) {
   };
 
   const handleEditPost = () => {
-    if (!detailPost) {return;}
+    if (!detailPost) {
+        return;
+    }
     hideOption();
-        navigation.navigate(feedNavigations.EDIT_POST, { post: detailPost }); // Navigate to EditPostScreen with post data
+    navigation.navigate(feedNavigations.EDIT_POST, { post: detailPost });
   };
 
   return (
