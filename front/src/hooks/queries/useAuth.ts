@@ -1,86 +1,119 @@
-import { useEffect } from 'react';
-import { useMutation, useQuery } from '@tanstack/react-query';
-import { getAccessToken, getProfile, postLogin, postSignup } from '@/api/auth';
-import { removeEncryptStorage, setEncryptStorage } from '@/utils/encryptStorage';
-import { removeHeader, setHeader } from '@/utils/header';
-import queryClient from '@/api/queryClient';
-import { UseMutationCustomOptions, UseQueryCustomOptions } from '@/types';
+import {useEffect} from 'react';
+import {useMutation, useQuery} from '@tanstack/react-query';
 
-function useSignup(mutationOptions ? : UseMutationCustomOptions) {
- return useMutation({
+import {
+  getAccessToken,
+  getProfile,
+  logout,
+  postLogin,
+  postSignup,
+} from '@/api/auth';
+import {
+  removeEncryptStorage,
+  removeHeader,
+  setEncryptStorage,
+  setHeader,
+} from '@/utils';
+import queryClient from '@/api/queryClient';
+import {numbers, queryKeys, storageKeys} from '@/constants';
+import type {
+  UseMutationCustomOptions,
+  UseQueryCustomOptions,
+} from '@/types/common';
+import { Profile } from '@/types';
+
+function useSignup(mutationOptions?: UseMutationCustomOptions) {
+  return useMutation({
     mutationFn: postSignup,
     ...mutationOptions,
- });
+  });
 }
 
-function useLogin(mutationOptions ? : UseMutationCustomOptions) {
-    return useMutation({
-        mutationFn: postLogin,
-        onSuccess: ({accessToken, refreshToken}) => {
-            setEncryptStorage('refreshToken', refreshToken);
-            setHeader('Authorization', `Bearer ${accessToken}`);
-        },
-        onSettled: () => {
-            queryClient.refetchQueries({queryKey: ['auth', 'getAccessToken']});
-            queryClient.invalidateQueries({queryKey: ['auth', 'getProfile']});
-        },
-        ...mutationOptions,
-    });
+function useLogin(mutationOptions?: UseMutationCustomOptions) {
+  return useMutation({
+    mutationFn: postLogin,
+    onSuccess: ({accessToken, refreshToken}) => {
+      setHeader('Authorization', `Bearer ${accessToken}`);
+      setEncryptStorage(storageKeys.REFRESH_TOKEN, refreshToken);
+    },
+    onSettled: () => {
+      queryClient.refetchQueries({
+        queryKey: [queryKeys.AUTH, queryKeys.GET_ACCESS_TOKEN],
+      });
+      queryClient.invalidateQueries({
+        queryKey: [queryKeys.AUTH, queryKeys.GET_PROFILE],
+      });
+    },
+    ...mutationOptions,
+  });
 }
 
-// refeshToken으로 accessToken을 갱신하는 훅
 function useGetRefreshToken() {
-    const {isSuccess, data, isError} = useQuery({
-        queryKey: ['auth', 'getAccessToken'],
-        queryFn: getAccessToken,
-        /*
-            TODO
-                1. 로그인을 한 번하면 캐시를 지우지 않는 이상 계속 로그인 되게끔.
-        */
-        staleTime: 1000 * 60 * 30, // 시간 주기
-        refetchInterval: 1000 * 60 * 30,
-        refetchOnReconnect: true,
-        refetchIntervalInBackground: true,
-    });
+  const {data, error, isSuccess, isError} = useQuery({
+    queryKey: [queryKeys.AUTH, queryKeys.GET_ACCESS_TOKEN],
+    queryFn: getAccessToken,
+    staleTime: numbers.ACCESS_TOKEN_REFRESH_TIME,
+    refetchInterval: numbers.ACCESS_TOKEN_REFRESH_TIME,
+    refetchOnReconnect: true,
+    refetchIntervalInBackground: true,
+  });
 
-    useEffect(() => {
-        if (isSuccess) {
-            setHeader('Authorization', `Bearer ${data.accessToken}`);
-            setEncryptStorage('refreshToken', data.refreshToken); // 갱신
-        }
-    },[isSuccess, data?.accessToken, data?.refreshToken]);
+  useEffect(() => {
+    if (isSuccess) {
+      setHeader('Authorization', `Bearer ${data.accessToken}`);
+      setEncryptStorage(storageKeys.REFRESH_TOKEN, data.refreshToken);
+    }
+  }, [isSuccess]);
 
-    // 실패한다면
-    useEffect(() => {
-        if (isError) {
-            removeHeader('Authorization');
-            removeEncryptStorage('refreshToken');
-        }
-    }, [isError]);
+  useEffect(() => {
+    if (isError) {
+      removeHeader('Authorization');
+      removeEncryptStorage(storageKeys.REFRESH_TOKEN);
+    }
+  }, [isError]);
 
-    return {isSuccess, isError};
+  return {isSuccess, isError};
 }
 
-
-function useGetProfile(queryOptions? : UseQueryCustomOptions){
-    return useQuery({
-        queryKey: ['auth', 'getProfile'],
-        queryFn: getProfile,
-        ...queryOptions,
-    });
+function useGetProfile(queryOptions?: UseQueryCustomOptions<Profile>) {
+  return useQuery({
+    queryFn: getProfile,
+    queryKey: [queryKeys.AUTH, queryKeys.GET_PROFILE],
+    ...queryOptions,
+  });
 }
 
-function useAuth(){
-    const signupMutation = useSignup();
-    const refreshTokenQuery = useGetRefreshToken();
-    const getProfileQuery = useGetProfile({
-        enabled: refreshTokenQuery.isSuccess,
-    });
-    const isLogin = getProfileQuery.isSuccess;
-    const loginMutation = useLogin();
+function useLogout(mutationOptions?: UseMutationCustomOptions) {
+  return useMutation({
+    mutationFn: logout,
+    onSuccess: () => {
+      removeHeader('Authorization');
+      removeEncryptStorage(storageKeys.REFRESH_TOKEN);
+    },
+    onSettled: () => {
+      queryClient.invalidateQueries({queryKey: [queryKeys.AUTH]});
+    },
+    ...mutationOptions,
+  });
+}
 
-    return { signupMutation, loginMutation, isLogin, getProfileQuery };
+function useAuth() {
+  const signupMutation = useSignup();
+  const refreshTokenQuery = useGetRefreshToken();
+  const getProfileQuery = useGetProfile({
+    enabled: refreshTokenQuery.isSuccess,
+  });
+  const isLogin = getProfileQuery.isSuccess;
+  const loginMutation = useLogin();
+  const logoutMutation = useLogout();
 
+  return {
+    signupMutation,
+    loginMutation,
+    getProfileQuery,
+    isLogin,
+    logoutMutation,
+  };
 }
 
 export default useAuth;
