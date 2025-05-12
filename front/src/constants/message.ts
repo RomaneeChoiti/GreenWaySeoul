@@ -20,6 +20,12 @@ const alerts = {
     },
 } as const;
 
+const errorMessages = {
+    NETWORK_ERROR: '네트워크 연결을 확인해주세요.',
+    SERVER_ERROR: '서버에 문제가 발생했습니다. 잠시 후 다시 시도해주세요.',
+    UNKNOWN_ERROR: '알수 없는 오류가 발생했습니다. 잠시 후 다시 시도해주세요.',
+} as const;
 
 
-export { alerts };
+
+export { alerts, errorMessages };
