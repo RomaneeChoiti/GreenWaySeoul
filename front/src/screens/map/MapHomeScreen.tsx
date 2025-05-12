@@ -15,6 +15,7 @@ import { usePloggingStateStore } from '@/store/usePloggingStore';
 import { useTrashcanStore } from '@/store/useTrashcanStore';
 import { TrashcanData } from '@/types/domain';
 import useMoveMapView from '@/hooks/useMoveMapView';
+import Toast from 'react-native-toast-message';
 
 function MapHomeScreen() {
   const { userLocation, isUserLocationError } = useUserLocation();
@@ -29,7 +30,11 @@ function MapHomeScreen() {
 
   const handlePressUserLocation = () => {
     if (isUserLocationError) {
-      // err
+      Toast.show({
+        type: 'error',
+        text1: '위치 권한을 허용해주세요.',
+        position: 'bottom',
+      });
       return;
     }
     moveMapView(userLocation);
