@@ -17,8 +17,6 @@ function KakaoLoginScreen() {
     const [isLoading, setIsLoading] = useState(false);
     const [isChangeNavigate, setIsChangeNavigate] = useState(true);
 
-    console.log('KAKAO_REST_API_KEY:', Config.KAKAO_REST_API_KEY);
-
     const handleOnMessage = (event: WebViewMessageEvent) => {
         if(event.nativeEvent.url.includes(`${REDIRECT_URI}?code=`)) {
             const code = event.nativeEvent.url.replace(`${REDIRECT_URI}?code=`, '');
@@ -26,7 +24,8 @@ function KakaoLoginScreen() {
     }};
 
     const requestToken = async (code: string) => {
-        const response = await axios({
+        try{
+            const response = await axios({
             method: 'POST',
             url: 'https://kauth.kakao.com/oauth/token',
             params: {
@@ -37,6 +36,9 @@ function KakaoLoginScreen() {
             },
         });
         kakaoLoginMutation.mutate(response.data.access_token);
+    } catch(err){
+        console.error('Failed to request token:', err);
+    }
     };
 
     const handleNavigationStateChange = (e: WebViewNavigation) =>{
