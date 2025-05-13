@@ -1,13 +1,16 @@
-import React from 'react';
-import { Dimensions, Pressable, PressableProps, StyleSheet, View } from 'react-native';
+import React, { ReactNode } from 'react';
+import { Dimensions, Pressable, PressableProps, StyleProp, StyleSheet, TextStyle, View, ViewStyle } from 'react-native';
 import { Text } from 'react-native-gesture-handler';
 import { colors } from '@/constants';
 
 interface CustomButtonProps extends PressableProps{
     label: string;
-    variant: 'filled' | 'outlined';
+    variant?: 'filled' | 'outlined';
     size?: 'small' | 'medium' | 'large';
     inValid?: boolean;
+    style?: StyleProp<ViewStyle>;
+    textStyle?: StyleProp<TextStyle>;
+    icon?: ReactNode;
 }
 
 // 화면 크기에 따른 버튼 paddingVertical 값 조정
@@ -15,9 +18,12 @@ const deviceHeight = Dimensions.get('screen').height;
 
 function CustomButton({
         label,
-        variant,
-        size = 'medium',
+        variant = 'filled',
+        size = 'large',
         inValid = false,
+        style = null,
+        textStyle = null,
+        icon = null,
         ...props
     }: CustomButtonProps) {
     return(
@@ -29,10 +35,12 @@ function CustomButton({
                 styles[size],
                 pressed ? styles[`${variant}Pressed`] : styles[variant],
                 inValid && styles.inValid,
+                style,
             ]}
             {...props}>
             <View style={styles[size]}>
-                <Text style={[styles[`${variant}Text`] ,styles.text]}>
+                {icon}
+                <Text style={[styles[`${variant}Text`] ,styles.text, textStyle]}>
                     {label}
                 </Text>
             </View>
@@ -62,6 +70,7 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         justifyContent: 'center',
         flexDirection: 'row',
+        gap: 4,
     },
     medium: {
         width: '50%',
@@ -69,6 +78,7 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         justifyContent: 'center',
         flexDirection: 'row',
+        gap: 4,
     },
     large: {
         width: '100%',
@@ -76,6 +86,7 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         justifyContent: 'center',
         flexDirection: 'row',
+        gap: 4,
     },
     text:{
         fontSize: 20,

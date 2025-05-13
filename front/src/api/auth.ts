@@ -17,7 +17,6 @@ const postSignup = async ({email, password}:RequestUser): Promise<void> => {
         email,
         password,
     });
-
     return data;
 };
 
@@ -26,13 +25,17 @@ const postLogin = async ({email, password}:RequestUser): Promise<ResponseToken> 
         email,
         password,
     });
-
     return data;
 };
 
+const kakaoLogin = async (token: string): Promise<ResponseToken> => {
+    const { data } = await axiosInstance.post('/auth/oauth/kakao', {token});
+    return data;
+};
+
+
 const getProfile = async (): Promise<Profile> => {
     const { data } = await axiosInstance.get('/auth/me');
-
     return data;
 };
 
@@ -43,7 +46,6 @@ const getAccessToken = async (): Promise<ResponseToken> => {
             Authorization: `Bearer ${refreshToken}`,
         },
     });
-
     return data;
 };
 
@@ -51,6 +53,6 @@ const logout = async () => {
     await axiosInstance.post('/auth/logout');
 };
 
-export { postSignup, postLogin, getProfile, getAccessToken, logout };
+export { postSignup, postLogin, getProfile, getAccessToken, logout, kakaoLogin };
 export type { RequestUser, ResponseToken  };
 

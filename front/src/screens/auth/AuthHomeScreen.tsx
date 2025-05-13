@@ -1,8 +1,9 @@
-import {  Dimensions, Image, SafeAreaView, StyleSheet, View } from 'react-native';
+import {  Dimensions, Image, Pressable, SafeAreaView, StyleSheet, Text, View } from 'react-native';
 import { StackScreenProps } from '@react-navigation/stack';
 import { AuthStackParamList } from '@/navigations/stack/AuthStackNavigator';
 import { authNavigations } from '@/constants';
 import CustomButton from '@/components/common/CustomButton';
+import Ionicons from 'react-native-vector-icons/Ionicons';
 
 type AuthHomeScreenProps = StackScreenProps<
     AuthStackParamList
@@ -20,26 +21,28 @@ function AuthHomeScreen({navigation}: AuthHomeScreenProps) {
         />
       </View>
       <View style={style.buttonContainer}>
-        {/* 스크린에 사용해보기 버튼 추가 */}
         <CustomButton
-          label="사용해보기"
-          variant="filled"
-          size="large"
-          onPress={()=> navigation.navigate(authNavigations.MAP)}
+          label="가볍게 시작하기"
+          onPress={()=> navigation.navigate(authNavigations.PREVIEW_MAP)}
         />
         <CustomButton
-          label="로그인으로 이동"
-          variant="filled"
-          size="large"
+          label="카카오 로그인"
+          onPress={()=> navigation.navigate(authNavigations.KAKAO)}
+          style={style.kakaoButtonContainer}
+          textStyle={style.kakaoButtonText}
+          icon={
+            <Ionicons name={'chatbubble-sharp'} color={'#181500'} size={16}/>
+          }
+        />
+        <CustomButton
+          label="이메일 로그인"
           onPress={()=> navigation.navigate(authNavigations.LOGIN)}
         />
-        <CustomButton
-          label="회원가입하기"
-          variant="outlined"
-          size="large"
+        <Pressable
           onPress={()=> navigation.navigate(authNavigations.SIGNUP)}
-        />
-
+        >
+          <Text style={style.emailText}>이메일로 가입하기</Text>
+        </Pressable>
       </View>
     </SafeAreaView>
   );
@@ -49,6 +52,7 @@ const style = StyleSheet.create({
   container: {
     flex: 1,
     margin: 25,
+    justifyContent: 'center',
     alignItems: 'center',
   },
   imageContainer: {
@@ -62,6 +66,27 @@ const style = StyleSheet.create({
   buttonContainer:{
     flex: 1,
     gap: 10,
+    alignItems: 'center',
+  },
+  kakaoButtonContainer:{
+    backgroundColor: '#FEE500',
+    borderRadius: 3,
+    paddingVertical: 10,
+    paddingHorizontal: 20,
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'center',
+    gap: 10,
+  },
+  kakaoButtonText:{
+    color: '#181500',
+    fontSize: 17,
+  },
+  emailText:{
+    textDecorationLine: 'underline',
+    fontWeight: '500',
+    padding: 10,
+    color: '#181600',
   },
 });
 
