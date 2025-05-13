@@ -20,21 +20,20 @@ function AuthHomeScreen({navigation}: AuthHomeScreenProps) {
         />
       </View>
       <View style={style.buttonContainer}>
-        {/* 스크린에 사용해보기 버튼 추가 */}
         <CustomButton
-          label="사용해보기"
+          label="가볍게 시작하기"
           variant="filled"
           size="large"
           onPress={()=> navigation.navigate(authNavigations.MAP)}
         />
         <CustomButton
-          label="로그인으로 이동"
+          label="로그인"
           variant="filled"
           size="large"
           onPress={()=> navigation.navigate(authNavigations.LOGIN)}
         />
         <CustomButton
-          label="회원가입하기"
+          label="회원가입"
           variant="outlined"
           size="large"
           onPress={()=> navigation.navigate(authNavigations.SIGNUP)}
