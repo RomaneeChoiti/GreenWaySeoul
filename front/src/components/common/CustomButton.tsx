@@ -5,7 +5,7 @@ import { colors } from '@/constants';
 
 interface CustomButtonProps extends PressableProps{
     label: string;
-    variant: 'filled' | 'outlined';
+    variant?: 'filled' | 'outlined';
     size?: 'small' | 'medium' | 'large';
     inValid?: boolean;
 }
@@ -15,8 +15,8 @@ const deviceHeight = Dimensions.get('screen').height;
 
 function CustomButton({
         label,
-        variant,
-        size = 'medium',
+        variant = 'filled',
+        size = 'large',
         inValid = false,
         ...props
     }: CustomButtonProps) {
