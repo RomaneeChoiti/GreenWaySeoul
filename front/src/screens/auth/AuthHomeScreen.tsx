@@ -25,7 +25,7 @@ function AuthHomeScreen({navigation}: AuthHomeScreenProps) {
       if(identityToken){
         appleLoginMutation.mutate({
           identityToken,
-          appId: 'org.reactjs.native.example.GreenWaySeoulRN',
+          appleId: 'org.reactjs.native.example.GreenWaySeoulRN',
           nickname: fullName?.givenName || null,
         });
       }
