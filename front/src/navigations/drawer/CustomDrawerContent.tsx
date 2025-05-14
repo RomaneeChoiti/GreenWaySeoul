@@ -22,36 +22,42 @@ const CustomDrawerContent = (props: DrawerContentComponentProps) => {
   return (
     <SafeAreaView {...props} style={styles.container}>
       <View style={styles.userInfoSection}>
-      { imageUri === null && kakaoImageUri === null && (
-        <Image
-          source={require('@/assets/dfUser.png')}
-          style={styles.userImage}
-        />
-        )}
-      {imageUri === null && !!kakaoImageUri && (
-        <Image
-        source={{
-          uri: `${
-            Platform.OS === 'ios'
-            ? 'http://localhost:3030'
-            : 'http://10.0.2.2:3030'
-        }/${kakaoImageUri}`,
-        }}
-          style={styles.userImage}
-        />
-      )}
-      {imageUri !== null && (
-        <Image
-          source={{
-            uri: `${
-              Platform.OS === 'ios'
-              ? 'http://localhost:3030'
-              : 'http://10.0.2.2:3030'
-          }/${imageUri}`,
-          }}
-          style={styles.userImage}
-        />
-      )}
+        {(() => {
+          if (imageUri) {
+            return (
+              <Image
+                source={{
+                  uri: `${
+                    Platform.OS === 'ios'
+                      ? 'http://localhost:3030'
+                      : 'http://10.0.2.2:3030'
+                  }/${imageUri}`,
+                }}
+                style={styles.userImage}
+              />
+            );
+          } else if (kakaoImageUri) {
+            return (
+              <Image
+                source={{
+                  uri: `${
+                    Platform.OS === 'ios'
+                      ? 'http://localhost:3030'
+                      : 'http://10.0.2.2:3030'
+                  }/${kakaoImageUri}`,
+                }}
+                style={styles.userImage}
+              />
+            );
+          } else {
+            return (
+              <Image
+                source={require('@/assets/dfUser.png')}
+                style={styles.userImage}
+              />
+            );
+          }
+        })()}
         <Text style={styles.userEmail}>{nickname ?? email}</Text>
       </View>
       <DrawerItemList {...props} />
