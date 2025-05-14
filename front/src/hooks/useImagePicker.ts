@@ -8,9 +8,10 @@ import Toast from 'react-native-toast-message';
 
 interface UseImagePickerProps{
     initialImages: ImageUri[];
+    mode?: 'single' | 'multiple';
 }
 
-function useImagePicker({initialImages = []}: UseImagePickerProps) {
+function useImagePicker({initialImages = [], mode = 'multiple'}: UseImagePickerProps) {
     const [imageUris, setImageUris] = useState(initialImages);
     const uploadImages = useMutateImages();
 
@@ -32,7 +33,7 @@ function useImagePicker({initialImages = []}: UseImagePickerProps) {
             mediaType: 'photo',
             multiple: true,
             includeBase64: true,
-            maxFiles: 5,
+            maxFiles: mode === 'multiple' ? 5 : 1,
             cropperChooseText: '완료',
             cropperCancelText: '취소',
         }).then(images => {
