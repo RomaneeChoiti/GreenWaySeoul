@@ -41,7 +41,7 @@ function DeleteAccountScreen({}: DeleteAccountScreenProps) {
     return (
         <View style={styles.container}>
             <View style={styles.infoContainer}>
-                <Text style={styles.infoText}>저장된 데이터를 모두 삭제히야 {'\n'} 회원탈퇴가 가능합니다.</Text>
+                <Text style={styles.infoText}>저장된 데이터를 모두 삭제해야 {'\n'} 회원탈퇴가 가능합니다.</Text>
                 <Text style={styles.infoText}>저장된 데이터를 모두 삭제해주세요.</Text>
             </View>
 
