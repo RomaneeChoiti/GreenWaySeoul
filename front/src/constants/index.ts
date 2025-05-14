@@ -3,3 +3,5 @@ export * from './navigations';
 export * from './message';
 export * from './keys';
 export * from './numbers';
+export * from './appInfo';
+
