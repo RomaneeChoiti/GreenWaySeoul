@@ -3,6 +3,7 @@ import {MutationFunction, useMutation, useQuery} from '@tanstack/react-query';
 
 import {
   appleLogin,
+  editProfile,
   getAccessToken,
   getProfile,
   kakaoLogin,
@@ -115,6 +116,19 @@ function useLogout(mutationOptions?: UseMutationCustomOptions) {
   });
 }
 
+function useUpdateProfile(mutationOptions?: UseMutationCustomOptions) {
+  return useMutation({
+    mutationFn: editProfile,
+    onSuccess: (newProfile) => {
+      queryClient.setQueryData(
+        [queryKeys.AUTH, queryKeys.GET_PROFILE],
+        newProfile,
+      );
+    },
+    ...mutationOptions,
+  });
+}
+
 function useAuth() {
   const signupMutation = useSignup();
   const refreshTokenQuery = useGetRefreshToken();
@@ -126,6 +140,7 @@ function useAuth() {
   const kakaoLoginMutation = useKakaoLogin();
   const appleLoginMutation = useAppleLogin();
   const logoutMutation = useLogout();
+  const profileMutation = useUpdateProfile();
 
   return {
     signupMutation,
@@ -135,6 +150,7 @@ function useAuth() {
     logoutMutation,
     kakaoLoginMutation,
     appleLoginMutation,
+    profileMutation,
   };
 }
 

@@ -5,7 +5,7 @@ import FeedDetailScreen from '@/screens/feed/FeedDetailScreen';
 import EditPostScreen from '@/screens/feed/EditPostScreen';
 import { ResponsePost } from '@/api/post';
 import ImageScreen from '@/screens/feed/imageScreen';
-import { HeaderLeft, HeaderLeftBack } from '@/components/common/HeaderLeftButton';
+import { HeaderLeft, HeaderLeftBack } from '@/components/common/HeaderButtons';
 
 export type FeedStackParamList = {
     [feedNavigations.FEED_HOME]: undefined;

@@ -4,7 +4,7 @@ import LoginScreen from '@/screens/auth/LoginScreen';
 import { authNavigations } from '@/constants';
 import SignUpScreen from '@/screens/auth/SignupScreen';
 import MapHomeScreen from '@/screens/map/MapHomeScreen';
-import { HeaderLeftBack } from '@/components/common/HeaderLeftButton';
+import { HeaderLeftBack } from '@/components/common/HeaderButtons';
 import KakaoLoginScreen from '@/screens/auth/KakaoLoginScreen';
 
 export type AuthStackParamList = {

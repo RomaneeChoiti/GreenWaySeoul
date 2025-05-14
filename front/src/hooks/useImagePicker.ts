@@ -8,9 +8,11 @@ import Toast from 'react-native-toast-message';
 
 interface UseImagePickerProps{
     initialImages: ImageUri[];
+    mode?: 'single' | 'multiple';
+    onSettled?: () => void;
 }
 
-function useImagePicker({initialImages = []}: UseImagePickerProps) {
+function useImagePicker({initialImages = [], mode = 'multiple', onSettled}: UseImagePickerProps) {
     const [imageUris, setImageUris] = useState(initialImages);
     const uploadImages = useMutateImages();
 
@@ -20,6 +22,14 @@ function useImagePicker({initialImages = []}: UseImagePickerProps) {
             return;
         }
         setImageUris(prev => [...prev, ...uris.map(uri => ({uri}))]);
+    };
+
+    const replaceImageUri = (uris: string[]) => {
+        if(uris.length > 1){
+            Alert.alert('사진 개수 초과','사진은 최대 1장까지 업로드 가능합니다.');
+            return;
+        }
+        setImageUris([...uris.map(uri => ({uri}))]);
     };
 
     const deleteImageUri = (uri: string) => {
@@ -32,30 +42,25 @@ function useImagePicker({initialImages = []}: UseImagePickerProps) {
             mediaType: 'photo',
             multiple: true,
             includeBase64: true,
-            maxFiles: 5,
+            maxFiles: mode === 'multiple' ? 5 : 1,
             cropperChooseText: '완료',
             cropperCancelText: '취소',
         }).then(images => {
             const formData = getFormDataImages(images);
             uploadImages.mutate(formData, {
-                onSuccess: data => {
-                    console.log('Mutation Success:', data); // 성공적으로 호출된 데이터 확인
-                    addImageUris(data);
-                },
-                onError: error => {
-                    console.log('Mutation Error:', error); // 에러 발생 시 출력
-                },
+                onSuccess: data => mode === 'multiple' ? addImageUris(data) : replaceImageUri(data),
+                onSettled: () => onSettled && onSettled(),
             });
         })
         .catch(error => {
             // 이미지를 선택을 안해도 에러가 발생한다. 그렇게에 예외 처리
             if(error.code !== 'E_PICKER_CANCELLED') {
                 Toast.show({
-                        type: 'error',
-                        text1: '갤러리를 열수 없습니다.',
-                        text2: '권한을 확인해주세요.',
-                        position: 'bottom',
-                      });
+                    type: 'error',
+                    text1: '갤러리를 열수 없습니다.',
+                    text2: '권한을 확인해주세요.',
+                    position: 'bottom',
+                });
             }
             console.log('ImagePicker Error: ', error);
         });
