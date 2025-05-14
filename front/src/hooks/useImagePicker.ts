@@ -39,7 +39,6 @@ function useImagePicker({initialImages = []}: UseImagePickerProps) {
             const formData = getFormDataImages(images);
             uploadImages.mutate(formData, {
                 onSuccess: data => {
-                    console.log('Mutation Success:', data); // 성공적으로 호출된 데이터 확인
                     addImageUris(data);
                 },
                 onError: error => {
@@ -51,11 +50,11 @@ function useImagePicker({initialImages = []}: UseImagePickerProps) {
             // 이미지를 선택을 안해도 에러가 발생한다. 그렇게에 예외 처리
             if(error.code !== 'E_PICKER_CANCELLED') {
                 Toast.show({
-                        type: 'error',
-                        text1: '갤러리를 열수 없습니다.',
-                        text2: '권한을 확인해주세요.',
-                        position: 'bottom',
-                      });
+                    type: 'error',
+                    text1: '갤러리를 열수 없습니다.',
+                    text2: '권한을 확인해주세요.',
+                    position: 'bottom',
+                });
             }
             console.log('ImagePicker Error: ', error);
         });
