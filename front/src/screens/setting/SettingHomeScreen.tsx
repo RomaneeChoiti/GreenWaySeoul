@@ -1,5 +1,5 @@
 import SettingItems from '@/components/setting/SettingItems';
-import DropDown from '@/components/common/DropDown';
+import Accordion from '@/components/common/Accordion';
 import { appInfo, colors, settingNavigations, userSetting } from '@/constants';
 import useAuth from '@/hooks/queries/useAuth';
 import { SettingStackParamList } from '@/navigations/stack/SettingStackNavigator';
@@ -28,8 +28,8 @@ function SettingHomeScreen({ navigation }: SettingHomeScreenProps) {
                     subTitle="회원정보를 수정합니다."
                     onPress={handleProfile}
                 />
-                <DropDown title="앱 정보 및 지원" data={appInfo} />
-                <DropDown title="사용자 관련 설정" data={userSetting} />
+                <Accordion title="앱 정보 및 지원" data={appInfo} />
+                <Accordion title="사용자 관련 설정" data={userSetting} />
                 <View style={styles.space} />
                 <SettingItems
                     title="로그아웃"
