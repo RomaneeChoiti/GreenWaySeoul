@@ -62,9 +62,7 @@ function MainDrawerNavigator() {
             options={{
               title: '설정',
               drawerIcon: ({ focused }) => getDrawerIcon('settings', focused),
-              drawerItemStyle: {
-                height: 0,
-              },
+              drawerItemStyle: { height: 0 }, // Hide the setting screen from the drawer
             }}
           />
     </Drawer.Navigator>
