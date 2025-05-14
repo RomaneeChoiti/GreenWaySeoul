@@ -75,5 +75,19 @@ const logout = async () => {
     await axiosInstance.post('/auth/logout');
 };
 
-export { postSignup, postLogin, getProfile, getAccessToken, logout, kakaoLogin, appleLogin, editProfile };
+const deleteAccount = async () => {
+    await axiosInstance.delete('/auth/me');
+};
+
+export {
+    postSignup,
+    postLogin,
+    getProfile,
+    getAccessToken,
+    logout,
+    kakaoLogin,
+    appleLogin,
+    editProfile,
+    deleteAccount,
+};
 export type { RequestUser, ResponseToken, RequestAppleIdentity, RequestProfile };
