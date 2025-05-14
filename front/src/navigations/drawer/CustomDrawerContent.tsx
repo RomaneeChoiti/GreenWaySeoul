@@ -4,16 +4,20 @@ import { DrawerContentScrollView, DrawerItemList } from '@react-navigation/drawe
 import { DrawerContentComponentProps } from '@react-navigation/drawer';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import useAuth from '@/hooks/queries/useAuth';
+import { mainNavigations, settingNavigations } from '@/constants';
 
 
 const CustomDrawerContent = (props: DrawerContentComponentProps) => {
     const kakaoImageUrl = null; // kakao 로그인 미구현 상태
 
-    const {logoutMutation, getProfileQuery} = useAuth();
+    const { getProfileQuery} = useAuth();
     const {email, nickname, imageUri, kakaoImageUri} = getProfileQuery.data || {};
 
-    const handleLogout = () => {
-      logoutMutation.mutate(null);
+
+    const handleSetting = () => {
+      props.navigation.navigate(mainNavigations.SETTING, {
+        screen: settingNavigations.SETTING_HOME,
+      });
     };
 
   return (
@@ -40,13 +44,19 @@ const CustomDrawerContent = (props: DrawerContentComponentProps) => {
         <Text style={styles.userEmail}>{nickname ?? email}</Text>
       </View>
       <DrawerItemList {...props} />
-      <View style={styles.logoutButtonContainer}>
+      <View style={styles.buttonContainer}>
         <Pressable
-          onPress={handleLogout}
-          style={styles.logoutButton}
+          style={styles.buttonMenu}
+          onPress={handleSetting}
           >
-          <MaterialIcons name={'logout'}/>
-          <Text>로그아웃</Text>
+          <MaterialIcons
+            name={'settings'}
+            size={30}
+            color={'gray'}
+          />
+          <Text style={styles.buttonText}>
+            설정
+          </Text>
         </Pressable>
       </View>
     </DrawerContentScrollView>
@@ -70,18 +80,25 @@ const styles = StyleSheet.create({
   userEmail: {
     fontSize: 17,
   },
-  logoutButtonContainer: {
+  buttonContainer:{
+    flexDirection: 'row',
+    justifyContent: 'flex-end',
     marginTop: 'auto',
-    alignItems: 'flex-end',
     padding: 10,
+    alignItems: 'flex-end',
   },
-  logoutButton: {
+  buttonMenu:{
     flexDirection: 'row',
     alignItems: 'center',
     backgroundColor: '#f0f0f0',
     borderRadius: 10,
     gap: 10,
     padding: 10,
+  },
+  buttonText:{
+    fontSize: 17,
+    fontWeight: '600',
+    color: 'gray',
   },
 });
 
