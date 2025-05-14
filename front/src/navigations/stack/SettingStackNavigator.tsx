@@ -1,5 +1,5 @@
 import { createStackNavigator } from '@react-navigation/stack';
-import { HeaderLeftBack } from '@/components/common/HeaderLeftButton';
+import { HeaderLeftBack } from '@/components/common/HeaderButtons';
 import SettingHomeScreen from '@/screens/setting/SettingHomeScreen';
 import EditProfileScreen from '@/screens/setting/EditProfileScreen';
 import { settingNavigations } from '@/constants';

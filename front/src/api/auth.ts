@@ -27,7 +27,7 @@ type RequestProfile = Omit<
 >
 
 const editProfile = async (body: RequestProfile): Promise<RequestProfile> => {
-    const {data} = await axiosInstance.patch('/auth/me', { body });
+    const {data} = await axiosInstance.patch('/auth/me', body);
     return data;
 };
 

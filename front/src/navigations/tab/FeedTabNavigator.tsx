@@ -5,7 +5,7 @@ import FeedStackNavigator from '../stack/FeedStackNavigator';
 import {  StyleSheet } from 'react-native';
 import { getFocusedRouteNameFromRoute, RouteProp } from '@react-navigation/native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
-import { HeaderLeftBack } from '@/components/common/HeaderLeftButton';
+import { HeaderLeftBack } from '@/components/common/HeaderButtons';
 
 export type FeedTabParamList = {
     [feedTabNavigations.FEED_HOME]: undefined;

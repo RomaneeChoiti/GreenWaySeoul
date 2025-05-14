@@ -9,9 +9,10 @@ import Toast from 'react-native-toast-message';
 interface UseImagePickerProps{
     initialImages: ImageUri[];
     mode?: 'single' | 'multiple';
+    onSettled?: () => void;
 }
 
-function useImagePicker({initialImages = [], mode = 'multiple'}: UseImagePickerProps) {
+function useImagePicker({initialImages = [], mode = 'multiple', onSettled}: UseImagePickerProps) {
     const [imageUris, setImageUris] = useState(initialImages);
     const uploadImages = useMutateImages();
 
@@ -21,6 +22,14 @@ function useImagePicker({initialImages = [], mode = 'multiple'}: UseImagePickerP
             return;
         }
         setImageUris(prev => [...prev, ...uris.map(uri => ({uri}))]);
+    };
+
+    const replaceImageUri = (uris: string[]) => {
+        if(uris.length > 1){
+            Alert.alert('사진 개수 초과','사진은 최대 1장까지 업로드 가능합니다.');
+            return;
+        }
+        setImageUris([...uris.map(uri => ({uri}))]);
     };
 
     const deleteImageUri = (uri: string) => {
@@ -39,12 +48,8 @@ function useImagePicker({initialImages = [], mode = 'multiple'}: UseImagePickerP
         }).then(images => {
             const formData = getFormDataImages(images);
             uploadImages.mutate(formData, {
-                onSuccess: data => {
-                    addImageUris(data);
-                },
-                onError: error => {
-                    console.log('Mutation Error:', error); // 에러 발생 시 출력
-                },
+                onSuccess: data => mode === 'multiple' ? addImageUris(data) : replaceImageUri(data),
+                onSettled: () => onSettled && onSettled(),
             });
         })
         .catch(error => {

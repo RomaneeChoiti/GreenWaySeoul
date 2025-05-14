@@ -2,7 +2,7 @@ import { createStackNavigator } from '@react-navigation/stack';
 import { mapNavigations } from '@/constants';
 import MapHomeScreen from '@/screens/map/MapHomeScreen';
 import AddPostScreen from '@/screens/map/AddPostScreen';
-import { HeaderLeft } from '@/components/common/HeaderLeftButton';
+import { HeaderLeft } from '@/components/common/HeaderButtons';
 
 export type MapStackParamList = {
     [mapNavigations.MAP_HOME]: undefined;
