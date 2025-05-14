@@ -7,10 +7,12 @@ import CustomDrawerContent from './CustomDrawerContent';
 import { DrawerContentComponentProps } from '@react-navigation/drawer';
 import { NavigatorScreenParams } from '@react-navigation/native';
 import FeedTabNavigator, { FeedTabParamList } from '../tab/FeedTabNavigator';
+import SettingStackNavigator, { SettingStackParamList } from '../stack/SettingStackNavigator';
 
 export type MainDrawerParamList = {
   [mainNavigations.HOME]: NavigatorScreenParams<MapStackParamList>;
   [mainNavigations.FEED]: NavigatorScreenParams<FeedTabParamList>;
+  [mainNavigations.SETTING]: NavigatorScreenParams<SettingStackParamList>;
 }
 
 const Drawer = createDrawerNavigator<MainDrawerParamList>();
@@ -36,6 +38,7 @@ function MainDrawerNavigator() {
         fontWeight: '600',
         color: colors.BLACK,
       },
+      headerShown: false,
     }}>
           <Drawer.Screen
             name={mainNavigations.HOME}
@@ -43,7 +46,6 @@ function MainDrawerNavigator() {
             options={{
               title: '맵',
               drawerIcon: ({ focused }) => getDrawerIcon('map', focused),
-              headerShown: false,
             }}
           />
           <Drawer.Screen
@@ -52,7 +54,15 @@ function MainDrawerNavigator() {
             options={{
               title: '피드',
               drawerIcon: ({ focused }) => getDrawerIcon('book', focused),
-              headerShown: false,
+            }}
+          />
+          <Drawer.Screen
+            name={mainNavigations.SETTING}
+            component={SettingStackNavigator}
+            options={{
+              title: '설정',
+              drawerIcon: ({ focused }) => getDrawerIcon('settings', focused),
+              drawerItemStyle: { height: 0 }, // Hide the setting screen from the drawer
             }}
           />
     </Drawer.Navigator>
