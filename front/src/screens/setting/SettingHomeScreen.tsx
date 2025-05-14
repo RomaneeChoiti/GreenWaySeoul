@@ -20,6 +20,9 @@ function SettingHomeScreen({navigation}: SettingHomeScreenProps) {
         logoutMutation.mutate(null);
     };
 
+    const handleAppInfo = () => {};
+    const handleUserSetting = () => {};
+
   return (
     <SafeAreaView style={styles.container}>
         <ScrollView>
@@ -27,6 +30,16 @@ function SettingHomeScreen({navigation}: SettingHomeScreenProps) {
                 title="프로필 수정"
                 subTitle="회원정보를 수정합니다."
                 onPress={handleProfile}
+            />
+            <SettingItems
+                title="앱 정보 및 지원"
+                subTitle="앱 정보를 지원합니다."
+                onPress={handleAppInfo}
+            />
+            <SettingItems
+                title="사용자 관련 설정"
+                subTitle="위치 및 사진 설정을 수정합니다."
+                onPress={handleUserSetting}
             />
             <View style={styles.space} />
             <SettingItems
@@ -49,6 +62,7 @@ function SettingHomeScreen({navigation}: SettingHomeScreenProps) {
 const styles = StyleSheet.create({
     container:{
         flex: 1,
+
     },
     space: {
         height: 10,

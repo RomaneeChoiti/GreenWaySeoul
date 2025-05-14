@@ -1,7 +1,7 @@
 import InputField from '@/components/common/InputField';
 import EditProfileHeaderRight from '@/components/setting/EditProfileHeaderRight';
 import EditProfileImageOption from '@/components/setting/EditProfileImageOption';
-import { errorMessages } from '@/constants';
+import { errorMessages, settingNavigations } from '@/constants';
 import useAuth from '@/hooks/queries/useAuth';
 import useForm from '@/hooks/useForm';
 import useImagePicker from '@/hooks/useImagePicker';
@@ -10,7 +10,7 @@ import { SettingStackParamList } from '@/navigations/stack/SettingStackNavigator
 import { validateEditProfile } from '@/utils';
 import { StackScreenProps } from '@react-navigation/stack';
 import { useEffect } from 'react';
-import { Image, Keyboard, Platform, Pressable, StyleSheet, View } from 'react-native';
+import { Image, Keyboard, Platform, Pressable, StyleSheet, Text, View } from 'react-native';
 import Toast from 'react-native-toast-message';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 
@@ -54,6 +54,10 @@ function EditProfileScreen({navigation}: EditProfileScreenProps) {
                     position: 'bottom',
                 }),
         });
+    };
+
+    const handleDeleteAccount = () => {
+        navigation.navigate(settingNavigations.DELETE_ACCOUNT);
     };
 
     useEffect(() => {
@@ -107,6 +111,9 @@ function EditProfileScreen({navigation}: EditProfileScreenProps) {
             hideOption={imageOption.hide}
             onChangeImage={imagePicker.handleChange}
         />
+        <Pressable style={styles.deleteButton} onPress={handleDeleteAccount}>
+            <Text style={styles.deleteButtonText}>회원탈퇴</Text>
+        </Pressable>
     </View>
   );
 }
@@ -139,6 +146,21 @@ const styles = StyleSheet.create({
         borderWidth: 1,
         backgroundColor: '#f0f0f0',
         borderColor: '#cecece',
+    },
+    deleteButton: {
+        position: 'absolute', // 절대 위치 설정
+        bottom: 60, // 하단 여백
+        right: 30, // 오른쪽 여백
+        paddingVertical: 8,
+        paddingHorizontal: 10,
+        backgroundColor: '#ff4d4d',
+        borderRadius: 5,
+        alignItems: 'center',
+    },
+    deleteButtonText: {
+        color: '#fff',
+        fontSize: 14,
+        fontWeight: 'bold',
     },
 });
 

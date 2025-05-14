@@ -18,6 +18,14 @@ const alerts = {
         TITLE : '오류',
         DESCRIPTION : '북마크 상태를 변경할 수 없습니다. 다시 시도해주세요',
     },
+    DELETE_ACCOUNT: {
+        TITLE : '회원탈퇴',
+        DESCRIPTION : '회원 탈퇴 시 회원 정보는 삭제되며 복구할 수 없습니다.',
+        ERROR_TITLE : '회원탈퇴 실패',
+        ERROR_DESCRIPTION : '회원탈퇴에 실패했습니다. 다시 시도해주세요.',
+        SUCCESS_TITLE : '회원탈퇴 성공',
+        SUCCESS_DESCRIPTION : '회원탈퇴가 완료되었습니다.',
+    },
 } as const;
 
 const errorMessages = {
