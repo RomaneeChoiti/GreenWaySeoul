@@ -57,7 +57,7 @@ const CustomDrawerContent = (props: DrawerContentComponentProps) => {
             return (
               <Image
                 source={require('@/assets/dfUser.png')}
-                style={styles.userImage}
+                style={[styles.userImage, styles.dfUserImage]}
               />
             );
           }
@@ -99,9 +99,17 @@ const styling = (theme: ThemeMode) =>
     height: 100,
     borderRadius: 40,
     marginBottom: 7,
+
   },
   userEmail: {
     fontSize: 17,
+    color: colors[theme].BLACK,
+  },
+  dfUserImage:{
+    shadowColor: colors[theme].BLACK,
+    shadowOpacity: 0.5,
+    shadowRadius: 10,
+    elevation: 5,
   },
   buttonContainer:{
     flexDirection: 'row',
