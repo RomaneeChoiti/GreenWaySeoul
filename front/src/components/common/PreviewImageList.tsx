@@ -1,9 +1,10 @@
 import { Image, Platform, Pressable, ScrollView, StyleSheet, View } from 'react-native';
-import { ImageUri } from '@/types';
+import { ImageUri, ThemeMode } from '@/types';
 import Ionicon from 'react-native-vector-icons/Ionicons';
 import { colors, feedNavigations } from '@/constants';
 import { NavigationProp, useNavigation } from '@react-navigation/native';
 import { FeedStackParamList } from '@/navigations/stack/FeedStackNavigator';
+import { useThemeStore } from '@/store/useThemeStore';
 
 interface PreviewImageListProps {
     imageUris: ImageUri[];
@@ -18,6 +19,9 @@ function PreviewImageList({
     showOptions = false,
     imagePreviewEnabled = false,
     }: PreviewImageListProps) {
+    const { theme } = useThemeStore();
+    const styles = styling(theme);
+
     const navigation = useNavigation<NavigationProp<FeedStackParamList>>();
 
     const handlePressImage = (index: number) => {
@@ -53,7 +57,7 @@ function PreviewImageList({
                                 <Pressable
                                 style={[styles.imageButton, styles.deleteButton]}
                                 onPress={() => onDelete?.(uri)}>
-                                <Ionicon name="close" size={16} color={colors.ERROR}/>
+                                <Ionicon name="close" size={16} color={styles.icon.color}/>
                             </Pressable>}
                         </Pressable>
                     );
@@ -63,7 +67,8 @@ function PreviewImageList({
     );
 }
 
-const styles = StyleSheet.create({
+const styling = (theme: ThemeMode) =>
+    StyleSheet.create({
     container: {
         gap: 10,
         flexDirection: 'row',
@@ -78,14 +83,15 @@ const styles = StyleSheet.create({
     },
     imageButton: {
         position: 'absolute',
-        backgroundColor: colors.WHITE,
+        backgroundColor: colors[theme].UNCHANGE_WHITE,
         zIndex: 1,
     },
     deleteButton: {
         top: 0,
         right: 0,
-        borderTopRightRadius: 10,
-        borderBottomLeftRadius: 10,
+    },
+    icon:{
+        color: colors[theme].PINK_700,
     },
 });
 

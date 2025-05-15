@@ -1,6 +1,6 @@
 import SettingItems from '@/components/setting/SettingItems';
 import Accordion from '@/components/common/Accordion';
-import { appInfo, colors, settingNavigations, userSetting } from '@/constants';
+import { appInfo, colorHex, colors, settingNavigations, userSetting } from '@/constants';
 import useAuth from '@/hooks/queries/useAuth';
 import { SettingStackParamList } from '@/navigations/stack/SettingStackNavigator';
 import { StackScreenProps } from '@react-navigation/stack';
@@ -8,10 +8,14 @@ import { SafeAreaView, ScrollView, StyleSheet, View } from 'react-native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import useModal from '@/hooks/useModal';
 import DarkModeOption from '@/components/setting/DarkModeOption';
+import { useThemeStore } from '@/store/useThemeStore';
+import { ThemeMode } from '@/types';
 
 type SettingHomeScreenProps = StackScreenProps<SettingStackParamList>;
 
 function SettingHomeScreen({ navigation }: SettingHomeScreenProps) {
+    const { theme } = useThemeStore();
+    const styles = styling(theme);
     const { logoutMutation } = useAuth();
     const darkModeOptions = useModal();
 
@@ -44,13 +48,13 @@ function SettingHomeScreen({ navigation }: SettingHomeScreenProps) {
                 <View style={styles.space} />
                 <SettingItems
                     title="로그아웃"
-                    color={colors.ERROR}
+                    color={colorHex.RED}
                     onPress={handleLogout}
                     icon={
                         <Ionicons
                             name="log-out-outline"
                             size={20}
-                            color={colors.ERROR}
+                            color={colorHex.RED}
                         />
                     }
                 />
@@ -63,9 +67,10 @@ function SettingHomeScreen({ navigation }: SettingHomeScreenProps) {
     );
 }
 
-const styles = StyleSheet.create({
+const styling = (theme: ThemeMode) => StyleSheet.create({
     container: {
         flex: 1,
+        backgroundColor: colors[theme].WHITE,
     },
     space: {
         height: 10,

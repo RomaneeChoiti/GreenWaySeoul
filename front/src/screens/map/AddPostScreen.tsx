@@ -18,9 +18,13 @@ import usePermission from '@/hooks/usePermission';
 import useImagePicker from '@/hooks/useImagePicker';
 import PreviewImageList from '@/components/common/PreviewImageList';
 import { formatDate } from '@/utils/date';
+import { ThemeMode } from '@/types';
+import { useThemeStore } from '@/store/useThemeStore';
 
 
 function AddPostScreen() {
+  const { theme } = useThemeStore();
+  const styles = styling(theme);
   const navigation = useNavigation();
   const [isModalVisible, setModalVisible] = useState(false);
   const currentDate = new Date();
@@ -176,9 +180,11 @@ const handleSubmit = () => {
   );
 }
 
-const styles = StyleSheet.create({
+const styling = (theme:ThemeMode) =>
+  StyleSheet.create({
   container: {
     flex: 1,
+    backgroundColor: colors[theme].WHITE,
   },
   contentContainer: {
     flex: 1,
@@ -199,7 +205,7 @@ const styles = StyleSheet.create({
   },
   addressText:{
     fontSize: 18,
-    color: colors.WHITE,
+    color: colors[theme].UNCHANGE_WHITE,
     fontWeight: 'bold',
   },
   buttonContainer: {

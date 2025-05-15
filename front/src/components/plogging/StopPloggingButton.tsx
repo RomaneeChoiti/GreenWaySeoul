@@ -6,9 +6,14 @@ import { usePloggingStateStore } from '@/store/usePloggingStore';
 import { useNavigation } from '@react-navigation/native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { MapStackParamList } from '@/navigations/stack/MapStackNavigator';
+import { useThemeStore } from '@/store/useThemeStore';
+import { ThemeMode } from '@/types';
 
 
 const StopPloggingButton = () => {
+  const { theme } = useThemeStore();
+  const styles = styling(theme);
+
   const [isModalVisible, setModalVisible] = useState(false);
   const stopPlogging = usePloggingStateStore((state) => state.stopPlogging);
   const navigation = useNavigation<NativeStackNavigationProp<MapStackParamList>>();
@@ -65,7 +70,7 @@ const StopPloggingButton = () => {
               />
               <CustomButton
                 label="아니오"
-                variant="filled"
+                variant="outlined"
                 size="medium"
                 onPress={handleCancel}
               />
@@ -77,49 +82,51 @@ const StopPloggingButton = () => {
   );
 };
 
-const styles = StyleSheet.create({
-  stopPloggingButton: {
-    position: 'absolute',
-    alignSelf: 'center',
-    bottom: 100,
-    backgroundColor: colors.ERROR,
-    paddingVertical: 15,
-    paddingHorizontal: 140,
-    borderRadius: 20,
-    shadowColor: colors.BLACK,
-    shadowOffset: { width: 0, height: 4 },
-    shadowOpacity: 0.3,
-    shadowRadius: 5,
-    elevation: 5,
-  },
-  stopPloggingText: {
-    color: colors.WHITE,
-    fontSize: 20,
-    fontWeight: 'bold',
-    textAlign: 'center',
-  },
-  modalOverlay: {
-    flex: 1,
-    backgroundColor: 'rgba(0, 0, 0, 0.5)',
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  modalContent: {
-    backgroundColor: colors.WHITE,
-    padding:20,
-    borderRadius: 10,
-    width: '80%',
-    alignItems: 'center',
-  },
-  modalText: {
-    fontSize: 19,
-    marginBottom: 20,
-  },
-  modalButtons: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    width: '100%',
-  },
+const styling = (theme: ThemeMode) =>
+  StyleSheet.create({
+    stopPloggingButton: {
+      position: 'absolute',
+      alignSelf: 'center',
+      bottom: 100,
+      backgroundColor: colors.PRIMARY, // Updated to use theme-based color
+      paddingVertical: 15,
+      paddingHorizontal: 140,
+      borderRadius: 20,
+      shadowColor: colors[theme].BLACK,
+      shadowOffset: { width: 0, height: 4 },
+      shadowOpacity: 0.3,
+      shadowRadius: 5,
+      elevation: 5,
+    },
+    stopPloggingText: {
+      color: colors[theme].UNCHANGE_WHITE, // Updated to use theme-based color
+      fontSize: 20,
+      fontWeight: 'bold',
+      textAlign: 'center',
+    },
+    modalOverlay: {
+      flex: 1,
+      backgroundColor: 'rgba(0, 0, 0, 0.5)',
+      justifyContent: 'center',
+      alignItems: 'center',
+    },
+    modalContent: {
+      backgroundColor: colors[theme].WHITE, // Updated to use theme-based color
+      padding:20,
+      borderRadius: 10,
+      width: '80%',
+      alignItems: 'center',
+    },
+    modalText: {
+      fontSize: 19,
+      marginBottom: 20,
+      color: colors[theme].BLACK, // Updated to use theme-based color
+    },
+    modalButtons: {
+      flexDirection: 'row',
+      justifyContent: 'space-between',
+      width: '100%',
+    },
 });
 
 export default StopPloggingButton;

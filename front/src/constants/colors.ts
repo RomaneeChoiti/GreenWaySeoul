@@ -1,7 +1,3 @@
-const primaryColors = {
-    PRIMARY: '#28a745',
-};
-
 
 const common = {
     PINK_200: '#FAE2E9',
@@ -22,6 +18,7 @@ const common = {
 
 const colors = {
     PRIMARY: '#28a745',
+    WARNING: '#D32F2F',
     light: {
     WHITE: '#FFF',
     GRAY_100: '#F8F8F8',
@@ -45,12 +42,12 @@ const colors = {
 } as const;
 
 const colorHex = {
-    RED: colors['light'].PINK_400,
+    RED: colors['light'].PINK_700,
     BLUE: colors['light'].BLUE_400,
     GREEN: colors['light'].GREEN_400,
     YELLOW: colors['light'].YELLOW_400,
     PURPLE: colors['light'].PURPLE_400,
 } as const;
 
-export {colors, colorHex, primaryColors};
+export {colors, colorHex};
 

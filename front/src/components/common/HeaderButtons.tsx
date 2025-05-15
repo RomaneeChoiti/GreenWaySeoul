@@ -1,4 +1,6 @@
 import { colors } from '@/constants';
+import { useThemeStore } from '@/store/useThemeStore';
+import { ThemeMode } from '@/types';
 import { DrawerToggleButton } from '@react-navigation/drawer';
 import { useNavigation } from '@react-navigation/native';
 import { ReactNode } from 'react';
@@ -38,6 +40,9 @@ function HeaderButton({
   hasError = false,
   ...props
 }: HeaderButtonProps) {
+  const { theme } = useThemeStore();
+  const styles = styling(theme);
+
   return (
     <Pressable disabled={hasError} style={styles.container} {...props}>
       {!labelText && icon}
@@ -50,7 +55,7 @@ function HeaderButton({
   );
 }
 
-const styles = StyleSheet.create({
+const styling = (theme: ThemeMode) => StyleSheet.create({
   container: {
     flex: 1,
     height: '100%',
@@ -61,7 +66,7 @@ const styles = StyleSheet.create({
   text: {
     fontSize: 15,
     fontWeight: '500',
-    color: colors.ERROR,
+    color: colors[theme].PINK_700,
   },
   textError: {
     color: '#8a8a8a',

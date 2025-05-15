@@ -16,8 +16,12 @@ import { useTrashcanStore } from '@/store/useTrashcanStore';
 import { TrashcanData } from '@/types/domain';
 import useMoveMapView from '@/hooks/useMoveMapView';
 import Toast from 'react-native-toast-message';
+import { useThemeStore } from '@/store/useThemeStore';
+import { ThemeMode } from '@/types';
 
 function MapHomeScreen() {
+  const {theme} = useThemeStore();
+  const styles = styling(theme);
   const { userLocation, isUserLocationError } = useUserLocation();
   usePermission('LOCATION');
 
@@ -40,7 +44,11 @@ function MapHomeScreen() {
     moveMapView(userLocation);
   };
 
-  const handleMarkerPress = (coordinate: LatLng, type: 'recycle' | 'trash', data: TrashcanData) => {
+  const handleMarkerPress = (
+    coordinate: LatLng,
+    type: 'recycle' | 'trash',
+    data: TrashcanData) => {
+
     setSelectedMarker(coordinate);
     setMarkerType(type);
     // TODO: 스프레드 연산자를 사용하여 data를 펼쳐서 setTrashcanInfo에 전달
@@ -92,7 +100,7 @@ function MapHomeScreen() {
         <PloggingStatusText isPlogging={isPlogging} />
         {!isPlogging ? (
           <Pressable style={styles.locationButton} onPress={handlePressUserLocation}>
-            <MaterialIcons name="my-location" color={colors.WHITE} size={30} />
+            <MaterialIcons name="my-location" color={styles.iconColor.color} size={30} />
           </Pressable>
         ) : (
           <StopPloggingButton />
@@ -108,9 +116,13 @@ function MapHomeScreen() {
   );
 }
 
-const styles = StyleSheet.create({
+const styling = (theme: ThemeMode) =>
+  StyleSheet.create({
   container: {
     flex: 1,
+  },
+  iconColor:{
+    color: colors[theme].UNCHANGE_WHITE,
   },
   buttonBackground: {
     backgroundColor: colors.PRIMARY,
@@ -122,7 +134,7 @@ const styles = StyleSheet.create({
     borderRadius: 30,
   },
   buttonText: {
-    color: colors.WHITE,
+    color: colors[theme].WHITE,
     fontSize: 20,
     fontWeight: 'bold',
     textAlign: 'center',
@@ -132,11 +144,11 @@ const styles = StyleSheet.create({
     alignSelf: 'flex-end',
     bottom: 40,
     right: 30,
-    backgroundColor: colors.PRIMARY_DARK,
+    backgroundColor: colors.PRIMARY,
     paddingVertical: 15,
     paddingHorizontal: 15,
     borderRadius: 100,
-    shadowColor: colors.BLACK,
+    shadowColor: colors[theme].BLACK,
     shadowOffset: { width: 0, height: 4 },
     shadowOpacity: 0.3,
     shadowRadius: 5,

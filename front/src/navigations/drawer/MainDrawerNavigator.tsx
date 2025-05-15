@@ -8,6 +8,7 @@ import { DrawerContentComponentProps } from '@react-navigation/drawer';
 import { NavigatorScreenParams } from '@react-navigation/native';
 import FeedTabNavigator, { FeedTabParamList } from '../tab/FeedTabNavigator';
 import SettingStackNavigator, { SettingStackParamList } from '../stack/SettingStackNavigator';
+import { useThemeStore } from '@/store/useThemeStore';
 
 export type MainDrawerParamList = {
   [mainNavigations.HOME]: NavigatorScreenParams<MapStackParamList>;
@@ -17,13 +18,19 @@ export type MainDrawerParamList = {
 
 const Drawer = createDrawerNavigator<MainDrawerParamList>();
 
-const getDrawerIcon = (iconName: string, focused: boolean) => (
-    <MaterialIcons name={iconName} color={focused ? colors.PRIMARY : 'gray'} size={30} />
-  );
-
 const renderCustomDrawerContent = (props: DrawerContentComponentProps) => <CustomDrawerContent {...props} />;
 
 function MainDrawerNavigator() {
+  const { theme } = useThemeStore();
+  const getDrawerIcon = (iconName: string, focused: boolean) => (
+    <MaterialIcons
+      name={iconName}
+      color={focused
+        ? colors.PRIMARY
+        : colors[theme].GRAY_500}
+      size={30} />
+  );
+
   return (
     <Drawer.Navigator
     drawerContent={renderCustomDrawerContent}
@@ -32,13 +39,15 @@ function MainDrawerNavigator() {
       swipeEnabled: false,
       drawerStyle: {
         width: Dimensions.get('window').width * 0.655,
+        backgroundColor: colors[theme].WHITE,
       },
       drawerLabelStyle: {
         fontSize: 17.5,
         fontWeight: '600',
-        color: colors.BLACK,
+        color: colors[theme].BLACK,
       },
       headerShown: false,
+      drawerActiveBackgroundColor: colors[theme].GRAY_200,
     }}>
           <Drawer.Screen
             name={mainNavigations.HOME}
