@@ -77,7 +77,7 @@ function Button({children, isDanger = false, isChecked = false, ...props}: Butto
                 >
                 {children}
             </Text>
-            {isChecked && <Ionicons name="checkmark" size={20} color={colors.ERROR}/>}
+            {isChecked && <Ionicons name="checkmark" size={20} color={colors.WARNING}/>}
         </Pressable>
     );
 }
