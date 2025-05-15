@@ -88,7 +88,6 @@ function FeedTabNavigator() {
                 options={{
                     headerTitle: '즐겨찾기',
                     headerLeft: HeaderLeftBack,
-                    
                 }}
             />
         </Tab.Navigator>
