@@ -5,7 +5,8 @@ import { NavigationContainer } from '@react-navigation/native';
 import RootNavigator from './src/navigations/root/RootNavigator';
 import Toast, { BaseToast, BaseToastProps, ErrorToast } from 'react-native-toast-message';
 import { colors } from '@/constants';
-
+import { useThemeStore } from '@/store/useThemeStore';
+import { StatusBar } from 'react-native';
 
 const toastConfig = {
   success: (props: BaseToastProps) => (
@@ -24,7 +25,7 @@ const toastConfig = {
   error: (props: BaseToastProps) => (
     <ErrorToast
       {...props}
-      style={{ borderLeftColor: colors.ERROR }}
+      style={{ borderLeftColor: colors.WARNING }}
       text1Style={{
         fontSize: 15,
       }}
@@ -37,8 +38,12 @@ const toastConfig = {
 
 
 function App(): React.JSX.Element {
+  const {theme} = useThemeStore();
   return (
     <QueryClientProvider client={queryClient}>
+      <StatusBar
+        barStyle={theme === 'dark' ? 'light-content' : 'dark-content'}
+      />
       <NavigationContainer>
         <RootNavigator />
         <Toast config={toastConfig}/>
