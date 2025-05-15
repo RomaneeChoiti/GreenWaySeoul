@@ -6,11 +6,14 @@ import { SettingStackParamList } from '@/navigations/stack/SettingStackNavigator
 import { StackScreenProps } from '@react-navigation/stack';
 import { SafeAreaView, ScrollView, StyleSheet, View } from 'react-native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
+import useModal from '@/hooks/useModal';
+import DarkModeOption from '@/components/setting/DarkModeOption';
 
 type SettingHomeScreenProps = StackScreenProps<SettingStackParamList>;
 
 function SettingHomeScreen({ navigation }: SettingHomeScreenProps) {
     const { logoutMutation } = useAuth();
+    const darkModeOptions = useModal();
 
     const handleProfile = () => {
         navigation.navigate(settingNavigations.EDIT_PROFILE);
@@ -20,6 +23,10 @@ function SettingHomeScreen({ navigation }: SettingHomeScreenProps) {
         logoutMutation.mutate(null);
     };
 
+    const handleDarkMode = () => {
+        darkModeOptions.show();
+    };
+
     return (
         <SafeAreaView style={styles.container}>
             <ScrollView>
@@ -27,6 +34,10 @@ function SettingHomeScreen({ navigation }: SettingHomeScreenProps) {
                     title="프로필 수정"
                     subTitle="회원정보를 수정합니다."
                     onPress={handleProfile}
+                />
+                <SettingItems
+                    title="다크모드"
+                    onPress={handleDarkMode}
                 />
                 <Accordion title="앱 정보 및 지원" data={appInfo} />
                 <Accordion title="사용자 관련 설정" data={userSetting} />
@@ -42,6 +53,10 @@ function SettingHomeScreen({ navigation }: SettingHomeScreenProps) {
                             color={colors.ERROR}
                         />
                     }
+                />
+                <DarkModeOption
+                    isVisible={darkModeOptions.isVisible}
+                    hideOption={darkModeOptions.hide}
                 />
             </ScrollView>
         </SafeAreaView>
