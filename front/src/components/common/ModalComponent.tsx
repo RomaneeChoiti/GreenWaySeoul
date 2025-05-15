@@ -22,8 +22,8 @@ function ModalComponent({ visible, message, onConfirm, onCancel }: ModalComponen
         <View style={styles.modalContainer}>
           <Text style={styles.message}>{message}</Text>
           <View style={styles.buttonContainer}>
-            <CustomButton label="아니요" variant="outlined" size="medium" onPress={onCancel} />
-            <CustomButton label="확인" variant="outlined" size="medium" onPress={onConfirm} />
+            <CustomButton label="아니요" variant="outlined" size="medium" onPress={onCancel} textStyle={styles.buttonText} />
+            <CustomButton label="확인" variant="outlined" size="medium" onPress={onConfirm}  textStyle={styles.buttonText}/>
           </View>
         </View>
       </TouchableOpacity>
@@ -59,6 +59,11 @@ const styling = (theme: ThemeMode) =>
     buttonContainer: {
       flexDirection: 'row',
       gap: 5,
+    },
+    buttonText:{
+      color: colors[theme].BLACK,
+      fontSize: 16,
+      fontWeight: '500',
     },
   });
 
