@@ -2,6 +2,8 @@ import React, { ForwardedRef, forwardRef, ReactNode, useRef } from 'react';
 import { Dimensions, StyleSheet, TextInput, View, TextInputProps, Pressable, Text } from 'react-native';
 import { colors } from '@/constants';
 import { mergeRefs } from '@/utils';
+import { useThemeStore } from '@/store/useThemeStore';
+import { ThemeMode } from '@/types';
 
 interface InputFieldProps extends TextInputProps {
     disabled?: boolean;
@@ -21,7 +23,8 @@ const InputField = forwardRef(({
     }:InputFieldProps,
     ref?: ForwardedRef<TextInput>,
 ) => {
-
+    const { theme } = useThemeStore();
+    const styles = styling(theme);
     // ref : 접근을 위한 참조
     const innerRef = useRef<TextInput | null>(null);
     const handlePressInput = () => {
@@ -43,7 +46,7 @@ const InputField = forwardRef(({
                 <TextInput
                     ref={ref ? mergeRefs(innerRef, ref) : innerRef}
                     editable={!disabled}
-                    placeholderTextColor={colors.PRIMARY_DARK}
+                    placeholderTextColor={colors[theme].GRAY_700}
                     style={styles.input}
                     autoCapitalize="none"
                     spellCheck={false}
@@ -56,7 +59,8 @@ const InputField = forwardRef(({
   );
 });
 
-const styles = StyleSheet.create({
+const styling = (theme: ThemeMode) =>
+    StyleSheet.create({
     container: {
         borderWidth: 1,
         borderColor: colors.PRIMARY,
@@ -64,17 +68,17 @@ const styles = StyleSheet.create({
     },
     input: {
         fontSize: 16,
-        color: colors.BLACK,
+        color: colors[theme].BLACK,
         padding: 0,
     },
     disabled: {
         backgroundColor: 'gray',
     },
     inputError: {
-        borderColor: colors.ERROR,
+        borderColor: colors[theme].PINK_500,
     },
     error: {
-        color: colors.ERROR,
+        color: colors[theme].PINK_700,
         fontSize: 12,
         marginBottom: 5,
     },

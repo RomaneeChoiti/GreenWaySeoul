@@ -2,6 +2,8 @@ import React, { ReactNode } from 'react';
 import { Dimensions, Pressable, PressableProps, StyleProp, StyleSheet, TextStyle, View, ViewStyle } from 'react-native';
 import { Text } from 'react-native-gesture-handler';
 import { colors } from '@/constants';
+import { useThemeStore } from '@/store/useThemeStore';
+import { ThemeMode } from '@/types';
 
 interface CustomButtonProps extends PressableProps{
     label: string;
@@ -26,6 +28,8 @@ function CustomButton({
         icon = null,
         ...props
     }: CustomButtonProps) {
+    const {theme} = useThemeStore();
+    const styles = styling(theme);
     return(
         <Pressable
             disabled={inValid}
@@ -48,7 +52,8 @@ function CustomButton({
     );
 }
 
-const styles = StyleSheet.create({
+const styling = (theme: ThemeMode) =>
+    StyleSheet.create({
     container: {
         borderRadius: 3,
         justifyContent: 'center',
@@ -93,17 +98,17 @@ const styles = StyleSheet.create({
         fontWeight: '700',
     },
     filledPressed: {
-        backgroundColor: colors.PRIMARY_DARK,
+        backgroundColor: colors.PRIMARY,
     },
     outlinedPressed: {
-        borderColor: colors.PRIMARY_DARK,
+        backgroundColor: colors.PRIMARY,
         opacity: 0.5,
     },
     filledText: {
-        color: colors.WHITE,
+        color: colors[theme].UNCHANGE_WHITE,
     },
     outlinedText: {
-        color: colors.PRIMARY,
+        color: colors[theme].BLACK,
     },
 });
 

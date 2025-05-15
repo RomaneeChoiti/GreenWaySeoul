@@ -1,12 +1,17 @@
 import React, { useEffect, useRef } from 'react';
 import { StyleSheet, View, Animated, Easing, Dimensions } from 'react-native';
 import { colors } from '@/constants';
+import { useThemeStore } from '@/store/useThemeStore';
+import { ThemeMode } from '@/types';
 
 interface PloggingStatusTextProps {
   isPlogging: boolean;
 }
 
 const PloggingStatusText = ({ isPlogging }: PloggingStatusTextProps) => {
+  const { theme } = useThemeStore();
+  const styles = styling(theme);
+
   const scrollAnim = useRef(new Animated.Value(0)).current;
   const screenWidth = Dimensions.get('window').width;
 
@@ -38,12 +43,12 @@ const PloggingStatusText = ({ isPlogging }: PloggingStatusTextProps) => {
   );
 
   const message = isPlogging
-    ? "안전에 유의하세요. 작은 행동이 큰 변화를 만듭니다"
-    : "쓰레기통을 클릭하여 플로깅을 시작해보세요";
+    ? '안전에 유의하세요. 작은 행동이 큰 변화를 만듭니다'
+    : '쓰레기통을 클릭하여 플로깅을 시작해보세요';
 
   const containerStyle = [
     styles.container,
-    { backgroundColor: isPlogging ? colors.ERROR : colors.PRIMARY }, // Dynamically set background color
+    { backgroundColor: isPlogging ? colors.WARNING : colors.PRIMARY }, // Dynamically set background color
   ];
 
   return (
@@ -54,7 +59,8 @@ const PloggingStatusText = ({ isPlogging }: PloggingStatusTextProps) => {
   );
 };
 
-const styles = StyleSheet.create({
+const styling = (theme: ThemeMode) =>
+  StyleSheet.create({
   container: {
     position: 'absolute',
     alignSelf: 'center',
@@ -68,7 +74,7 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     fontSize: 18,
     fontWeight: 'bold',
-    color: colors.WHITE,
+    color: colors[theme].UNCHANGE_WHITE,
   },
 });
 

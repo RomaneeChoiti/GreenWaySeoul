@@ -1,3 +1,6 @@
+import { colors } from '@/constants';
+import { useThemeStore } from '@/store/useThemeStore';
+import { ThemeMode } from '@/types';
 import React, { useState, useRef } from 'react';
 import { StyleSheet, Text, View, Pressable, Animated, LayoutChangeEvent } from 'react-native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
@@ -8,6 +11,8 @@ type AccordionProps = {
 };
 
 function Accordion({ title, data }: AccordionProps) {
+    const { theme } = useThemeStore();
+    const styles = styling(theme);
     const [isVisible, setIsVisible] = useState(false);
     const animation = useRef(new Animated.Value(0)).current;
     const [contentHeights, setContentHeights] = useState<number[]>([]);
@@ -45,7 +50,7 @@ function Accordion({ title, data }: AccordionProps) {
                 <Ionicons
                     name={isVisible ? 'chevron-up' : 'chevron-down'}
                     size={20}
-                    color="gray"
+                    color={styles.iconColor.color}
                 />
             </Pressable>
             <Animated.View style={[styles.container, { height: heightInterpolation, overflow: 'hidden' }]}>
@@ -64,22 +69,28 @@ function Accordion({ title, data }: AccordionProps) {
     );
 }
 
-const styles = StyleSheet.create({
+const styling = (theme: ThemeMode) =>
+    StyleSheet.create({
     header: {
         flexDirection: 'row',
         justifyContent: 'space-between',
         padding: 15,
-        backgroundColor: '#fff',
+        backgroundColor: colors[theme].WHITE,
         borderBottomWidth: StyleSheet.hairlineWidth,
-        borderBottomColor: '#9c9c9c',
+        borderBottomColor: colors[theme].GRAY_700,
+    },
+    iconColor: {
+        color: colors[theme].BLACK,
     },
     headerText: {
         fontSize: 16,
+        fontWeight: '500',
+        color: colors[theme].BLACK,
     },
     container: {
         paddingLeft: 20,
         paddingRight: 20,
-        backgroundColor: '#f9f9f9',
+        backgroundColor: colors[theme].WHITE,
     },
     item: {
         paddingVertical: 10,
@@ -87,11 +98,12 @@ const styles = StyleSheet.create({
     itemTitle: {
         fontSize: 16,
         fontWeight: '500',
+        color: colors[theme].BLACK,
     },
     itemSubTitle: {
         fontSize: 14,
         marginTop: 5,
-        color: '#666',
+        color: colors[theme].GRAY_500,
         lineHeight: 20,
     },
 });

@@ -1,8 +1,7 @@
-import { useState } from "react";
-import { StyleSheet } from "react-native";
-import { FlatList } from "react-native-gesture-handler"
-import useGetInfinitePosts from "@/hooks/queries/useGetInfinitePosts"
-import FeedItem from "./FeedItem";
+import { useState } from 'react';
+import { FlatList, StyleSheet } from 'react-native';
+import useGetInfinitePosts from '@/hooks/queries/useGetInfinitePosts';
+import FeedItem from './FeedItem';
 
 
 /*

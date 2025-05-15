@@ -1,5 +1,5 @@
-import { Image, StyleSheet } from "react-native";
-import { LatLng, Marker } from "react-native-maps";
+import { Image, StyleSheet } from 'react-native';
+import { LatLng, Marker } from 'react-native-maps';
 
 interface CustomMarkerProps{
   coordinate: LatLng;

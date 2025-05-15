@@ -3,13 +3,17 @@ import { Pressable, StyleSheet, Text, View } from 'react-native';
 import { colors } from '@/constants';
 import useLoginStore from '@/store/useLoginStore';
 import {usePloggingStateStore} from '@/store/usePloggingStore';
+import { useThemeStore } from '@/store/useThemeStore';
+import { ThemeMode } from '@/types';
 
 interface PloggingButtonProps {
   onPress?: () => void;
 }
+
 function PloggingButton ({ onPress }: PloggingButtonProps) {
+  const { theme } = useThemeStore();
+  const styles = styling(theme);
   const isLoggedIn = useLoginStore(state => state.isLoggedIn);
-  console.log('login', isLoggedIn);
   const startPlogging = usePloggingStateStore(state => state.startPlogging);
   const isPlogging = usePloggingStateStore(state => state.isPlogging);
 
@@ -44,14 +48,10 @@ function PloggingButton ({ onPress }: PloggingButtonProps) {
   );
 }
 
-const styles = StyleSheet.create({
+const styling = (theme: ThemeMode) =>
+  StyleSheet.create({
   actionButton: {
     borderRadius: 30,
-    shadowColor: colors.SECONDARY,
-    shadowOffset: { width: 0, height: 0 },
-    shadowOpacity: 0.5,
-    shadowRadius: 20,
-    elevation: 10,
   },
   actionButtonPressed: {
     transform: [{ scale: 0.95 }],
@@ -66,7 +66,7 @@ const styles = StyleSheet.create({
     borderRadius: 15,
   },
   buttonText: {
-    color: colors.WHITE,
+    color: colors[theme].UNCHANGE_WHITE,
     fontSize: 20,
     fontWeight: 'bold',
     textAlign: 'center',
@@ -76,11 +76,6 @@ const styles = StyleSheet.create({
     paddingVertical: 20,
     paddingHorizontal: 40,
     borderRadius: 30,
-    shadowColor: colors.SECONDARY,
-    shadowOffset: { width: 0, height: 0 },
-    shadowOpacity: 0.5,
-    shadowRadius: 20,
-    elevation: 10,
   },
 });
 

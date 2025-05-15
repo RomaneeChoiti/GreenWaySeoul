@@ -1,3 +1,4 @@
+import { colors } from '@/constants';
 import { PropsWithChildren, ReactNode } from 'react';
 import {
     Modal,
@@ -9,6 +10,7 @@ import {
     Text,
     View,
 } from 'react-native';
+import Ionicons from 'react-native-vector-icons/Ionicons';
 
 interface OptionMainProps extends ModalProps{
     children: ReactNode;
@@ -56,9 +58,10 @@ function Container({children}: PropsWithChildren){
 interface ButtonProps extends PressableProps{
     children: ReactNode;
     isDanger?: boolean;
+    isChecked?: boolean;
 }
 
-function Button({children, isDanger = false, ...props}: ButtonProps){
+function Button({children, isDanger = false, isChecked = false, ...props}: ButtonProps){
     return(
         <Pressable
             style={({pressed}) => [
@@ -74,6 +77,7 @@ function Button({children, isDanger = false, ...props}: ButtonProps){
                 >
                 {children}
             </Text>
+            {isChecked && <Ionicons name="checkmark" size={20} color={colors.WARNING}/>}
         </Pressable>
     );
 }

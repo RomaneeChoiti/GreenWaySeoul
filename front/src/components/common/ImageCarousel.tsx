@@ -1,7 +1,8 @@
-import { colors } from "@/constants";
-import { ImageUri } from "@/types";
-import { useNavigation } from "@react-navigation/native";
-import { useState } from "react";
+import { colors } from '@/constants';
+import { useThemeStore } from '@/store/useThemeStore';
+import { ImageUri, ThemeMode } from '@/types';
+import { useNavigation } from '@react-navigation/native';
+import { useState } from 'react';
 import {
     Dimensions,
     FlatList,
@@ -12,9 +13,9 @@ import {
     Pressable,
     StyleSheet,
     View,
-} from "react-native";
-import { useSafeAreaInsets } from "react-native-safe-area-context";
-import Octicons from "react-native-vector-icons/Octicons";
+} from 'react-native';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import Octicons from 'react-native-vector-icons/Octicons';
 
 interface ImageCarouselProps {
     images: ImageUri[];
@@ -24,6 +25,8 @@ interface ImageCarouselProps {
 const deviceWidth = Dimensions.get('window').width;
 
 function ImageCarousel({images, pressedIndex = 0}: ImageCarouselProps) {
+    const { theme } = useThemeStore();
+    const styles = styling(theme);
     const insets = useSafeAreaInsets();
     const navigation = useNavigation();
     const [initialIndex, setInitialIndex] = useState(pressedIndex);
@@ -85,11 +88,12 @@ function ImageCarousel({images, pressedIndex = 0}: ImageCarouselProps) {
   );
 }
 
-const styles = StyleSheet.create({
-    container: {
+const styling = (theme: ThemeMode) =>
+    StyleSheet.create({
+        container: {
         flex: 1,
         alignItems: 'center',
-        backgroundColor: 'white',
+        backgroundColor: colors[theme].WHITE,
     },
     image: {
         width: '100%',
@@ -99,14 +103,14 @@ const styles = StyleSheet.create({
         position: 'absolute',
         zIndex: 1,
         left: 20,
-        backgroundColor: colors.WHITE,
+        backgroundColor: colors[theme].WHITE,
         padding: 10,
         borderRadius: 50,
         width: 50,
         height: 50,
         justifyContent: 'center',
         alignItems: 'center',
-        shadowColor: colors.BLACK,
+        shadowColor: colors[theme].BLACK,
         shadowOffset: { width: 0, height: 4 },
         shadowOpacity: 0.3,
         shadowRadius: 5,
@@ -120,13 +124,13 @@ const styles = StyleSheet.create({
     dotPage:{
         width: 10,
         height: 10,
-        backgroundColor: 'lightgray',
+        backgroundColor: colors[theme].GRAY_500,
         borderRadius: 5,
         marginHorizontal: 3,
     },
     activeDot:{
         backgroundColor: colors.PRIMARY,
-    }
+    },
 });
 
 export default ImageCarousel;

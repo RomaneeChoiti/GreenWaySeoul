@@ -1,12 +1,14 @@
 import InputField from '@/components/common/InputField';
 import EditProfileHeaderRight from '@/components/setting/EditProfileHeaderRight';
 import EditProfileImageOption from '@/components/setting/EditProfileImageOption';
-import { errorMessages, settingNavigations } from '@/constants';
+import { colors, errorMessages, settingNavigations } from '@/constants';
 import useAuth from '@/hooks/queries/useAuth';
 import useForm from '@/hooks/useForm';
 import useImagePicker from '@/hooks/useImagePicker';
 import useModal from '@/hooks/useModal';
 import { SettingStackParamList } from '@/navigations/stack/SettingStackNavigator';
+import { useThemeStore } from '@/store/useThemeStore';
+import { ThemeMode } from '@/types';
 import { validateEditProfile } from '@/utils';
 import { StackScreenProps } from '@react-navigation/stack';
 import { useEffect } from 'react';
@@ -17,6 +19,8 @@ import Ionicons from 'react-native-vector-icons/Ionicons';
 type EditProfileScreenProps = StackScreenProps<SettingStackParamList>
 
 function EditProfileScreen({navigation}: EditProfileScreenProps) {
+    const { theme } = useThemeStore();
+    const styles = styling(theme);
     const { getProfileQuery, profileMutation } = useAuth();
     const { nickname, imageUri, kakaoImageUri } = getProfileQuery.data || {};
     const imageOption = useModal();
@@ -118,10 +122,12 @@ function EditProfileScreen({navigation}: EditProfileScreenProps) {
   );
 }
 
-const styles = StyleSheet.create({
+const styling = (theme: ThemeMode) =>
+    StyleSheet.create({
     container:{
         flex: 1,
         padding: 20,
+        backgroundColor: colors[theme].WHITE,
     },
     profileImageContainer:{
         alignItems: 'center',
@@ -132,7 +138,6 @@ const styles = StyleSheet.create({
         width: 100,
         height: 100,
         borderRadius: 50,
-
     },
     image:{
         width: '100%',
@@ -144,8 +149,8 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         borderRadius: 50,
         borderWidth: 1,
-        backgroundColor: '#f0f0f0',
-        borderColor: '#cecece',
+        backgroundColor: colors[theme].WHITE,
+        borderColor: colors[theme].GRAY_500,
     },
     deleteButton: {
         position: 'absolute', // 절대 위치 설정
@@ -153,12 +158,12 @@ const styles = StyleSheet.create({
         right: 30, // 오른쪽 여백
         paddingVertical: 8,
         paddingHorizontal: 10,
-        backgroundColor: '#ff4d4d',
+        backgroundColor: colors[theme].PINK_700,
         borderRadius: 5,
         alignItems: 'center',
     },
     deleteButtonText: {
-        color: '#fff',
+        color: colors[theme].WHITE,
         fontSize: 14,
         fontWeight: 'bold',
     },

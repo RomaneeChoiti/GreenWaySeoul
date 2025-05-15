@@ -1,8 +1,8 @@
-import ImageCarousel from "@/components/common/ImageCarousel";
-import { feedNavigations } from "@/constants";
-import { FeedStackParamList } from "@/navigations/stack/FeedStackNavigator";
-import { useDetailPostStore } from "@/store/usePostStore";
-import { StackScreenProps } from "@react-navigation/stack";
+import ImageCarousel from '@/components/common/ImageCarousel';
+import { feedNavigations } from '@/constants';
+import { FeedStackParamList } from '@/navigations/stack/FeedStackNavigator';
+import { useDetailPostStore } from '@/store/usePostStore';
+import { StackScreenProps } from '@react-navigation/stack';
 
 type ImageScreenProps = StackScreenProps<
     FeedStackParamList,

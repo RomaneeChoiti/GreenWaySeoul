@@ -2,10 +2,9 @@ import React, { useEffect, useRef } from 'react';
 import { Modal, StyleSheet, View, Animated, TouchableWithoutFeedback, Text, Image } from 'react-native';
 import { colors } from '@/constants';
 import PloggingButton from '@/components/plogging/PloggingButton';
-
 import { LatLng } from 'react-native-maps';
-import recycleIcon from '@/assets/recycleIcon.png';
-import trashcanIcon from '@/assets/trashcanIcon.png';
+import { ThemeMode } from '@/types';
+import { useThemeStore } from '@/store/useThemeStore';
 
 interface SlideModalProps {
   visible: boolean;
@@ -15,6 +14,9 @@ interface SlideModalProps {
 }
 
 function SlideModal({ visible, onClose, selectedMarker, markerType }: SlideModalProps) {
+  const { theme } = useThemeStore();
+  const styles = styling(theme);
+
   const slideAnim = useRef(new Animated.Value(300)).current; // Start below the screen
 
   useEffect(() => {
@@ -44,9 +46,9 @@ function SlideModal({ visible, onClose, selectedMarker, markerType }: SlideModal
   };
 
   const getMarkerImage = () => {
-    if (markerType === 'recycle'){return recycleIcon;}
-    if (markerType === 'trash'){return trashcanIcon;}
-    return null;
+    return markerType === 'recycle'
+      ? require('@/assets/recycleIcon.png')
+      : require('@/assets/trashcanIcon.png');
   };
 
   return (
@@ -60,7 +62,7 @@ function SlideModal({ visible, onClose, selectedMarker, markerType }: SlideModal
             {getMarkerImage() ? (
                 <Image source={getMarkerImage()} style={styles.markerImage} resizeMode="contain" />
               ) : (
-                <Text style={styles.details}>No image available</Text> // 대체 텍스트 추가 (선택 사항)
+                <Text style={styles.details}>No image available</Text>
               )}
               <View>
                 <Text style={styles.title}>Marker Details</Text>
@@ -83,7 +85,8 @@ function SlideModal({ visible, onClose, selectedMarker, markerType }: SlideModal
   );
 }
 
-const styles = StyleSheet.create({
+const styling = (theme: ThemeMode) =>
+  StyleSheet.create({
   overlay: {
     flex: 1,
     backgroundColor: 'rgba(0, 0, 0, 0.1)',
@@ -93,10 +96,10 @@ const styles = StyleSheet.create({
     bottom: 0,
     width: '100%',
     height: '35%',
-    backgroundColor: colors.WHITE,
+    backgroundColor: colors[theme].WHITE,
     borderTopLeftRadius: 20,
     borderTopRightRadius: 20,
-    shadowColor: colors.BLACK,
+    shadowColor: colors[theme].BLACK,
     shadowOffset: { width: 0, height: -2 },
     shadowOpacity: 0.3,
     shadowRadius: 5,
@@ -119,9 +122,11 @@ const styles = StyleSheet.create({
     fontSize: 18,
     fontWeight: 'bold',
     marginBottom: 10,
+    color: colors[theme].BLACK,
   },
   details: {
     fontSize: 16,
+    color: colors[theme].GRAY_700,
   },
   contentPlogging: {
     top: 20,

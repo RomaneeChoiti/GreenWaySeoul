@@ -4,10 +4,14 @@ import { DrawerItemList } from '@react-navigation/drawer';
 import { DrawerContentComponentProps } from '@react-navigation/drawer';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import useAuth from '@/hooks/queries/useAuth';
-import { mainNavigations, settingNavigations } from '@/constants';
+import { colors, mainNavigations, settingNavigations } from '@/constants';
+import { useThemeStore } from '@/store/useThemeStore';
+import { ThemeMode } from '@/types';
 
 
 const CustomDrawerContent = (props: DrawerContentComponentProps) => {
+    const { theme } = useThemeStore();
+    const styles = styling(theme);
 
     const { getProfileQuery} = useAuth();
     const {email, nickname, imageUri, kakaoImageUri} = getProfileQuery.data || {};
@@ -53,7 +57,7 @@ const CustomDrawerContent = (props: DrawerContentComponentProps) => {
             return (
               <Image
                 source={require('@/assets/dfUser.png')}
-                style={styles.userImage}
+                style={[styles.userImage, styles.dfUserImage]}
               />
             );
           }
@@ -69,7 +73,7 @@ const CustomDrawerContent = (props: DrawerContentComponentProps) => {
           <MaterialIcons
             name={'settings'}
             size={30}
-            color={'gray'}
+            color={colors[theme].BLACK}
           />
           <Text style={styles.buttonText}>
             설정
@@ -80,7 +84,8 @@ const CustomDrawerContent = (props: DrawerContentComponentProps) => {
   );
 };
 
-const styles = StyleSheet.create({
+const styling = (theme: ThemeMode) =>
+  StyleSheet.create({
   container: {
     flex: 1,
     marginTop: Dimensions.get('window').height * 0.1,
@@ -94,9 +99,17 @@ const styles = StyleSheet.create({
     height: 100,
     borderRadius: 40,
     marginBottom: 7,
+
   },
   userEmail: {
     fontSize: 17,
+    color: colors[theme].BLACK,
+  },
+  dfUserImage:{
+    shadowColor: colors[theme].BLACK,
+    shadowOpacity: 0.5,
+    shadowRadius: 10,
+    elevation: 5,
   },
   buttonContainer:{
     flexDirection: 'row',
@@ -108,7 +121,7 @@ const styles = StyleSheet.create({
   buttonMenu:{
     flexDirection: 'row',
     alignItems: 'center',
-    backgroundColor: '#f0f0f0',
+    backgroundColor: colors[theme].GRAY_200,
     borderRadius: 10,
     gap: 10,
     padding: 10,
@@ -116,7 +129,7 @@ const styles = StyleSheet.create({
   buttonText:{
     fontSize: 17,
     fontWeight: '600',
-    color: 'gray',
+    color: colors[theme].BLACK,
   },
 });
 

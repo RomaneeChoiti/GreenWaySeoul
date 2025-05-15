@@ -1,11 +1,12 @@
 import { createStackNavigator } from '@react-navigation/stack';
-import { feedNavigations } from '@/constants';
+import { colors, feedNavigations } from '@/constants';
 import FeedHomeScreen from '@/screens/feed/FeedHomeScreen';
 import FeedDetailScreen from '@/screens/feed/FeedDetailScreen';
 import EditPostScreen from '@/screens/feed/EditPostScreen';
 import { ResponsePost } from '@/api/post';
 import ImageScreen from '@/screens/feed/imageScreen';
-import { HeaderLeft, HeaderLeftBack } from '@/components/common/HeaderButtons';
+import { HeaderLeftBack } from '@/components/common/HeaderButtons';
+import { useThemeStore } from '@/store/useThemeStore';
 
 export type FeedStackParamList = {
     [feedNavigations.FEED_HOME]: undefined;
@@ -18,18 +19,19 @@ const Stack = createStackNavigator<FeedStackParamList>();
 
 
 function FeedStackNavigator(){
+    const { theme } = useThemeStore();
 
     return (
         <Stack.Navigator screenOptions={{
             cardStyle: {
-                backgroundColor: 'white',
+                backgroundColor: colors[theme].WHITE,
             },
             headerStyle: {
-                backgroundColor: 'white',
-                shadowColor: 'black',
+                backgroundColor: colors[theme].WHITE,
+                shadowColor: colors[theme].BLACK,
             },
             headerTitleStyle: {
-                color: 'green',
+                color: colors[theme].BLACK,
             },
         }}>
             <Stack.Screen
@@ -37,7 +39,7 @@ function FeedStackNavigator(){
                 component={FeedHomeScreen}
                 options={{
                     headerTitle: '피드',
-                    headerLeft: HeaderLeft,
+                    headerLeft: HeaderLeftBack,
                 }}
             />
             <Stack.Screen

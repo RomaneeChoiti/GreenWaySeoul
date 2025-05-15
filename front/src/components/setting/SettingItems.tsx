@@ -1,7 +1,9 @@
 import React, {ReactNode} from 'react';
 import {StyleSheet, Text, Pressable, PressableProps, View} from 'react-native';
 
-import {colors} from '@/constants';
+import { useThemeStore } from '@/store/useThemeStore';
+import { colors } from '@/constants';
+import { ThemeMode } from '@/types';
 
 interface SettingItemProps extends PressableProps {
   title: string;
@@ -17,6 +19,10 @@ function SettingItem({
   color,
   ...props
 }: SettingItemProps) {
+  const { theme } = useThemeStore();
+  const styles = styling(theme);
+
+
   return (
     <Pressable
       style={({pressed}) => [
@@ -26,7 +32,7 @@ function SettingItem({
       {...props}>
       {icon}
       <View style={styles.titleContainer}>
-        <Text style={[styles.titleText, {color: color ?? colors.BLACK}]}>
+        <Text style={[styles.titleText, {color: color ?? colors[theme].BLACK}]}>
           {title}
         </Text>
         {subTitle && <Text style={styles.subTitleText}>{subTitle}</Text>}
@@ -35,19 +41,19 @@ function SettingItem({
   );
 }
 
-const styles = StyleSheet.create({
+const styling = (theme: ThemeMode) =>
+  StyleSheet.create({
   container: {
     flexDirection: 'row',
     alignItems: 'center',
     gap: 10,
     padding: 15,
-    backgroundColor: colors.WHITE,
-    borderColor: '#f0f0f0',
+    backgroundColor: colors[theme].WHITE,
+    borderColor: colors[theme].GRAY_700,
     borderBottomWidth: StyleSheet.hairlineWidth,
-    borderTopWidth: StyleSheet.hairlineWidth,
   },
   pressedContainer: {
-    backgroundColor: '#f0f0f0',
+    backgroundColor: colors[theme].GRAY_300,
   },
   titleContainer: {
     flex: 1,
@@ -57,10 +63,10 @@ const styles = StyleSheet.create({
   titleText: {
     fontSize: 16,
     fontWeight: '500',
-    color: colors.BLACK,
+    color: colors[theme].BLACK,
   },
   subTitleText: {
-    color: '#a0a0a0',
+    color: colors[theme].GRAY_500,
   },
 });
 

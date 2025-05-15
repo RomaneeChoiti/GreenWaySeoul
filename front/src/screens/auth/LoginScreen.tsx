@@ -6,9 +6,13 @@ import useForm from '@/hooks/useForm';
 import { validateLogin } from '@/utils';
 import useAuth from '@/hooks/queries/useAuth';
 import Toast from 'react-native-toast-message';
-import { errorMessages } from '@/constants';
+import { colors, errorMessages } from '@/constants';
+import { ThemeMode } from '@/types';
+import { useThemeStore } from '@/store/useThemeStore';
 
 function LoginScreen(){
+    const {theme} = useThemeStore();
+    const styles = styling(theme);
     const passwordRf = useRef<TextInput | null>(null);
     const {loginMutation} = useAuth();
     const login = useForm({
@@ -53,25 +57,26 @@ function LoginScreen(){
                     {...login.getTextInputProps('password')}
                     secureTextEntry
                 />
+                <CustomButton
+                    label="로그인"
+                    variant="filled"
+                    size="large"
+                    onPress={handleSubmit}
+                />
             </View>
-            <CustomButton
-                label="로그인"
-                variant="filled"
-                size="large"
-                onPress={handleSubmit}
-            />
         </SafeAreaView>
     );
 }
 
-const styles = StyleSheet.create({
+const styling = (theme: ThemeMode) =>
+    StyleSheet.create({
     container: {
         flex: 1,
-        margin: 30,
+        backgroundColor: colors[theme].WHITE,
     },
     inputContainer: {
         gap: 10,
-        marginBottom: 20,
+        padding: 20,
     },
 });
 

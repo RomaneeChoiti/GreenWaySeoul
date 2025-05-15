@@ -5,6 +5,8 @@ import { useNavigation } from '@react-navigation/native';
 import { StackNavigationProp } from '@react-navigation/stack';
 import { FeedStackParamList } from '@/navigations/stack/FeedStackNavigator';
 import { formatDate } from '@/utils/date'; // Import the utility function
+import { useThemeStore } from '@/store/useThemeStore';
+import { ThemeMode } from '@/types';
 
 interface FeedItemProps {
     post: ResponsePost
@@ -13,6 +15,9 @@ interface FeedItemProps {
 type Navigation = StackNavigationProp<FeedStackParamList>;
 
 function FeedItem({post}:FeedItemProps){
+    const { theme } = useThemeStore();
+    const styles = styling(theme);
+
     const navigation = useNavigation<Navigation>();
 
     const handlePressFeed = () => {
@@ -58,7 +63,8 @@ function FeedItem({post}:FeedItemProps){
     );
 }
 
-const styles = StyleSheet.create({
+const styling = (theme: ThemeMode) =>
+    StyleSheet.create({
     container:{
         flex: 1,
         margin: 5,
@@ -76,25 +82,29 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'center',
         borderColor: colors.PRIMARY,
-        borderWidth: 1,
+        borderWidth: StyleSheet.hairlineWidth,
     },
     textContainer:{
         padding: 10,
-        backgroundColor: '#fff',
+        backgroundColor: colors[theme].WHITE,
+        width: Dimensions.get('screen').width / 2 - 25,
+        borderColor: colors[theme].GRAY_500,
+        borderWidth: StyleSheet.hairlineWidth,
     },
     date:{
         fontSize: 12,
-        color: '#888',
+        color: colors[theme].GRAY_700,
         marginBottom: 5,
     },
     title:{
         fontSize: 16,
         fontWeight: 'bold',
         marginBottom: 5,
+        color: colors[theme].BLACK,
     },
     description:{
         fontSize: 14,
-        color: '#555',
+        color: colors[theme].GRAY_500,
         marginBottom: 5,
     },
 });
