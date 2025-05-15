@@ -8,7 +8,7 @@ import { validateAddPost } from '@/utils';
 import { colors } from '@/constants';
 import { useNavigation } from '@react-navigation/native';
 import CustomButton from '@/components/common/CustomButton';
-import ModalComponent from '@/components/map/ModalComponent';
+import ModalComponent from '@/components/common/ModalComponent';
 import useMutateCreatePost from '@/hooks/queries/useMutateCreatePost';
 import { useTrashcanStore } from '@/store/useTrashcanStore';
 import { usePloggingStateStore } from '@/store/usePloggingStore';
