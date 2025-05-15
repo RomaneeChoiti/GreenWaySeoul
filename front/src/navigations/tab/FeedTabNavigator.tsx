@@ -2,10 +2,12 @@ import { colors, feedNavigations, feedTabNavigations } from '@/constants';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import FeedFavoriteScreen from '@/screens/feed/FeedFavoriteScreen';
 import FeedStackNavigator from '../stack/FeedStackNavigator';
-import {  StyleSheet } from 'react-native';
+import { StyleSheet } from 'react-native';
 import { getFocusedRouteNameFromRoute, RouteProp } from '@react-navigation/native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import { HeaderLeftBack } from '@/components/common/HeaderButtons';
+import { useThemeStore } from '@/store/useThemeStore';
+import { ThemeMode } from '@/types';
 
 export type FeedTabParamList = {
     [feedTabNavigations.FEED_HOME]: undefined;
@@ -14,7 +16,7 @@ export type FeedTabParamList = {
 
 const Tab = createBottomTabNavigator<FeedTabParamList>();
 
-function TabBarIcon(route: RouteProp<FeedTabParamList>, focused: boolean) {
+function TabBarIcon(route: RouteProp<FeedTabParamList>, focused: boolean, theme: ThemeMode) {
     let iconName = '';
 
     switch (route.name) {
@@ -25,53 +27,56 @@ function TabBarIcon(route: RouteProp<FeedTabParamList>, focused: boolean) {
             iconName = focused ? 'star' : 'star-outline';
             break;
     }
-    return(
+    return (
         <Ionicons
             name={iconName}
-            color={focused ? colors.PRIMARY : 'gray'}
+            color={focused ? colors.PRIMARY : colors[theme].GRAY_500}
             size={25}
         />
     );
 }
 
-
 function FeedTabNavigator() {
+    const { theme } = useThemeStore();
+
     return (
         <Tab.Navigator
             screenOptions={({ route }) => ({
                 headerStyle: {
-                    backgroundColor: '#fff',
-                    shadowColor: '#000',
+                    backgroundColor: colors[theme].WHITE,
+                    shadowColor: colors[theme].BLACK,
                 },
                 headerTitleStyle: {
                     fontSize: 15,
                 },
-                headerTintColor: 'green',
+                headerTintColor: colors[theme].BLACK,
                 tabBarShowLabel: false,
                 tabBarActiveTintColor: colors.PRIMARY,
                 tabBarStyle: {
-                    backgroundColor: '#fff',
-                    borderTopColor: 'gray',
+                    backgroundColor: colors[theme].WHITE,
+                    borderTopColor: colors[theme].GRAY_700,
                     borderTopWidth: StyleSheet.hairlineWidth,
                 },
-                tabBarIcon: ({ focused }) => TabBarIcon(route, focused),
-                })}
+                tabBarIcon: ({ focused }) => TabBarIcon(route, focused, theme),
+            })}
         >
             <Tab.Screen
                 name={feedTabNavigations.FEED_HOME}
                 component={FeedStackNavigator}
-                options={({route}) => ({
+                options={({ route }) => ({
                     headerShown: false,
                     tabBarStyle: (tabRoute => {
                         const routeName = getFocusedRouteNameFromRoute(tabRoute);
-                        if(routeName === feedNavigations.FEED_DETAIL ||
+                        if (
+                            routeName === feedNavigations.FEED_DETAIL ||
                             routeName === feedNavigations.EDIT_POST ||
-                            routeName === feedNavigations.IMAGE_SCREEN) {
+                            routeName === feedNavigations.IMAGE_SCREEN
+                        ) {
                             return { display: 'none' };
                         }
                         return {
-                            backgroundColor: '#fff',
-                            borderTopColor: 'gray',
+                            backgroundColor: colors[theme].WHITE,
+                            borderTopColor: colors[theme].GRAY_700,
                             borderTopWidth: StyleSheet.hairlineWidth,
                         };
                     })(route),
@@ -83,6 +88,7 @@ function FeedTabNavigator() {
                 options={{
                     headerTitle: '즐겨찾기',
                     headerLeft: HeaderLeftBack,
+                    
                 }}
             />
         </Tab.Navigator>
