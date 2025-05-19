@@ -1,4 +1,5 @@
 import Loader from '@/components/common/Loader';
+import RetryErrorBoundary from '@/components/common/RetryErrorBoundary';
 import FeedList from '@/components/feed/FeedList';
 import { colors } from '@/constants';
 import { useThemeStore } from '@/store/useThemeStore';
@@ -11,9 +12,11 @@ function FeedHomeScreen() {
   const styles = styling(theme);
   return (
     <SafeAreaView style={styles.container}>
-      <Suspense fallback={<Loader />}>
-        <FeedList />
-      </Suspense>
+      <RetryErrorBoundary>
+        <Suspense fallback={<Loader />}>
+          <FeedList />
+        </Suspense>
+      </RetryErrorBoundary>
     </SafeAreaView>
   );
 }
