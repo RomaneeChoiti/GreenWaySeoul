@@ -1,9 +1,10 @@
 import { getFavoritePosts, ResponsePost } from '@/api/post';
 import { queryKeys } from '@/constants/keys';
 import { ResponseError } from '@/types';
-import { InfiniteData, QueryKey, useInfiniteQuery, UseInfiniteQueryOptions } from '@tanstack/react-query';
+import { InfiniteData, QueryKey, useSuspenseInfiniteQuery, UseSuspenseInfiniteQueryOptions } from '@tanstack/react-query';
 
-function useGetInfiniteFavoritePosts(queryOptions?: UseInfiniteQueryOptions<
+function useGetInfiniteFavoritePosts(
+    queryOptions?: UseSuspenseInfiniteQueryOptions<
         ResponsePost[],
         ResponseError,
         InfiniteData<ResponsePost[], number>,
@@ -12,9 +13,13 @@ function useGetInfiniteFavoritePosts(queryOptions?: UseInfiniteQueryOptions<
         number
         >,
     ) {
-    return useInfiniteQuery({
+    return useSuspenseInfiniteQuery({
         queryFn:({pageParam}) => getFavoritePosts(pageParam),
-        queryKey: [queryKeys.POST, queryKeys.FAVORITE, queryKeys.GET_FAVORITE_POSTS],
+        queryKey: [
+            queryKeys.POST,
+            queryKeys.FAVORITE,
+            queryKeys.GET_FAVORITE_POSTS,
+        ],
         initialPageParam: 1,
         getNextPageParam: (lastPage, allPage) => {
             const lastPost = lastPage[lastPage.length - 1];
