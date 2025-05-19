@@ -1,21 +1,14 @@
-import { useEffect } from 'react';
 import MainDrawerNavigator from '../drawer/MainDrawerNavigator';
 import AuthStackNavigator from '../stack/AuthStackNavigator';
 import useAuth from '@/hooks/queries/useAuth';
-import useLoginStore from '../../store/useLoginStore';
 import RetryErrorBoundary from '@/components/common/RetryErrorBoundary';
 
 function RootNavigator() {
-  const { isLoggedIn, setLoginStatus } = useLoginStore();
   const { isLogin } = useAuth();
-
-  useEffect(() => {
-    setLoginStatus(isLogin);
-  }, [isLogin, setLoginStatus]);
 
   return (
     <RetryErrorBoundary>
-      {isLoggedIn ? <MainDrawerNavigator /> : <AuthStackNavigator />}
+      {isLogin ? <MainDrawerNavigator /> : <AuthStackNavigator />}
     </RetryErrorBoundary>
   );
 }
