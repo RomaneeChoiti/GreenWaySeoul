@@ -4,6 +4,9 @@ import useAuth from '@/hooks/queries/useAuth';
 import RetryErrorBoundary from '@/components/common/RetryErrorBoundary';
 import { useEffect } from 'react';
 import SplashScreen from 'react-native-splash-screen';
+import { numbers } from '@/constants';
+
+
 
 function RootNavigator() {
   const { isLogin, isLoginLoading } = useAuth();
@@ -12,7 +15,7 @@ function RootNavigator() {
     if(!isLoginLoading) {
       setTimeout(()=>{
         SplashScreen.hide();
-      }, 500);
+      }, numbers.SPLASH_HIDE_DELAY);
     }
   }, [isLoginLoading]);
 
