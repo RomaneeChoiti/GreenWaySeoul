@@ -29,6 +29,7 @@
 		F6AA01B02DA637C8002A7C79 /* MaterialIcons.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = MaterialIcons.ttf; sourceTree = "<group>"; };
 		F6AA01B12DA637C8002A7C79 /* Octicons.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = Octicons.ttf; sourceTree = "<group>"; };
 		F6AC31DC2DD31A37001483AF /* GreenWaySeoulRN.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; name = GreenWaySeoulRN.entitlements; path = GreenWaySeoulRN/GreenWaySeoulRN.entitlements; sourceTree = "<group>"; };
+		F6D212D82DDC0CC6000D71B4 /* HeaderGreenWaySeoulRN-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "HeaderGreenWaySeoulRN-Bridging-Header.h"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -47,6 +48,7 @@
 			isa = PBXGroup;
 			children = (
 				F6AC31DC2DD31A37001483AF /* GreenWaySeoulRN.entitlements */,
+				F6D212D82DDC0CC6000D71B4 /* HeaderGreenWaySeoulRN-Bridging-Header.h */,
 				F6AA01AE2DA630C0002A7C79 /* Fonts */,
 				13B07FB51A68108700A75B9A /* Images.xcassets */,
 				761780EC2CA45674006654EE /* AppDelegate.swift */,
@@ -293,6 +295,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = "org.reactjs.native.example.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = GreenWaySeoulRN;
+				SWIFT_OBJC_BRIDGING_HEADER = "GreenWaySeoulRN/HeaderGreenWaySeoulRN-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
 				VERSIONING_SYSTEM = "apple-generic";
@@ -322,6 +325,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = "org.reactjs.native.example.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = GreenWaySeoulRN;
+				SWIFT_OBJC_BRIDGING_HEADER = "GreenWaySeoulRN/HeaderGreenWaySeoulRN-Bridging-Header.h";
 				SWIFT_VERSION = 5.0;
 				VERSIONING_SYSTEM = "apple-generic";
 			};

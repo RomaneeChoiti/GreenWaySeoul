@@ -1,19 +1,19 @@
 import React from 'react';
 import { Pressable, StyleSheet, Text, View } from 'react-native';
 import { colors } from '@/constants';
-import useLoginStore from '@/store/useLoginStore';
 import {usePloggingStateStore} from '@/store/usePloggingStore';
 import { useThemeStore } from '@/store/useThemeStore';
 import { ThemeMode } from '@/types';
+import useAuth from '@/hooks/queries/useAuth';
 
 interface PloggingButtonProps {
   onPress?: () => void;
 }
 
 function PloggingButton ({ onPress }: PloggingButtonProps) {
+  const { isLogin } = useAuth();
   const { theme } = useThemeStore();
   const styles = styling(theme);
-  const isLoggedIn = useLoginStore(state => state.isLoggedIn);
   const startPlogging = usePloggingStateStore(state => state.startPlogging);
   const isPlogging = usePloggingStateStore(state => state.isPlogging);
 
@@ -22,7 +22,7 @@ function PloggingButton ({ onPress }: PloggingButtonProps) {
     if (onPress){onPress();}
   };
 
-  return isLoggedIn ? (
+  return isLogin ? (
     !isPlogging ? (
     <Pressable
       onPress={handlePress}

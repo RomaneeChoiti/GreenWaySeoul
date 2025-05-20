@@ -1,21 +1,27 @@
-import { useEffect } from 'react';
 import MainDrawerNavigator from '../drawer/MainDrawerNavigator';
 import AuthStackNavigator from '../stack/AuthStackNavigator';
 import useAuth from '@/hooks/queries/useAuth';
-import useLoginStore from '../../store/useLoginStore';
 import RetryErrorBoundary from '@/components/common/RetryErrorBoundary';
+import { useEffect } from 'react';
+import SplashScreen from 'react-native-splash-screen';
+import { numbers } from '@/constants';
+
+
 
 function RootNavigator() {
-  const { isLoggedIn, setLoginStatus } = useLoginStore();
-  const { isLogin } = useAuth();
+  const { isLogin, isLoginLoading } = useAuth();
 
   useEffect(() => {
-    setLoginStatus(isLogin);
-  }, [isLogin, setLoginStatus]);
+    if(!isLoginLoading) {
+      setTimeout(()=>{
+        SplashScreen.hide();
+      }, numbers.SPLASH_HIDE_DELAY);
+    }
+  }, [isLoginLoading]);
 
   return (
     <RetryErrorBoundary>
-      {isLoggedIn ? <MainDrawerNavigator /> : <AuthStackNavigator />}
+      {isLogin ? <MainDrawerNavigator /> : <AuthStackNavigator />}
     </RetryErrorBoundary>
   );
 }
