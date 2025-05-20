@@ -69,7 +69,7 @@ function useAppleLogin(mutationOptions?: UseMutationCustomOptions){
 }
 
 function useGetRefreshToken() {
-  const {data, error, isSuccess, isError} = useQuery({
+  const {data, isSuccess, isError, isPending} = useQuery({
     queryKey: [queryKeys.AUTH, queryKeys.GET_ACCESS_TOKEN],
     queryFn: getAccessToken,
     staleTime: numbers.ACCESS_TOKEN_REFRESH_TIME,
@@ -83,7 +83,7 @@ function useGetRefreshToken() {
       setHeader('Authorization', `Bearer ${data.accessToken}`);
       setEncryptStorage(storageKeys.REFRESH_TOKEN, data.refreshToken);
     }
-  }, [isSuccess]);
+  }, [isSuccess, data]);
 
   useEffect(() => {
     if (isError) {
@@ -92,7 +92,7 @@ function useGetRefreshToken() {
     }
   }, [isError]);
 
-  return {isSuccess, isError};
+  return {isSuccess, isError, isPending};
 }
 
 function useGetProfile(queryOptions?: UseQueryCustomOptions<Profile>) {
@@ -152,6 +152,7 @@ function useAuth() {
   const deleteAccountMutation = useMutateDeleteAccount({
     onSuccess: () => logoutMutation.mutate(null),
   });
+  const isLoginLoading = refreshTokenQuery.isPending;
 
   return {
     signupMutation,
@@ -163,6 +164,7 @@ function useAuth() {
     appleLoginMutation,
     profileMutation,
     deleteAccountMutation,
+    isLoginLoading,
   };
 }
 
