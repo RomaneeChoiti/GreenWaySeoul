@@ -69,4 +69,22 @@ export class PostService {
 
     return post;
   }
+
+  async deletePost(id: number) {
+    try {
+      const result = await this.postRepository
+        .createQueryBuilder('post')
+        .delete()
+        .from(Post)
+        .where('id = :id', { id })
+        .execute();
+      if (result.affected === 0) {
+        throw new InternalServerErrorException('게시물을 찾을 수 없습니다.');
+      }
+      return id;
+    } catch (error) {
+      console.error('Error deleting post:', error);
+      throw new InternalServerErrorException('게시물 삭제에 실패했습니다.');
+    }
+  }
 }
