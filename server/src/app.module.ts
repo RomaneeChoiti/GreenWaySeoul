@@ -1,7 +1,6 @@
 import { Module } from '@nestjs/common';
-import { AppController } from './app.controller';
-import { AppService } from './app.service';
-import { TypeOrmModule } from '@nestjs/typeorm'
+import { TypeOrmModule } from '@nestjs/typeorm';
+import { PostModule } from './post/post.module';
 
 @Module({
   imports: [
@@ -9,14 +8,14 @@ import { TypeOrmModule } from '@nestjs/typeorm'
       type: 'postgres',
       host: 'localhost',
       port: 5432,
-      username : 'choeseung-won',
-      password : 'postgres',
-      database : 'greenWaySeoul-server',
-      entities: [__dirname + '/**/*.entity{js,ts}'],
-      synchronize: true, // 개발용에서만 true
-    })
+      username: 'choeseung-won',
+      password: 'postgres',
+      database: 'greenWaySeoul-server',
+      entities: [__dirname + '/**/*.entity.{js,ts}'],
+      synchronize: true,
+    }),
+    PostModule,
   ],
-  controllers: [AppController],
-  providers: [AppService],
+  providers: [],
 })
 export class AppModule {}
