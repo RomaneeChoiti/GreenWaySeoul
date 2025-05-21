@@ -29,7 +29,7 @@ export class PostService {
   }
 
   async createPost(createPostDto: CreatePostDto) {
-    const { latitude, longitude, type, address, title, description, date, score, imageUris } =
+    const { latitude, longitude, type, address, title, description, date, score, time, imageUris } =
       createPostDto;
 
     const post = this.postRepository.create({
@@ -41,6 +41,7 @@ export class PostService {
       description,
       date,
       score,
+      time,
     });
 
     try {
