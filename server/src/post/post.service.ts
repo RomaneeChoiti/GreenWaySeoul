@@ -1,4 +1,4 @@
-import { Injectable, InternalServerErrorException } from '@nestjs/common';
+import { Injectable, InternalServerErrorException, NotFoundException } from '@nestjs/common';
 import { CreatePostDto } from './dto/create-post.dto';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
@@ -35,7 +35,7 @@ export class PostService {
         .where('post.id = :id', { id })
         .getOne();
       if (!foundPost) {
-        throw new InternalServerErrorException('게시물을 찾을 수 없습니다.');
+        throw new NotFoundException('게시물을 찾을 수 없습니다.');
       }
       return foundPost;
     } catch (error) {
@@ -79,7 +79,7 @@ export class PostService {
         .where('id = :id', { id })
         .execute();
       if (result.affected === 0) {
-        throw new InternalServerErrorException('게시물을 찾을 수 없습니다.');
+        throw new NotFoundException('게시물을 찾을 수 없습니다.');
       }
       return id;
     } catch (error) {
