@@ -1,4 +1,4 @@
-import { Injectable, InternalServerErrorException } from '@nestjs/common';
+import { Injectable, InternalServerErrorException, NotFoundException } from '@nestjs/common';
 import { CreatePostDto } from './dto/create-post.dto';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
@@ -28,8 +28,24 @@ export class PostService {
       .getMany();
   }
 
+  async getPostById(id: number) {
+    try {
+      const foundPost = await this.postRepository
+        .createQueryBuilder('post')
+        .where('post.id = :id', { id })
+        .getOne();
+      if (!foundPost) {
+        throw new NotFoundException('게시물을 찾을 수 없습니다.');
+      }
+      return foundPost;
+    } catch (error) {
+      console.error('Error fetching post:', error);
+      throw new InternalServerErrorException('게시물 조회에 실패했습니다.');
+    }
+  }
+
   async createPost(createPostDto: CreatePostDto) {
-    const { latitude, longitude, type, address, title, description, date, score, imageUris } =
+    const { latitude, longitude, type, address, title, description, date, score, time, imageUris } =
       createPostDto;
 
     const post = this.postRepository.create({
@@ -41,6 +57,7 @@ export class PostService {
       description,
       date,
       score,
+      time,
     });
 
     try {
@@ -50,6 +67,46 @@ export class PostService {
       throw new InternalServerErrorException('게시물 저장에 실패했습니다.');
     }
 
+    return post;
+  }
+
+  async deletePost(id: number) {
+    try {
+      const result = await this.postRepository
+        .createQueryBuilder('post')
+        .delete()
+        .from(Post)
+        .where('id = :id', { id })
+        .execute();
+      if (result.affected === 0) {
+        throw new NotFoundException('게시물을 찾을 수 없습니다.');
+      }
+      return id;
+    } catch (error) {
+      console.error('Error deleting post:', error);
+      throw new InternalServerErrorException('게시물 삭제에 실패했습니다.');
+    }
+  }
+
+  async updatePost(
+    id: number,
+    updatePostDto: Omit<CreatePostDto, 'latitude' | 'longitude' | 'address' | 'time'>
+  ) {
+    const post = await this.getPostById(id);
+    const { title, description, score, imageUris } = updatePostDto;
+    post.title = title;
+    post.description = description;
+    post.score = score;
+    
+    // image module
+    // post.imageUris = imageUris;
+
+    try {
+      await this.postRepository.save(post);
+    } catch (error) {
+      console.error('Error saving post:', error);
+      throw new InternalServerErrorException('게시물 저장에 실패했습니다.');
+    }
     return post;
   }
 }

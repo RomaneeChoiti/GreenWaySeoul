@@ -48,6 +48,9 @@ export class Post extends BaseEntity {
   @Column()
   score: number;
 
+  @Column({ nullable: true })
+  time: string;
+
   @CreateDateColumn()
   createdAt: Date;
 

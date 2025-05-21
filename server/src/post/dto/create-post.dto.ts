@@ -30,6 +30,9 @@ export class CreatePostDto {
   @IsNumber()
   score: number;
 
+  @IsString()
+  time: string;
+
   @IsArray()
   imageUris: { uri: string }[];
 }
