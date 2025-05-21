@@ -28,6 +28,22 @@ export class PostService {
       .getMany();
   }
 
+  async getPostById(id: number) {
+    try {
+      const foundPost = await this.postRepository
+        .createQueryBuilder('post')
+        .where('post.id = :id', { id })
+        .getOne();
+      if (!foundPost) {
+        throw new InternalServerErrorException('게시물을 찾을 수 없습니다.');
+      }
+      return foundPost;
+    } catch (error) {
+      console.error('Error fetching post:', error);
+      throw new InternalServerErrorException('게시물 조회에 실패했습니다.');
+    }
+  }
+
   async createPost(createPostDto: CreatePostDto) {
     const { latitude, longitude, type, address, title, description, date, score, time, imageUris } =
       createPostDto;
