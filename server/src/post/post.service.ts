@@ -87,4 +87,26 @@ export class PostService {
       throw new InternalServerErrorException('게시물 삭제에 실패했습니다.');
     }
   }
+
+  async updatePost(
+    id: number,
+    updatePostDto: Omit<CreatePostDto, 'latitude' | 'longitude' | 'address' | 'time'>
+  ) {
+    const post = await this.getPostById(id);
+    const { title, description, score, imageUris } = updatePostDto;
+    post.title = title;
+    post.description = description;
+    post.score = score;
+    
+    // image module
+    // post.imageUris = imageUris;
+
+    try {
+      await this.postRepository.save(post);
+    } catch (error) {
+      console.error('Error saving post:', error);
+      throw new InternalServerErrorException('게시물 저장에 실패했습니다.');
+    }
+    return post;
+  }
 }
