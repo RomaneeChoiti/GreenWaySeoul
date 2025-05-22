@@ -17,6 +17,18 @@ export class PostService {
     private postRepository: Repository<Post>
   ) {}
 
+  async getAllMarkers() {
+    try {
+      return this.postRepository
+        .createQueryBuilder('post')
+        .select(['post.latitude', 'post.longitude', 'post.type'])
+        .getMany();
+    } catch (error) {
+      console.error('Error fetching markers:', error);
+      throw new InternalServerErrorException('마커 조회에 실패했습니다.');
+    }
+  }
+
   async getPosts(page: number) {
     const perPage = 10;
     const offset = (page - 1) * perPage;
@@ -97,7 +109,7 @@ export class PostService {
     post.title = title;
     post.description = description;
     post.score = score;
-    
+
     // image module
     // post.imageUris = imageUris;
 
