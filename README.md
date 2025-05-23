@@ -25,6 +25,12 @@ AWS
 DynamoDB: 서버리스 NoSQL 데이터베이스로, 애플리케이션의 데이터를 저장.
 API Gateway: RESTful API를 통해 애플리케이션과 서버 사이의 통신을 관리.
 Lambda: 서버리스 함수로, 특정 이벤트에 따라 비즈니스 로직을 실행.
+---
+암호화 : bcryptjs
+토큰 : jwt
+passport
+ - 
+
 
 ### 애플리케이션 빌드 및 배포
 
