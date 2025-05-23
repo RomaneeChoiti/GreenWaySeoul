@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Post, UseGuards, ValidationPipe } from '@nestjs/common';
+import { Body, Controller, Post, UseGuards, ValidationPipe } from '@nestjs/common';
 import { AuthDto } from './dto/auth.dto';
 import { AuthService } from './auth.service';
 import { GetUser } from 'src/@common/decorator/get-user.decorator';
@@ -19,7 +19,7 @@ export class AuthController {
     return this.authService.signin(authDto);
   }
 
-  @Get('/refresh')
+  @Post('/refresh')
   @UseGuards(AuthGuard())
   refresh(@GetUser() user: User) {
     return this.authService.refreshToken(user);
