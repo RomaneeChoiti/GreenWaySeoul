@@ -1,5 +1,6 @@
 import {
   ConflictException,
+  ForbiddenException,
   Injectable,
   InternalServerErrorException,
   UnauthorizedException,
@@ -9,12 +10,16 @@ import { Repository } from 'typeorm';
 import { User } from './user.entity';
 import { AuthDto } from './dto/auth.dto';
 import * as bcrypt from 'bcryptjs';
+import { JwtService } from '@nestjs/jwt';
+import { ConfigService } from '@nestjs/config';
 
 @Injectable()
 export class AuthService {
   constructor(
     @InjectRepository(User)
-    private userRepository: Repository<User>
+    private userRepository: Repository<User>,
+    private jwtService: JwtService,
+    private configService: ConfigService
   ) {}
   async signup(authDto: AuthDto) {
     const { email, password } = authDto;
@@ -24,6 +29,7 @@ export class AuthService {
     const user = this.userRepository.create({
       email,
       password: hashedPassword,
+      loginType: 'email', // loginType 값을 명시적으로 설정
     });
     try {
       await this.userRepository.save(user);
@@ -36,11 +42,53 @@ export class AuthService {
     }
   }
 
+  private async getTokens(payload: { email: string }) {
+    const [accessToken, refreshToken] = await Promise.all([
+      this.jwtService.signAsync(payload, {
+        secret: this.configService.get('JWT_SECRET'),
+        expiresIn: this.configService.get('JWT_ACCESS_TOKEN_EXPIRATION'),
+      }),
+      this.jwtService.signAsync(payload, {
+        secret: this.configService.get('JWT_SECRET'),
+        expiresIn: this.configService.get('JWT_REFRESH_TOKEN_EXPIRATION'),
+      }),
+    ]);
+    return { accessToken, refreshToken };
+  }
+
   async signin(authDto: AuthDto) {
     const { email, password } = authDto;
     const user = await this.userRepository.findOneBy({ email });
     if (!user || !(await bcrypt.compare(password, user.password))) {
       throw new UnauthorizedException('이메일 또는 비밀번호가 잘못되었습니다.');
     }
+
+    const { accessToken, refreshToken } = await this.getTokens({ email }); // 유저의 이메일을 사용하여 토큰을 생성하는 로직을 추가합니다.
+    await this.updateHashedRefreshToken(user.id, refreshToken);
+    return { accessToken, refreshToken };
+  }
+
+  private async updateHashedRefreshToken(id: number, refreshToken: string) {
+    const salt = await bcrypt.genSalt();
+    const hashedRefreshToken = await bcrypt.hash(refreshToken, salt);
+
+    try {
+      await this.userRepository.update(id, {
+        hashedRefreshToken,
+      });
+    } catch {
+      throw new InternalServerErrorException('리프레시 토큰 업데이트 중 오류가 발생했습니다.');
+    }
+  }
+
+  async refreshToken(user: User) {
+    const { email } = user;
+    const { accessToken, refreshToken } = await this.getTokens({ email });
+    if (!user.hashedRefreshToken) {
+      throw new ForbiddenException('로그인 정보가 없습니다.');
+    }
+    await this.updateHashedRefreshToken(user.id, refreshToken);
+
+    return { accessToken, refreshToken };
   }
 }
