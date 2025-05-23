@@ -1,4 +1,9 @@
-import { Injectable, InternalServerErrorException, UnauthorizedException } from '@nestjs/common';
+import {
+  ConflictException,
+  Injectable,
+  InternalServerErrorException,
+  UnauthorizedException,
+} from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { User } from './user.entity';
@@ -25,7 +30,7 @@ export class AuthService {
     } catch (error) {
       console.error('Error saving user:', error);
       if (error.code === '23505') {
-        throw new Error('이미 존재하는 이메일입니다.');
+        throw new ConflictException('이미 존재하는 이메일입니다.');
       }
       throw new InternalServerErrorException('회원가입 중 오류가 발생했습니다.');
     }
