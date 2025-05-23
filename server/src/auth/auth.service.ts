@@ -1,4 +1,4 @@
-import { Injectable, InternalServerErrorException } from '@nestjs/common';
+import { Injectable, InternalServerErrorException, UnauthorizedException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { User } from './user.entity';
@@ -28,6 +28,14 @@ export class AuthService {
         throw new Error('이미 존재하는 이메일입니다.');
       }
       throw new InternalServerErrorException('회원가입 중 오류가 발생했습니다.');
+    }
+  }
+
+  async signin(authDto: AuthDto) {
+    const { email, password } = authDto;
+    const user = await this.userRepository.findOneBy({ email });
+    if (!user || !(await bcrypt.compare(password, user.password))) {
+      throw new UnauthorizedException('이메일 또는 비밀번호가 잘못되었습니다.');
     }
   }
 }
