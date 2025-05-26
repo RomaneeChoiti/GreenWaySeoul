@@ -15,22 +15,22 @@ import {
 import { PostService } from './post.service';
 import { CreatePostDto } from './dto/create-post.dto';
 import { AuthGuard } from '@nestjs/passport';
-import { GetUser } from 'src/@common/decorators/get-user.decorator';
+import { GetUser } from 'src/@common/decorator/get-user.decorator';
 import { User } from 'src/auth/user.entity';
+
+/*
+    controller란
+    요청을 처리하고 응답을 반환하는 역할을 하는 클래스입니다.
+*/
 
 @Controller()
 @UseGuards(AuthGuard())
 export class PostController {
   constructor(private postService: PostService) {}
 
-  @Get('/markers/my')
-  getAllMarkers(@GetUser() user: User) {
-    return this.postService.getAllMarkers(user);
-  }
-
   @Get('/posts/my')
   getPosts(@Query('page') page: number, @GetUser() user: User) {
-    return this.postService.getMyPosts(page, user);
+    return this.postService.getPosts(page, user);
   }
 
   @Get('/posts/:id')
@@ -38,10 +38,14 @@ export class PostController {
     return this.postService.getPostById(id, user);
   }
 
+  @Get('/markers/my')
+  getAllMarkers(@GetUser() user: User) {
+    return this.postService.getAllMarkers(user);
+  }
+
   @Post('/posts')
-  @UsePipes(ValidationPipe)
-  createPost(@Body() createPostDto: CreatePostDto, @GetUser() user: User) {
-    return this.postService.createPost(createPostDto, user);
+  createPost(@Body() cratePostDto: CreatePostDto, @GetUser() user: User) {
+    return this.postService.createPost(cratePostDto, user);
   }
 
   @Delete('/posts/:id')
@@ -53,28 +57,10 @@ export class PostController {
   @UsePipes(ValidationPipe)
   updatePost(
     @Param('id', ParseIntPipe) id: number,
-    @Body()
-    updatePostDto: Omit<CreatePostDto, 'latitude' | 'longitude' | 'address'>,
     @GetUser() user: User,
+    @Body()
+    updatePostDto: Omit<CreatePostDto, 'latitude' | 'longitude' | 'address' | 'time'>
   ) {
     return this.postService.updatePost(id, updatePostDto, user);
-  }
-
-  @Get('/posts')
-  getPostsByMonth(
-    @Query('year') year: number,
-    @Query('month') month: number,
-    @GetUser() user: User,
-  ) {
-    return this.postService.getPostsByMonth(year, month, user);
-  }
-
-  @Get('/posts/my/search')
-  searchMyPostsByTitleAndAddress(
-    @Query('query') query: string,
-    @Query('page') page: number,
-    @GetUser() user: User,
-  ) {
-    return this.postService.searchMyPostsByTitleAndAddress(query, page, user);
   }
 }

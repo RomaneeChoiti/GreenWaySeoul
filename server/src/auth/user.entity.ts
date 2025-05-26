@@ -1,5 +1,3 @@
-import { Favorite } from 'src/favorite/favorite.entity';
-import { MarkerColor } from 'src/post/marker-color.enum';
 import { Post } from 'src/post/post.entity';
 import {
   BaseEntity,
@@ -32,25 +30,10 @@ export class User extends BaseEntity {
   nickname?: string;
 
   @Column({ nullable: true })
-  imageUri?: string;
+  imageUrl: string;
 
   @Column({ nullable: true })
-  kakaoImageUri?: string;
-
-  @Column({ nullable: true, default: '' })
-  [MarkerColor.RED]: string;
-
-  @Column({ nullable: true, default: '' })
-  [MarkerColor.YELLOW]: string;
-
-  @Column({ nullable: true, default: '' })
-  [MarkerColor.GREEN]: string;
-
-  @Column({ nullable: true, default: '' })
-  [MarkerColor.BLUE]: string;
-
-  @Column({ nullable: true, default: '' })
-  [MarkerColor.PURPLE]: string;
+  kakaoImageUrl: string;
 
   @CreateDateColumn()
   createdAt: Date;
@@ -62,11 +45,8 @@ export class User extends BaseEntity {
   deletedAt: Date | null;
 
   @Column({ nullable: true })
-  hashedRefreshToken?: string;
+  hashedRefreshToken: string;
 
   @OneToMany(() => Post, (post) => post.user, { eager: false })
   post: Post[];
-
-  @OneToMany(() => Favorite, (favorite) => favorite.user)
-  favorites: Favorite[];
 }

@@ -9,8 +9,11 @@ import { ExtractJwt, Strategy } from 'passport-jwt';
 export class JwtStrategy extends PassportStrategy(Strategy) {
   constructor(
     @InjectRepository(User)
-    private userRepository: Repository<User>,
+    private userRepository: Repository<User>
   ) {
+    if (!process.env.JWT_SECRET) {
+      throw new Error('JWT_SECRET가 설정되지 않았습니다.');
+    }
     super({
       secretOrKey: process.env.JWT_SECRET,
       jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
@@ -20,11 +23,9 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
   async validate(payload: { email: string }) {
     const { email } = payload;
     const user = await this.userRepository.findOneBy({ email });
-
     if (!user) {
-      throw new UnauthorizedException();
+      throw new UnauthorizedException('유효하지 않은 사용자입니다.');
     }
-
     return user;
   }
 }

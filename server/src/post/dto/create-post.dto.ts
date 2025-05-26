@@ -1,36 +1,37 @@
-import {
-  IsArray,
-  IsDateString,
-  IsNotEmpty,
-  IsNumber,
-  IsString,
-} from 'class-validator';
-import { MarkerColor } from '../marker-color.enum';
+import { IsArray, IsDateString, IsNotEmpty, IsNumber, IsString } from 'class-validator';
+import { MarkerType } from '../marker-type.enum';
 
 export class CreatePostDto {
   @IsNotEmpty()
+  @IsNumber()
   latitude: number;
 
   @IsNotEmpty()
+  @IsNumber()
   longitude: number;
 
   @IsNotEmpty()
-  color: MarkerColor;
+  type: MarkerType;
 
+  @IsNotEmpty()
   @IsString()
   address: string;
 
   @IsNotEmpty()
+  @IsString()
   title: string;
 
   @IsString()
   description: string;
 
   @IsDateString()
-  date: Date;
+  date: string;
 
   @IsNumber()
   score: number;
+
+  @IsString()
+  time: string;
 
   @IsArray()
   imageUris: { uri: string }[];

@@ -8,13 +8,12 @@ import {
   UseGuards,
   ValidationPipe,
 } from '@nestjs/common';
-import { AuthService } from './auth.service';
 import { AuthDto } from './dto/auth.dto';
+import { AuthService } from './auth.service';
+import { GetUser } from 'src/@common/decorator/get-user.decorator';
 import { User } from './user.entity';
-import { GetUser } from 'src/@common/decorators/get-user.decorator';
 import { AuthGuard } from '@nestjs/passport';
-import { EditProfileDto } from './dto/edit-profile.dto';
-import { MarkerColor } from 'src/post/marker-color.enum';
+import { EditProfileDto } from './dto/editProfile.dto';
 
 @Controller('auth')
 export class AuthController {
@@ -30,7 +29,7 @@ export class AuthController {
     return this.authService.signin(authDto);
   }
 
-  @Get('/refresh')
+  @Post('/refresh')
   @UseGuards(AuthGuard())
   refresh(@GetUser() user: User) {
     return this.authService.refreshToken(user);
@@ -58,31 +57,5 @@ export class AuthController {
   @UseGuards(AuthGuard())
   deleteAccount(@GetUser() user: User) {
     return this.authService.deleteAccount(user);
-  }
-
-  @Patch('/category')
-  @UseGuards(AuthGuard())
-  updateCategory(
-    @Body() categories: Record<keyof MarkerColor, string>,
-    @GetUser() user: User,
-  ) {
-    return this.authService.updateCategory(categories, user);
-  }
-
-  @Post('/oauth/kakao')
-  kakaoLogin(@Body() kakaoToken: { token: string }) {
-    return this.authService.kakaoLogin(kakaoToken);
-  }
-
-  @Post('/oauth/apple')
-  appleLogin(
-    @Body()
-    appleIdentity: {
-      identityToken: string;
-      appId: string;
-      nickname: string | null;
-    },
-  ) {
-    return this.authService.appleLogin(appleIdentity);
   }
 }

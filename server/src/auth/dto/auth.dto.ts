@@ -10,10 +10,10 @@ export class AuthDto {
   email: string;
 
   @IsString()
-  @MinLength(8)
+  @MinLength(6)
   @MaxLength(20)
-  @Matches(/^[a-zA-z0-9]*$/, {
-    message: '비밀번호가 영어 또는 숫자 조합이 아닙니다.',
+  @Matches(/^[a-zA-Z0-9]/, {
+    message: '비밀번호는 6~20자 영문 대소문자, 숫자만 사용하세요.',
   })
   password: string;
 }

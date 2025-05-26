@@ -17,6 +17,7 @@ const postSignup = async ({email, password}:RequestUser): Promise<void> => {
         email,
         password,
     });
+    
     return data;
 };
 

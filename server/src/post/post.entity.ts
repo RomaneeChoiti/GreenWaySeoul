@@ -5,16 +5,12 @@ import {
   DeleteDateColumn,
   Entity,
   ManyToOne,
-  OneToMany,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
-
-import { MarkerColor } from './marker-color.enum';
-import { ColumnNumericTransformer } from 'src/@common/transformers/numeric.transformer';
+import { MarkerType } from './marker-type.enum';
+import { ColumnNumericTransformer } from 'src/@common/transformers/numeric.transformers';
 import { User } from 'src/auth/user.entity';
-import { Image } from 'src/image/image.entity';
-import { Favorite } from 'src/favorite/favorite.entity';
 
 @Entity()
 export class Post extends BaseEntity {
@@ -34,7 +30,7 @@ export class Post extends BaseEntity {
   longitude: number;
 
   @Column()
-  color: MarkerColor;
+  type: MarkerType;
 
   @Column()
   address: string;
@@ -49,10 +45,13 @@ export class Post extends BaseEntity {
     type: 'timestamp with time zone',
     default: () => 'CURRENT_TIMESTAMP',
   })
-  date: Date;
+  date: string;
 
   @Column()
   score: number;
+
+  @Column({ nullable: true })
+  time: string;
 
   @CreateDateColumn()
   createdAt: Date;
@@ -65,10 +64,4 @@ export class Post extends BaseEntity {
 
   @ManyToOne(() => User, (user) => user.post, { eager: false })
   user: User;
-
-  @OneToMany(() => Image, (image) => image.post)
-  images: Image[];
-
-  @OneToMany(() => Favorite, (favorite) => favorite.post)
-  favorites: Favorite[];
 }
