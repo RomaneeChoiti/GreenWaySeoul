@@ -1,9 +1,11 @@
+import { Post } from 'src/post/post.entity';
 import {
   BaseEntity,
   Column,
   CreateDateColumn,
   DeleteDateColumn,
   Entity,
+  OneToMany,
   PrimaryGeneratedColumn,
   Unique,
   UpdateDateColumn,
@@ -44,4 +46,7 @@ export class User extends BaseEntity {
 
   @Column({ nullable: true })
   hashedRefreshToken: string;
+
+  @OneToMany(() => Post, (post) => post.user, { eager: false })
+  post: Post[];
 }
