@@ -1,4 +1,5 @@
 import {
+  BadRequestException,
   ConflictException,
   ForbiddenException,
   Injectable,
@@ -12,6 +13,7 @@ import { AuthDto } from './dto/auth.dto';
 import * as bcrypt from 'bcryptjs';
 import { JwtService } from '@nestjs/jwt';
 import { ConfigService } from '@nestjs/config';
+import { EditProfileDto } from './dto/editProfile.dto';
 
 @Injectable()
 export class AuthService {
@@ -90,5 +92,62 @@ export class AuthService {
     await this.updateHashedRefreshToken(user.id, refreshToken);
 
     return { accessToken, refreshToken };
+  }
+
+  getProfile(user: User) {
+    const { password, hashedRefreshToken, ...rest } = user;
+    return { ...rest };
+  }
+
+  async editProfile(editProfileDto: EditProfileDto, user: User) {
+    const profile = await this.userRepository
+      .createQueryBuilder('user')
+      .where('user.id = :id', { userId: user.id })
+      .getOne();
+
+    if (!profile) {
+      throw new ForbiddenException('프로필을 찾을 수 없습니다.');
+    }
+    const { nickname, imageUrl } = editProfileDto;
+    profile.nickname = nickname;
+    profile.imageUrl = imageUrl ?? '';
+
+    try {
+      await this.userRepository.save(profile);
+    } catch (error) {
+      console.error('Error updating profile:', error);
+      throw new InternalServerErrorException('프로필 업데이트 중 오류가 발생했습니다.');
+    }
+  }
+
+  async deleteRefreshToken(user: User) {
+    if (!user.hashedRefreshToken) {
+      throw new ForbiddenException('로그인 정보가 없습니다.');
+    }
+    try {
+      await this.userRepository.update(user.id, { hashedRefreshToken: undefined });
+    } catch (error) {
+      console.error('Error deleting refresh token:', error);
+      throw new InternalServerErrorException('리프레시 토큰 삭제 중 오류가 발생했습니다.');
+    }
+  }
+
+  async deleteAccount(user: User) {
+    if (!user.hashedRefreshToken) {
+      throw new ForbiddenException('로그인 정보가 없습니다.');
+    }
+    try {
+      await this.userRepository
+        .createQueryBuilder('user')
+        .delete()
+        .from(User)
+        .where('id = :id', { id: user.id })
+        .execute();
+      // await this.deleteRefreshToken(user); // 리프레시 토큰도 삭제
+      // return { message: '계정이 성공적으로 삭제되었습니다.' };
+    } catch (error) {
+      console.error('Error deleting account:', error);
+      throw new BadRequestException('계정 삭제 중 오류가 발생했습니다.');
+    }
   }
 }
