@@ -4,11 +4,13 @@ import {
   CreateDateColumn,
   DeleteDateColumn,
   Entity,
+  ManyToOne,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
 import { MarkerType } from './marker-type.enum';
 import { ColumnNumericTransformer } from 'src/@common/transformers/numeric.transformers';
+import { User } from 'src/auth/user.entity';
 
 @Entity()
 export class Post extends BaseEntity {
@@ -59,4 +61,7 @@ export class Post extends BaseEntity {
 
   @DeleteDateColumn()
   deletedAt: Date | null;
+
+  @ManyToOne(() => User, (user) => user.post, { eager: false })
+  user: User;
 }
