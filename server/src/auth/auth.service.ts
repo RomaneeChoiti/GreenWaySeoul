@@ -102,7 +102,7 @@ export class AuthService {
   async editProfile(editProfileDto: EditProfileDto, user: User) {
     const profile = await this.userRepository
       .createQueryBuilder('user')
-      .where('user.id = :id', { userId: user.id })
+      .where('user.id = :id', { id: user.id })
       .getOne();
 
     if (!profile) {
@@ -144,7 +144,6 @@ export class AuthService {
         .where('id = :id', { id: user.id })
         .execute();
       // await this.deleteRefreshToken(user); // 리프레시 토큰도 삭제
-      // return { message: '계정이 성공적으로 삭제되었습니다.' };
     } catch (error) {
       console.error('Error deleting account:', error);
       throw new BadRequestException('계정 삭제 중 오류가 발생했습니다.');
