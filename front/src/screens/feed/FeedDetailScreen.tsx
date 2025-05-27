@@ -4,7 +4,7 @@ import useGetPost from '@/hooks/queries/useGetPost';
 import { formatDate } from '@/utils/date'; // Import the utility function
 import { FeedStackParamList } from '@/navigations/stack/FeedStackNavigator';
 import { StackScreenProps } from '@react-navigation/stack';
-import { Alert, Image, Platform, Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
+import { Alert, Image, Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import Octicons from 'react-native-vector-icons/Octicons';
