@@ -1,4 +1,4 @@
-import { Dimensions, Image, Platform, Pressable, StyleSheet, Text, View } from 'react-native';
+import { Dimensions, Image, Pressable, StyleSheet, Text, View } from 'react-native';
 import { ResponsePost } from '@/api/post';
 import { colors, feedNavigations } from '@/constants';
 import { useNavigation } from '@react-navigation/native';
@@ -33,13 +33,7 @@ function FeedItem({post}:FeedItemProps){
                     style={styles.imageContainer}>
                     <Image
                         style={styles.image}
-                        source={{
-                            uri: `${
-                                Platform.OS === 'ios'
-                                    ? 'http://localhost:3030/'
-                                    : 'http://10.0.2.2:3030/'
-                            }${post.images[0].uri}`,
-                        }}
+                        source={{uri: post.images[0].uri}}
                         resizeMode="cover"
                     />
                 </View>

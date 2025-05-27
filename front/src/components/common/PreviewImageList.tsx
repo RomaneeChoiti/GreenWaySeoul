@@ -1,6 +1,6 @@
-import { Image, Platform, Pressable, ScrollView, StyleSheet, View } from 'react-native';
+import { Image, Pressable, ScrollView, StyleSheet, View } from 'react-native';
 import { ImageUri, ThemeMode } from '@/types';
-import Ionicon from 'react-native-vector-icons/Ionicons';
+import Ionicons from 'react-native-vector-icons/Ionicons';
 import { colors, feedNavigations } from '@/constants';
 import { NavigationProp, useNavigation } from '@react-navigation/native';
 import { FeedStackParamList } from '@/navigations/stack/FeedStackNavigator';
@@ -44,20 +44,14 @@ function PreviewImageList({
                             >
                             <Image
                             resizeMode = "cover"
-                            source={{
-                                uri: `${
-                                    Platform.OS === 'ios'
-                                    ? 'http://localhost:3030'
-                                    : 'http://10.0.2.2:3030'
-                                }/${uri}`,
-                            }}
+                            source={{uri: uri}}
                             style={styles.image}
                             />
                             { showOptions &&
                                 <Pressable
                                 style={[styles.imageButton, styles.deleteButton]}
                                 onPress={() => onDelete?.(uri)}>
-                                <Ionicon name="close" size={16} color={styles.icon.color}/>
+                                <Ionicons name="close" size={16} color={styles.icon.color}/>
                             </Pressable>}
                         </Pressable>
                     );
