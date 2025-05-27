@@ -13,12 +13,22 @@ import { S3Client, DeleteObjectCommand } from '@aws-sdk/client-s3';
 
 @Injectable()
 export class PostService {
+  private readonly s3Client: S3Client;
+
   constructor(
     @InjectRepository(Post)
     private postRepository: Repository<Post>,
     @InjectRepository(Image)
     private imageRepository: Repository<Image>,
-  ) {}
+  ) {
+    this.s3Client = new S3Client({
+      region: process.env.AWS_BUCKET_REGION,
+      credentials: {
+        accessKeyId: process.env.S3_ACCESS_KEY_ID,
+        secretAccessKey: process.env.S3_SECRET_ACCESS_KEY,
+      },
+    });
+  }
 
   async getAllMarkers(user: User) {
     try {
@@ -138,18 +148,7 @@ export class PostService {
       );
     }
 
-    const { user: _, ...postWithoutUser } = post;
-    return postWithoutUser;
-  }
-
-  private createS3Client(): S3Client {
-    return new S3Client({
-      region: process.env.AWS_BUCKET_REGION,
-      credentials: {
-        accessKeyId: process.env.S3_ACCESS_KEY_ID,
-        secretAccessKey: process.env.S3_SECRET_ACCESS_KEY,
-      },
-    });
+    return post;
   }
 
   async deletePost(id: number, user: User) {
@@ -164,9 +163,6 @@ export class PostService {
         throw new NotFoundException('존재하지 않는 피드입니다.');
       }
 
-      // Initialize S3 client
-      const s3Client = this.createS3Client();
-
       // Delete images from S3
       const deletePromises = post.images.map((image) => {
         const deleteParams = {
@@ -177,7 +173,7 @@ export class PostService {
           ),
         };
         const command = new DeleteObjectCommand(deleteParams);
-        return s3Client.send(command);
+        return this.s3Client.send(command);
       });
 
       await Promise.all(deletePromises);
@@ -222,9 +218,6 @@ export class PostService {
       (image) => !imageUris.some((uriObj) => uriObj.uri === image.uri),
     );
 
-    // Initialize S3 client
-    const s3Client = this.createS3Client();
-
     // Delete images from S3
     const deletePromises = imagesToDelete.map((image) => {
       const deleteParams = {
@@ -235,7 +228,7 @@ export class PostService {
         ),
       };
       const command = new DeleteObjectCommand(deleteParams);
-      return s3Client.send(command);
+      return this.s3Client.send(command);
     });
 
     const images = imageUris.map((uri) => this.imageRepository.create(uri));
