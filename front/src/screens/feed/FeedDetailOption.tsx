@@ -1,11 +1,11 @@
-import { CompoundOption } from "@/components/common/CompoundOption";
-import { alerts, feedNavigations } from "@/constants";
-import useMutateDeletePost from "@/hooks/queries/useMutateDeletePost";
-import { FeedStackParamList } from "@/navigations/stack/FeedStackNavigator";
-import { useDetailPostStore } from "@/store/usePostStore";
-import { useNavigation } from "@react-navigation/native";
-import { StackNavigationProp } from "@react-navigation/stack";
-import { Alert } from "react-native";
+import { CompoundOption } from '@/components/common/CompoundOption';
+import { alerts, feedNavigations } from '@/constants';
+import useMutateDeletePost from '@/hooks/queries/useMutateDeletePost';
+import { FeedStackParamList } from '@/navigations/stack/FeedStackNavigator';
+import { useDetailPostStore } from '@/store/usePostStore';
+import { useNavigation } from '@react-navigation/native';
+import { StackNavigationProp } from '@react-navigation/stack';
+import { Alert } from 'react-native';
 
 interface FeedDetailOptionProps {
     isVisible: boolean;
