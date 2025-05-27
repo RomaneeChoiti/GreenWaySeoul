@@ -9,6 +9,7 @@ import { Post } from './post.entity';
 import { Brackets, Repository, SelectQueryBuilder } from 'typeorm';
 import { User } from 'src/auth/user.entity';
 import { Image } from 'src/image/image.entity';
+import { S3Client, DeleteObjectCommand } from '@aws-sdk/client-s3';
 
 @Injectable()
 export class PostService {
@@ -143,6 +144,41 @@ export class PostService {
 
   async deletePost(id: number, user: User) {
     try {
+      // Fetch the post with its images
+      const post = await this.postRepository.findOne({
+        where: { id, user: { id: user.id } },
+        relations: ['images'],
+      });
+
+      if (!post) {
+        throw new NotFoundException('존재하지 않는 피드입니다.');
+      }
+
+      // Initialize S3 client
+      const s3Client = new S3Client({
+        region: process.env.AWS_BUCKET_REGION,
+        credentials: {
+          accessKeyId: process.env.S3_ACCESS_KEY_ID,
+          secretAccessKey: process.env.S3_SECRET_ACCESS_KEY,
+        },
+      });
+
+      // Delete images from S3
+      const deletePromises = post.images.map((image) => {
+        const deleteParams = {
+          Bucket: process.env.S3_BUCKET_NAME,
+          Key: image.uri.replace(
+            `https://${process.env.S3_BUCKET_NAME}.s3.${process.env.AWS_BUCKET_REGION}.amazonaws.com/`,
+            '',
+          ),
+        };
+        const command = new DeleteObjectCommand(deleteParams);
+        return s3Client.send(command);
+      });
+
+      await Promise.all(deletePromises);
+
+      // Delete the post
       const result = await this.postRepository
         .createQueryBuilder('post')
         .delete()
