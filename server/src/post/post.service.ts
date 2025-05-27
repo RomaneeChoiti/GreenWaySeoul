@@ -213,10 +213,39 @@ export class PostService {
     post.date = date;
     post.score = score;
 
+    // Identify images to delete
+    const imagesToDelete = post.images.filter(
+      (image) => !imageUris.some((uriObj) => uriObj.uri === image.uri),
+    );
+
+    // Initialize S3 client
+    const s3Client = new S3Client({
+      region: process.env.AWS_BUCKET_REGION,
+      credentials: {
+        accessKeyId: process.env.S3_ACCESS_KEY_ID,
+        secretAccessKey: process.env.S3_SECRET_ACCESS_KEY,
+      },
+    });
+
+    // Delete images from S3
+
+    const deletePromises = imagesToDelete.map((image) => {
+      const deleteParams = {
+        Bucket: process.env.S3_BUCKET_NAME,
+        Key: image.uri.replace(
+          `https://${process.env.S3_BUCKET_NAME}.s3.${process.env.AWS_BUCKET_REGION}.amazonaws.com/`,
+          '',
+        ),
+      };
+      const command = new DeleteObjectCommand(deleteParams);
+      return s3Client.send(command);
+    });
+
     const images = imageUris.map((uri) => this.imageRepository.create(uri));
     post.images = images;
 
     try {
+      await Promise.all(deletePromises);
       await this.imageRepository.save(images);
       await this.postRepository.save(post);
     } catch (error) {
