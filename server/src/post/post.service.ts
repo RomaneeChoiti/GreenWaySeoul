@@ -154,14 +154,8 @@ export class PostService {
         throw new NotFoundException('존재하지 않는 피드입니다.');
       }
 
-      // Initialize S3 client
-      const s3Client = new S3Client({
-        region: process.env.AWS_BUCKET_REGION,
-        credentials: {
-          accessKeyId: process.env.S3_ACCESS_KEY_ID,
-          secretAccessKey: process.env.S3_SECRET_ACCESS_KEY,
-        },
-      });
+      // Get S3 client
+      const s3Client = this._createS3Client();
 
       // Delete images from S3
       const deletePromises = post.images.map((image) => {
