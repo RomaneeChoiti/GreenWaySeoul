@@ -20,6 +20,12 @@ import { FavoriteModule } from './favorite/favorite.module';
       database: process.env.DB_DATABASE,
       entities: [__dirname + '/**/*.entity.{js,ts}'],
       synchronize: false, // Set to false in production
+      // EC2 인스턴스의 IP로부터의 접속을 허용
+      ssl: process.env.DB_SSL === 'true',
+      extra:
+        process.env.DB_SSL === 'true'
+          ? { ssl: { rejectUnauthorized: false } }
+          : {},
     }),
     ServeStaticModule.forRoot({
       rootPath: join(__dirname, '..', 'uploads'),
