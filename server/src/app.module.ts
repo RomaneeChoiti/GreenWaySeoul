@@ -7,6 +7,9 @@ import { ImageModule } from './image/image.module';
 import { ServeStaticModule } from '@nestjs/serve-static';
 import { join } from 'path';
 import { FavoriteModule } from './favorite/favorite.module';
+import * as fs from 'fs';
+
+const rdsCaCertPath = join(__dirname, '..', 'ap-northeast-2-bundle.pem');
 
 @Module({
   imports: [
@@ -20,13 +23,13 @@ import { FavoriteModule } from './favorite/favorite.module';
       database: process.env.DB_DATABASE,
       entities: [__dirname + '/**/*.entity.{js,ts}'],
       synchronize: false, // Set to false in production
-      // EC2 인스턴스의 IP로부터의 접속을 허용
-      ssl: process.env.DB_SSL === 'true',
-      extra:
-        process.env.DB_SSL === 'true'
-          ? { ssl: { rejectUnauthorized: false } }
-          : {},
+
+      ssl: {
+        rejectUnauthorized: true,
+        ca: fs.readFileSync(rdsCaCertPath).toString(),
+      },
     }),
+
     ServeStaticModule.forRoot({
       rootPath: join(__dirname, '..', 'uploads'),
     }),
@@ -35,6 +38,7 @@ import { FavoriteModule } from './favorite/favorite.module';
     ImageModule,
     FavoriteModule,
   ],
+
   providers: [ConfigService],
 })
 export class AppModule {}
