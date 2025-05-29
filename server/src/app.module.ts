@@ -9,7 +9,7 @@ import { join } from 'path';
 import { FavoriteModule } from './favorite/favorite.module';
 import * as fs from 'fs';
 
-const rdsCaCertPath = join(__dirname, '..', 'ap-northeast-2-bundle.pem');
+const rdsCaCertPath = join(__dirname, '..', process.env.RDS_CA_CERT_PATH);
 
 @Module({
   imports: [
