@@ -9,7 +9,19 @@ import { join } from 'path';
 import { FavoriteModule } from './favorite/favorite.module';
 import * as fs from 'fs';
 
-const rdsCaCertPath = `../${process.env.RDS_CA_CERT_PATH}`;
+console.log('RDS_CA_CERT_PATH env:', process.env.RDS_CA_CERT_PATH);
+
+const rdsCaCertPath = join(__dirname, process.env.RDS_CA_CERT_PATH ?? '');
+
+console.log('Resolved RDS CA Cert Path:', rdsCaCertPath);
+
+if (!fs.existsSync(rdsCaCertPath)) {
+  console.error(
+    `ERROR: RDS CA cert file does NOT exist at path: ${rdsCaCertPath}`,
+  );
+} else {
+  console.log('RDS CA cert file exists.');
+}
 
 @Module({
   imports: [
