@@ -10,10 +10,7 @@ import { FavoriteModule } from './favorite/favorite.module';
 import * as fs from 'fs';
 import * as path from 'path';
 
-const rdsCaCertPath = path.resolve(
-  __dirname,
-  process.env.RDS_CA_CERT_PATH ?? '',
-);
+const rdsCaCertPath = path.join(__dirname, 'ap-northeast-2-bundle.pem');
 
 if (!fs.existsSync(rdsCaCertPath)) {
   console.error(
@@ -22,6 +19,13 @@ if (!fs.existsSync(rdsCaCertPath)) {
 } else {
   console.log('RDS CA cert file exists.');
 }
+
+console.log('Resolved RDS CA cert path:', rdsCaCertPath);
+console.log(
+  'Is path a file:',
+  fs.existsSync(rdsCaCertPath),
+  fs.statSync(rdsCaCertPath).isFile(),
+);
 
 @Module({
   imports: [
