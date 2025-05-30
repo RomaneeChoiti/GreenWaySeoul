@@ -5,9 +5,10 @@ import { AuthModule } from './auth/auth.module';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { ImageModule } from './image/image.module';
 import { ServeStaticModule } from '@nestjs/serve-static';
-import path, { join } from 'path';
+import { join } from 'path';
 import { FavoriteModule } from './favorite/favorite.module';
 import * as fs from 'fs';
+import * as path from 'path';
 
 const rdsCaCertPath = path.resolve(
   __dirname,
