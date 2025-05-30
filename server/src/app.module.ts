@@ -12,7 +12,6 @@ import * as path from 'path';
 
 const rdsCaCertPath = path.resolve(
   __dirname,
-  '..',
   process.env.RDS_CA_CERT_PATH ?? '',
 );
 
