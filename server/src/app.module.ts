@@ -9,7 +9,7 @@ import { join } from 'path';
 import { FavoriteModule } from './favorite/favorite.module';
 import * as fs from 'fs';
 
-const rdsCaCertPath = join(__dirname, '..', process.env.RDS_CA_CERT_PATH);
+const rdsCaCertPath = `../${process.env.RDS_CA_CERT_PATH}`;
 
 @Module({
   imports: [
@@ -25,7 +25,7 @@ const rdsCaCertPath = join(__dirname, '..', process.env.RDS_CA_CERT_PATH);
       synchronize: false, // Set to false in production
 
       ssl: {
-        rejectUnauthorized: false,
+        rejectUnauthorized: true,
         ca: fs.readFileSync(rdsCaCertPath).toString(),
       },
     }),
