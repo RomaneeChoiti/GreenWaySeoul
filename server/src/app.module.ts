@@ -38,7 +38,7 @@ console.log(
       password: process.env.DB_PASSWORD,
       database: process.env.DB_DATABASE,
       entities: [__dirname + '/**/*.entity.{js,ts}'],
-      synchronize: false, // Set to false in production
+      synchronize: true, // Set to false in production
 
       ssl: {
         rejectUnauthorized: true,
