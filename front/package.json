@@ -1,5 +1,5 @@
 {
-  "name": "GreenWaySeoulRN",
+  "name": "greenwayseoul-front",
   "private": true,
   "version": "0.0.1",
   "main": "index.js",
@@ -8,7 +8,8 @@
   },
   "scripts": {
     "android": "react-native run-android",
-    "ios": "react-native run-ios",
+    "ios:dev" : "NODE_ENV=development react-native run-ios",
+    "ios:prod": "NODE_ENV=production react-native run-ios",
     "lint": "eslint .",
     "start": "react-native start",
     "test": "jest"

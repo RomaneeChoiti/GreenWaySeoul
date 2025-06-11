@@ -10,14 +10,19 @@ import { FavoriteModule } from './favorite/favorite.module';
 import * as fs from 'fs';
 import * as path from 'path';
 
-const rdsCaCertPath = path.join(__dirname, 'ap-northeast-2-bundle.pem');
+const rdsCaCertPath =
+  process.env.NODE_ENV === 'production'
+    ? path.join(__dirname, 'ap-northeast-2-bundle.pem') // 배포 환경
+    : path.join(__dirname, '..', 'ap-northeast-2-bundle.pem'); // 개발 환경
 
-if (!fs.existsSync(rdsCaCertPath)) {
-  console.error(
-    `ERROR: RDS CA cert file does NOT exist at path: ${rdsCaCertPath}`,
-  );
-} else {
-  console.log('RDS CA cert file exists.');
+if (process.env.NODE_ENV === 'production') {
+  if (!fs.existsSync(rdsCaCertPath)) {
+    console.error(
+      `ERROR: RDS CA cert file does NOT exist at path: ${rdsCaCertPath}`,
+    );
+  } else {
+    console.log('RDS CA cert file exists.');
+  }
 }
 
 console.log('Resolved RDS CA cert path:', rdsCaCertPath);
@@ -29,21 +34,31 @@ console.log(
 
 @Module({
   imports: [
-    ConfigModule.forRoot({ isGlobal: true }),
-    TypeOrmModule.forRoot({
-      type: 'postgres',
-      host: process.env.DB_HOST,
-      port: 5432,
-      username: process.env.DB_USERNAME,
-      password: process.env.DB_PASSWORD,
-      database: process.env.DB_DATABASE,
-      entities: [__dirname + '/**/*.entity.{js,ts}'],
-      synchronize: true, // Set to false in production
+    ConfigModule.forRoot({
+      isGlobal: true,
+      envFilePath: process.env.NODE_ENV === 'production' ? '.env' : '.env.dev',
+    }),
+    TypeOrmModule.forRootAsync({
+      imports: [ConfigModule],
+      useFactory: (configService: ConfigService) => ({
+        type: 'postgres',
+        host: configService.get('DB_HOST'),
+        port: 5432,
+        username: configService.get('DB_USERNAME'),
+        password: configService.get('DB_PASSWORD'),
+        database: configService.get('DB_DATABASE'),
+        entities: [__dirname + '/**/*.entity.{js,ts}'],
+        synchronize: true, // Set to false in production
 
-      ssl: {
-        rejectUnauthorized: true,
-        ca: fs.readFileSync(rdsCaCertPath).toString(),
-      },
+        ssl:
+          configService.get<string>('NODE_ENV') === 'production'
+            ? {
+                rejectUnauthorized: true,
+                ca: fs.readFileSync(rdsCaCertPath).toString(),
+              }
+            : false,
+      }),
+      inject: [ConfigService],
     }),
 
     ServeStaticModule.forRoot({

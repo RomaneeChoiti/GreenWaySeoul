@@ -1,13 +1,10 @@
 import axios from 'axios';
-import { Platform } from 'react-native';
 
 const axiosInstance = axios.create({
-  baseURL:
-    Platform.OS === 'android'
-      ? 'http://10.0.2.2:3030'
-      : 'http://localhost:3030',
+  baseURL: process.env.NODE_ENV === 'production'
+    ? 'https://greenwayseoul.p-e.kr' // 배포 시
+    : 'http://localhost:3030',       // 로컬 개발 시
   withCredentials: true,
-  
 });
 
 export default axiosInstance;
