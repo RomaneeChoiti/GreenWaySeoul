@@ -26,7 +26,7 @@ const CustomDrawerContent = (props: DrawerContentComponentProps) => {
   return (
     <SafeAreaView {...props} style={styles.container}>
       <View style={styles.userInfoSection}>
-        {(() => {
+        {/* {(() => {
           if (imageUri) {
             return (
               <Image
@@ -61,7 +61,11 @@ const CustomDrawerContent = (props: DrawerContentComponentProps) => {
               />
             );
           }
-        })()}
+        })()} */}
+        <Image
+                source={require('@/assets/dfUser.png')}
+                style={[styles.userImage, styles.dfUserImage]}
+        />
         <Text style={styles.userEmail}>{nickname ?? email}</Text>
       </View>
       <DrawerItemList {...props} />
