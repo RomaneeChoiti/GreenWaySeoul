@@ -1,8 +1,8 @@
 {
-  "name": "matzip-server",
+  "name": "greenwayseoul-server",
   "version": "0.0.1",
   "description": "",
-  "author": "InKyoJeong",
+  "author": "ChoiDev",
   "private": true,
   "license": "UNLICENSED",
   "scripts": {

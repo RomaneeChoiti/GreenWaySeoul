@@ -1,10 +1,10 @@
 import axios from 'axios';
 
 const axiosInstance = axios.create({
-  // 배포 시
-  baseURL: 'https://greenwayseoul.p-e.kr',
-  // 로컬 개발 시
-  // baseURL: 'http://localhost:3030',
+  baseURL: process.env.NODE_ENV === 'production'
+    ? 'https://greenwayseoul.p-e.kr' // 배포 시
+    : 'http://localhost:3030',       // 로컬 개발 시
+
   withCredentials: true,
 });
 
