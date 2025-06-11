@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Text, Image, StyleSheet, Pressable, Platform, SafeAreaView, Dimensions } from 'react-native';
+import { View, Text, Image, StyleSheet, Pressable, SafeAreaView, Dimensions } from 'react-native';
 import { DrawerItemList } from '@react-navigation/drawer';
 import { DrawerContentComponentProps } from '@react-navigation/drawer';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
@@ -14,7 +14,9 @@ const CustomDrawerContent = (props: DrawerContentComponentProps) => {
     const styles = styling(theme);
 
     const { getProfileQuery} = useAuth();
-    const {email, nickname, imageUri, kakaoImageUri} = getProfileQuery.data || {};
+    // const {email, nickname, imageUri, kakaoImageUri} = getProfileQuery.data || {};
+        const {email, nickname} = getProfileQuery.data || {};
+
 
 
     const handleSetting = () => {
