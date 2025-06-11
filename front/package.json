@@ -8,8 +8,8 @@
   },
   "scripts": {
     "android": "react-native run-android",
-    "ios:dev" : "NODE_ENV=development react-native run-ios",
-    "ios:prod": "NODE_ENV=production react-native run-ios",
+    "ios:dev" : "ENVFILE=.env.dev react-native run-ios",
+    "ios:prod": "ENVFILE=.env.prod react-native run-ios",
     "lint": "eslint .",
     "start": "react-native start",
     "test": "jest"
