@@ -14,6 +14,7 @@ const CustomDrawerContent = (props: DrawerContentComponentProps) => {
     const styles = styling(theme);
 
     const { getProfileQuery} = useAuth();
+    //  TODO: 이미지 업데이트 끝나면 주석 해제
     // const {email, nickname, imageUri, kakaoImageUri} = getProfileQuery.data || {};
         const {email, nickname} = getProfileQuery.data || {};
 
@@ -29,6 +30,7 @@ const CustomDrawerContent = (props: DrawerContentComponentProps) => {
     <SafeAreaView {...props} style={styles.container}>
       <View style={styles.userInfoSection}>
         {/* {(() => {
+        //  TODO: 이미지 업데이트 끝나면 주석 해제
           if (imageUri) {
             return (
               <Image
