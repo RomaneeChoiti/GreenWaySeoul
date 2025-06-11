@@ -48,8 +48,7 @@ console.log(
         password: configService.get('DB_PASSWORD'),
         database: configService.get('DB_DATABASE'),
         entities: [__dirname + '/**/*.entity.{js,ts}'],
-        synchronize: true, // Set to false in production
-
+        synchronize: configService.get<string>('NODE_ENV') !== 'production',
         ssl:
           configService.get<string>('NODE_ENV') === 'production'
             ? {
