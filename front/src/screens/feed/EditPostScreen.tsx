@@ -59,7 +59,8 @@ function EditPostScreen() {
             onChangeText={setDescription}
             multiline
           />
-          <View style={styles.imagesViewer}>
+          {/* TODO: 이미지 업데이트 끝나면 해당 hiddenTemp 삭제 */}
+          <View style={[styles.imagesViewer, styles.hiddenTemp]}>
             <ImageInput onChange={imagePicker.handleChange} />
             <PreviewImageList
               imageUris={imagePicker.imageUris}
@@ -102,6 +103,9 @@ const styles = StyleSheet.create({
   buttonContainer: {
     flexDirection: 'row',
     gap: 10,
+  },
+  hiddenTemp:{
+    display: 'none',
   },
 });
 

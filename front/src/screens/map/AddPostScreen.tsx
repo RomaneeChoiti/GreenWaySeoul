@@ -154,7 +154,8 @@ const handleSubmit = () => {
               returnKeyType ="next"
               {...addPost.getTextInputProps('description')}
           />
-          <View style={styles.imagesViewer}>
+          {/* TODO: 임시로 숨김 처리 */}
+          <View style={[styles.imagesViewer, styles.hiddenTemp]}>
             <ImageInput onChange={imagePicker.handleChange}/>
             <PreviewImageList
               imageUris={imagePicker.imageUris}
@@ -226,6 +227,10 @@ const styling = (theme:ThemeMode) =>
     flexDirection: 'row',
     gap: 10,
 
+  },
+  // TODO: 임시로 숨김 처리
+  hiddenTemp: {
+    display: 'none',
   },
 });
 
