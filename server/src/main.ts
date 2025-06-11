@@ -6,7 +6,10 @@ async function bootstrap() {
   const port = process.env.PORT || 3030;
   // TODO : CORS 설정을 환경변수로 관리할 수 있도록 변경
   app.enableCors({
-    origin: true,
+    origin:
+      process.env.NODE_ENV === 'production'
+        ? 'https://greenwayseoul.p-e.kr'
+        : 'http://localhost:3030',
     credentials: true,
   });
 
