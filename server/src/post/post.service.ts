@@ -9,15 +9,26 @@ import { Post } from './post.entity';
 import { Brackets, Repository, SelectQueryBuilder } from 'typeorm';
 import { User } from 'src/auth/user.entity';
 import { Image } from 'src/image/image.entity';
+import { S3Client, DeleteObjectCommand } from '@aws-sdk/client-s3';
 
 @Injectable()
 export class PostService {
+  private readonly s3Client: S3Client;
+
   constructor(
     @InjectRepository(Post)
     private postRepository: Repository<Post>,
     @InjectRepository(Image)
     private imageRepository: Repository<Image>,
-  ) {}
+  ) {
+    this.s3Client = new S3Client({
+      region: process.env.AWS_BUCKET_REGION,
+      credentials: {
+        accessKeyId: process.env.S3_ACCESS_KEY_ID,
+        secretAccessKey: process.env.S3_SECRET_ACCESS_KEY,
+      },
+    });
+  }
 
   async getAllMarkers(user: User) {
     try {
@@ -137,12 +148,37 @@ export class PostService {
       );
     }
 
-    const { user: _, ...postWithoutUser } = post;
-    return postWithoutUser;
+    return post;
   }
 
   async deletePost(id: number, user: User) {
     try {
+      // Fetch the post with its images
+      const post = await this.postRepository.findOne({
+        where: { id, user: { id: user.id } },
+        relations: ['images'],
+      });
+
+      if (!post) {
+        throw new NotFoundException('존재하지 않는 피드입니다.');
+      }
+
+      // Delete images from S3
+      const deletePromises = post.images.map((image) => {
+        const deleteParams = {
+          Bucket: process.env.S3_BUCKET_NAME,
+          Key: image.uri.replace(
+            `https://${process.env.S3_BUCKET_NAME}.s3.${process.env.AWS_BUCKET_REGION}.amazonaws.com/`,
+            '',
+          ),
+        };
+        const command = new DeleteObjectCommand(deleteParams);
+        return this.s3Client.send(command);
+      });
+
+      await Promise.all(deletePromises);
+
+      // Delete the post
       const result = await this.postRepository
         .createQueryBuilder('post')
         .delete()
@@ -177,10 +213,29 @@ export class PostService {
     post.date = date;
     post.score = score;
 
+    // Identify images to delete
+    const imagesToDelete = post.images.filter(
+      (image) => !imageUris.some((uriObj) => uriObj.uri === image.uri),
+    );
+
+    // Delete images from S3
+    const deletePromises = imagesToDelete.map((image) => {
+      const deleteParams = {
+        Bucket: process.env.S3_BUCKET_NAME,
+        Key: image.uri.replace(
+          `https://${process.env.S3_BUCKET_NAME}.s3.${process.env.AWS_BUCKET_REGION}.amazonaws.com/`,
+          '',
+        ),
+      };
+      const command = new DeleteObjectCommand(deleteParams);
+      return this.s3Client.send(command);
+    });
+
     const images = imageUris.map((uri) => this.imageRepository.create(uri));
     post.images = images;
 
     try {
+      await Promise.all(deletePromises);
       await this.imageRepository.save(images);
       await this.postRepository.save(post);
     } catch (error) {

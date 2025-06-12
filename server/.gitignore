@@ -37,6 +37,7 @@ lerna-debug.log*
 
 # dotenv environment variable files
 .env
+.env.dev
 .env.development.local
 .env.test.local
 .env.production.local
@@ -56,4 +57,4 @@ pids
 report.[0-9]*.[0-9]*.[0-9]*.[0-9]*.json
 
 /uploads
-matzip-server.pem
+*.pem

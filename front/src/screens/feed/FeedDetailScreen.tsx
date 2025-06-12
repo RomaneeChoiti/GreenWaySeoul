@@ -4,11 +4,11 @@ import useGetPost from '@/hooks/queries/useGetPost';
 import { formatDate } from '@/utils/date'; // Import the utility function
 import { FeedStackParamList } from '@/navigations/stack/FeedStackNavigator';
 import { StackScreenProps } from '@react-navigation/stack';
-import { Alert, Image, Platform, Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
+import { Alert, Image, Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import Octicons from 'react-native-vector-icons/Octicons';
-import PreviewImageList from '@/components/common/PreviewImageList';
+// import PreviewImageList from '@/components/common/PreviewImageList';
 import CustomButton from '@/components/common/CustomButton';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { CompositeScreenProps } from '@react-navigation/native';
@@ -73,6 +73,18 @@ function FeedDetailScreen({ route, navigation }: FeedDetailScreenProps) {
         return null;
     }
 
+     // TODO: 이미지 업데이트 끝나면 해당 코드 삭제
+    const successImageIndex = (post.id % 6) + 1; // 1~6 순환
+    const successImages = [
+        require('../../assets/successImgs/success1.png'),
+        require('../../assets/successImgs/success2.png'),
+        require('../../assets/successImgs/success3.png'),
+        require('../../assets/successImgs/success4.png'),
+        require('../../assets/successImgs/success5.png'),
+        require('../../assets/successImgs/success6.png'),
+    ];
+    const successImagePath = successImages[(successImageIndex - 1) % successImages.length];
+
     return (
         <>
             <ScrollView
@@ -83,15 +95,12 @@ function FeedDetailScreen({ route, navigation }: FeedDetailScreenProps) {
                 }
             >
                 <View style={styles.imageContainer}>
+                    {/*
+                    TODO: 이미지 업데이트 끝나면 주석 해제
                     {post.images.length > 0 && (
                         <Image
                             style={styles.image}
-                            source={{
-                                uri: `${Platform.OS === 'ios'
-                                    ? 'http://localhost:3030/'
-                                    : 'http://10.2.2:3030/'
-                                    }${post.images[0].uri}`,
-                            }}
+                            source={{uri: post.images[0].uri}}
                             resizeMode="cover"
                         />
                     )}
@@ -99,7 +108,15 @@ function FeedDetailScreen({ route, navigation }: FeedDetailScreenProps) {
                         <View style={styles.emptyImageContainer}>
                             <Text style={styles.descriptionImage}>이미지 없음</Text>
                         </View>
-                    )}
+                    )} */}
+                    {/* TODO: 이미지 업데이트 끝나면 해당 코드 삭제 */}
+                    <View key={post.id} style={styles.imageContainer}>
+                        <Image
+                            style={styles.image}
+                            source={successImagePath}
+                            resizeMode="cover"
+                        />
+                    </View>
                     <View style={styles.contentContainer}>
                         <View style={styles.optionContainer}>
                             <View style={styles.rowContainer}>
@@ -141,11 +158,13 @@ function FeedDetailScreen({ route, navigation }: FeedDetailScreenProps) {
                         </View>
                     </View>
                 </View>
+                {/*
+                TODO: 이미지 업데이트 끝나면 주석 해제
                 {post.images.length > 0 &&
                     <View style={styles.postImageContainer}>
                         <PreviewImageList imageUris={post.images} imagePreviewEnabled />
                     </View>
-                }
+                } */}
             </ScrollView>
             <View style={[styles.bottomContainer, { paddingBottom: insets.bottom }]}>
                 <View style={[styles.tabContainer, insets.bottom === 0 && styles.tabContainerNoInsets]}>
