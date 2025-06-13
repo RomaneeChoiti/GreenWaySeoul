@@ -1,3 +1,4 @@
+import Config from 'react-native-config';
 
 type UserInformation = {
     email: string;
@@ -25,12 +26,16 @@ function validateLogin(values: UserInformation){
     return validateUser(values);
 }
 
-function validateSignUp(values: UserInformation & {passwordConfirmation: string}){
+function validateSignUp(values: UserInformation & {passwordConfirmation: string; recommendationCode: string}){
     const errors = validateUser(values);
-    const signUpErrors = { ...errors, passwordConfirmation: '' };
+    const signUpErrors = { ...errors, passwordConfirmation: '', recommendationCode: '' };
 
     if (values.password !== values.passwordConfirmation) {
         signUpErrors.passwordConfirmation = '비밀번호가 일치하지 않습니다';
+    }
+
+    if (values.recommendationCode !== Config.GWS_RECOMMEND_CODE) {
+        signUpErrors.recommendationCode = '추천 코드가 올바르지 않습니다';
     }
 
     return signUpErrors;
