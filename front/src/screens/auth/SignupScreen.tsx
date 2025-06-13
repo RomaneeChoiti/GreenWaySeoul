@@ -72,7 +72,7 @@ function SignUpScreen() {
                 <InputField
                     placeholder="추천 코드"
                     error={signUp.errors.recommendationCode}
-                    touched={signUp.touched.recommendationCode}
+                    touched={true} // 항상 유효성 검사 결과를 표시
                     {...signUp.getTextInputProps('recommendationCode')}
                 />
             </View>
