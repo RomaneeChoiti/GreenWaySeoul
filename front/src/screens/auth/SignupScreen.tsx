@@ -7,15 +7,18 @@ import { validateSignUp } from '@/utils';
 import useAuth from '@/hooks/queries/useAuth';
 import Toast from 'react-native-toast-message';
 import { errorMessages } from '@/constants';
+import Config from 'react-native-config';
 
 function SignUpScreen() {
     const passwordRf = useRef<TextInput | null>(null);
     const { signupMutation, loginMutation } = useAuth();
     const passwordConfirmationRf = useRef<TextInput | null>(null);
     const signUp = useForm({
-        initialValues: { email: '', password: '', passwordConfirmation: '' },
+        initialValues: { email: '', password: '', passwordConfirmation: '', recommendationCode: '' },
         validate: validateSignUp,
     });
+
+    const isRecommendationCodeValid = signUp.values.recommendationCode === Config.GWS_RECOMMEND_CODE;
 
     const handleSummit = () => {
         const { email, password } = signUp.values;
@@ -66,12 +69,19 @@ function SignUpScreen() {
                     onSubmitEditing={handleSummit}
                     secureTextEntry
                 />
+                <InputField
+                    placeholder="추천 코드"
+                    error={signUp.errors.recommendationCode}
+                    touched={signUp.touched.recommendationCode}
+                    {...signUp.getTextInputProps('recommendationCode')}
+                />
             </View>
             <CustomButton
                 label="회원가입"
                 variant="filled"
                 size="large"
                 onPress={handleSummit}
+                disabled={!isRecommendationCodeValid}
             />
         </SafeAreaView>
     );
