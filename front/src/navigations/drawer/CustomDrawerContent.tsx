@@ -67,8 +67,8 @@ const CustomDrawerContent = (props: DrawerContentComponentProps) => {
           }
         })()} */}
         <Image
-                source={require('@/assets/dfUser.png')}
-                style={[styles.userImage, styles.dfUserImage]}
+          source={require('@/assets/dfUser.png')}
+          style={[styles.userImage, styles.dfUserImage]}
         />
         <Text style={styles.userEmail}>{nickname ?? email}</Text>
       </View>
@@ -81,11 +81,8 @@ const CustomDrawerContent = (props: DrawerContentComponentProps) => {
           <MaterialIcons
             name={'settings'}
             size={30}
-            color={colors[theme].BLACK}
+            color={colors[theme].GRAY_700}
           />
-          <Text style={styles.buttonText}>
-            설정
-          </Text>
         </Pressable>
       </View>
     </SafeAreaView>
@@ -103,14 +100,14 @@ const styling = (theme: ThemeMode) =>
     marginVertical: 20,
   },
   userImage: {
-    width: 100,
-    height: 100,
+    width: 90,
+    height: 90,
     borderRadius: 40,
     marginBottom: 7,
-
   },
   userEmail: {
-    fontSize: 17,
+    fontSize: 15,
+    fontWeight: '400',
     color: colors[theme].BLACK,
   },
   dfUserImage:{
@@ -129,15 +126,9 @@ const styling = (theme: ThemeMode) =>
   buttonMenu:{
     flexDirection: 'row',
     alignItems: 'center',
-    backgroundColor: colors[theme].GRAY_200,
     borderRadius: 10,
     gap: 10,
     padding: 10,
-  },
-  buttonText:{
-    fontSize: 17,
-    fontWeight: '600',
-    color: colors[theme].BLACK,
   },
 });
 

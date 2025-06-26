@@ -41,7 +41,6 @@ function AuthHomeScreen({navigation}: AuthHomeScreenProps) {
     }
   };
 
-
   return (
     <SafeAreaView style={style.container}>
       <View style={style.imageContainer}>
@@ -93,6 +92,7 @@ const style = StyleSheet.create({
   container: {
     flex: 1,
     margin: 25,
+    marginBottom: Dimensions.get('screen').height * 0.125,
     justifyContent: 'center',
     alignItems: 'center',
   },
@@ -104,26 +104,26 @@ const style = StyleSheet.create({
     width: '100%',
     height: '100%',
   },
-  buttonContainer:{
+  buttonContainer: {
     flex: 1,
-    gap: 10,
+    gap: Dimensions.get('screen').height * 0.02,
     alignItems: 'center',
   },
-  kakaoButtonContainer:{
+  kakaoButtonContainer: {
     backgroundColor: '#FEE500',
     borderRadius: 3,
-    paddingVertical: 10,
+    paddingVertical: Dimensions.get('screen').height * 0.015,
     paddingHorizontal: 20,
     flexDirection: 'row',
     justifyContent: 'center',
     alignItems: 'center',
     gap: 10,
   },
-  kakaoButtonText:{
+  kakaoButtonText: {
     color: '#181500',
     fontSize: 17,
   },
-  emailText:{
+  emailText: {
     textDecorationLine: 'underline',
     fontWeight: '500',
     padding: 10,
@@ -131,7 +131,7 @@ const style = StyleSheet.create({
   },
   appleButton: {
     width: Dimensions.get('screen').width - 50,
-    height: 60,
+    height: Dimensions.get('screen').height * 0.08,
   },
 });
 
