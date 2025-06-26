@@ -94,8 +94,8 @@ const styling = (theme: ThemeMode) =>
         gap: 4,
     },
     text:{
-        fontSize: 20,
-        fontWeight: '700',
+        fontSize: 16,
+        fontWeight: '600',
     },
     filledPressed: {
         backgroundColor: colors.PRIMARY,
