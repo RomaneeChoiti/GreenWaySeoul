@@ -71,9 +71,9 @@ function SlideModal({ visible, onClose, selectedMarker, markerType }: SlideModal
                     <Text style={styles.title}>{selectedMarker.Address}</Text>
                     <Text style={styles.details}>{selectedMarker.설치위치}</Text>
                     <Text style={styles.details}>{selectedMarker.canType}</Text>
-                    <Text style={styles.warringTextTitle}>플로깅 주의 사항</Text>
-                    <Text style={styles.warringTextDetails}>교통 안전 유의하시길 바랍니다.</Text>
-                    <Text style={styles.warringTextDetails}>날카로운 물건 주의하시길 바랍니다.</Text>
+                    <Text style={styles.warningTextTitle}>플로깅 주의 사항</Text>
+                    <Text style={styles.warningTextDetails}>교통 안전 유의하시길 바랍니다.</Text>
+                    <Text style={styles.warningTextDetails}>날카로운 물건 주의하시길 바랍니다.</Text>
                   </>
                 ) : (
                     <Text style={styles.details}>No marker selected</Text>
@@ -145,13 +145,13 @@ const styling = (theme: ThemeMode) =>
     top: 20,
     alignItems: 'center',
     },
-  warringTextTitle:{
+  warningTextTitle:{
     fontSize: 14,
     fontWeight: 'bold',
     color: colors.WARNING,
     marginTop: 10,
   },
-  warringTextDetails:{
+  warningTextDetails:{
     fontSize: 14,
     color: colors[theme].GRAY_700,
   },
