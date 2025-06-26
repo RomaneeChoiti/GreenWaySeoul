@@ -4,6 +4,7 @@ import { AuthStackParamList } from '@/navigations/stack/AuthStackNavigator';
 import { authNavigations } from '@/constants';
 import CustomButton from '@/components/common/CustomButton';
 import Ionicons from 'react-native-vector-icons/Ionicons';
+import Octicons from 'react-native-vector-icons/MaterialIcons';
 import appleAuth, { AppleButton } from '@invertase/react-native-apple-authentication';
 import useAuth from '@/hooks/queries/useAuth';
 import Toast from 'react-native-toast-message';
@@ -54,6 +55,9 @@ function AuthHomeScreen({navigation}: AuthHomeScreenProps) {
         <CustomButton
           label="가볍게 시작하기"
           onPress={()=> navigation.navigate(authNavigations.PREVIEW_MAP)}
+          icon={
+            <Ionicons name={'walk-outline'} color={'#ffffff'} size={25}/>
+          }
         />
         {Platform.OS === 'ios' && (
           <AppleButton
@@ -106,7 +110,7 @@ const style = StyleSheet.create({
   },
   buttonContainer: {
     flex: 1,
-    gap: Dimensions.get('screen').height * 0.02,
+    gap: Dimensions.get('screen').height * 0.01,
     alignItems: 'center',
   },
   kakaoButtonContainer: {
@@ -117,7 +121,6 @@ const style = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'center',
     alignItems: 'center',
-    gap: 10,
   },
   kakaoButtonText: {
     color: '#181500',
