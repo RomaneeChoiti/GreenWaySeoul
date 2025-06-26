@@ -4,9 +4,7 @@ import useAuth from '@/hooks/queries/useAuth';
 import { Alert, StyleSheet, Text, View } from 'react-native';
 import Toast from 'react-native-toast-message';
 
-interface DeleteAccountScreenProps {}
-
-function DeleteAccountScreen({}: DeleteAccountScreenProps) {
+function DeleteAccountScreen() {
     const { deleteAccountMutation } = useAuth();
     const handleDeleteAccount = () => {
         Alert.alert(alerts.DELETE_ACCOUNT.TITLE, alerts.DELETE_ACCOUNT.DESCRIPTION,[
@@ -58,11 +56,11 @@ const styles = StyleSheet.create({
         marginBottom: 20,
     },
     deleteButton: {
-        backgroundColor: colors.ERROR,
+        backgroundColor: colors.WARNING,
     },
     infoContainer:{
         alignItems: 'center',
-        borderColor: colors.ERROR,
+        borderColor: colors.WARNING,
         borderWidth: 1,
         padding: 20,
         gap: 10,

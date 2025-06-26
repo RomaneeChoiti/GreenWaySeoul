@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Pressable, StyleSheet, Text } from 'react-native';
+import { Dimensions, Pressable, StyleSheet, Text } from 'react-native';
 import { colors, mapNavigations } from '@/constants';
 import ModalComponent from '@/components/common/ModalComponent';
 import { usePloggingStateStore } from '@/store/usePloggingStore';
@@ -50,11 +50,11 @@ const styling = (theme: ThemeMode) =>
   StyleSheet.create({
     stopPloggingButton: {
       position: 'absolute',
+      bottom: Dimensions.get('window').height * 0.1,
       alignSelf: 'center',
-      bottom: 100,
-      backgroundColor: colors.PRIMARY,
+      paddingHorizontal: Dimensions.get('window').width * 0.2,
       paddingVertical: 15,
-      paddingHorizontal: 140,
+      backgroundColor: colors.PRIMARY,
       borderRadius: 20,
       shadowColor: colors[theme].BLACK,
       shadowOffset: { width: 0, height: 4 },

@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Pressable, StyleSheet, View } from 'react-native';
+import { Dimensions, Pressable, StyleSheet, View } from 'react-native';
 import MapView, { LatLng, PROVIDER_GOOGLE } from 'react-native-maps';
 import { colors } from '@/constants';
 import useUserLocation from '@/hooks/useUserLocation';
@@ -13,7 +13,7 @@ import PloggingStatusText from '@/components/plogging/PloggingStatusText';
 import testData from '@/api/testData.json';
 import { usePloggingStateStore } from '@/store/usePloggingStore';
 import { useTrashcanStore } from '@/store/useTrashcanStore';
-import { TrashcanData } from '@/types/domain';
+import { TrashcanData } from '@/types';
 import useMoveMapView from '@/hooks/useMoveMapView';
 import Toast from 'react-native-toast-message';
 import { useThemeStore } from '@/store/useThemeStore';
@@ -26,7 +26,7 @@ function MapHomeScreen() {
   usePermission('LOCATION');
 
   const [isModalVisible, setModalVisible] = useState(false);
-  const [selectedMarker, setSelectedMarker] = useState<LatLng | null>(null);
+  const [selectedMarker, setSelectedMarker] = useState<TrashcanData | null>(null);
   const [markerType, setMarkerType] = useState<'recycle' | 'trash'>();
   const isPlogging = usePloggingStateStore((state) => state.isPlogging);
   const setTrashcanInfo = useTrashcanStore((state) => state.setTrashcanInfo);
@@ -49,9 +49,8 @@ function MapHomeScreen() {
     type: 'recycle' | 'trash',
     data: TrashcanData) => {
 
-    setSelectedMarker(coordinate);
+    setSelectedMarker(data);
     setMarkerType(type);
-    // TODO: 스프레드 연산자를 사용하여 data를 펼쳐서 setTrashcanInfo에 전달
     setTrashcanInfo(
         data.설치위치,
         data.Address,
@@ -80,6 +79,7 @@ function MapHomeScreen() {
         customMapStyle={mapStyle}
         region={{...userLocation, latitudeDelta: 0.01, longitudeDelta: 0.01}}
       >
+      <PloggingStatusText isPlogging={isPlogging} />
         {testData.map((data, index) => (
           <CustomMarker
             key={index}
@@ -95,9 +95,7 @@ function MapHomeScreen() {
           />
         ))}
       </MapView>
-
       <View>
-        <PloggingStatusText isPlogging={isPlogging} />
         {!isPlogging ? (
           <Pressable style={styles.locationButton} onPress={handlePressUserLocation}>
             <MaterialIcons name="my-location" color={styles.iconColor.color} size={30} />
@@ -142,8 +140,8 @@ const styling = (theme: ThemeMode) =>
   locationButton: {
     position: 'absolute',
     alignSelf: 'flex-end',
-    bottom: 40,
-    right: 30,
+    bottom: Dimensions.get('window').height * 0.07,
+    right: Dimensions.get('window').width * 0.05,
     backgroundColor: colors.PRIMARY,
     paddingVertical: 15,
     paddingHorizontal: 15,

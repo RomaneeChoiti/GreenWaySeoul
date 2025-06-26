@@ -1,6 +1,6 @@
 import { create } from 'zustand';
 
-interface TrashcanState {
+export interface TrashcanState {
   location: string | null;
   address: string | null;
   canType: string | null;

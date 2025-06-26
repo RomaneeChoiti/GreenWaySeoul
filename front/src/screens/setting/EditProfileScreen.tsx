@@ -1,6 +1,5 @@
 import InputField from '@/components/common/InputField';
 import EditProfileHeaderRight from '@/components/setting/EditProfileHeaderRight';
-import EditProfileImageOption from '@/components/setting/EditProfileImageOption';
 import { colors, errorMessages, settingNavigations } from '@/constants';
 import useAuth from '@/hooks/queries/useAuth';
 import useForm from '@/hooks/useForm';
@@ -75,7 +74,15 @@ function EditProfileScreen({navigation}: EditProfileScreenProps) {
         <View style={styles.profileImageContainer}>
             <Pressable
                 style={[styles.imageContainer, styles.emptyImageContainer]}
-                onPress={handleImage}
+                onPress={() => {
+                    // TODO : 프로필 이미지 수정 기능 구현 후 주석 해제
+                    // {handleImage}
+                    Toast.show({
+                        type: 'info',
+                        text1: '프로필 이미지 수정은 현재 사용할 수 없습니다.',
+                        position: 'bottom',
+                    });
+                }}
             >
                 {imagePicker.imageUris.length === 0 && !kakaoImageUri && (
                     <Ionicons name="camera-outline" color={'gray'} size={30}/>
@@ -110,11 +117,12 @@ function EditProfileScreen({navigation}: EditProfileScreenProps) {
             touched={editProfile.touched.nickname}
             placeholder="닉네임을 입력해주세요"
         />
-        <EditProfileImageOption
+        {/* TODO: 프로필 미구현으로 막음. */}
+        {/* <EditProfileImageOption
             isVisible={imageOption.isVisible}
             hideOption={imageOption.hide}
             onChangeImage={imagePicker.handleChange}
-        />
+        /> */}
         <Pressable style={styles.deleteButton} onPress={handleDeleteAccount}>
             <Text style={styles.deleteButtonText}>회원탈퇴</Text>
         </Pressable>

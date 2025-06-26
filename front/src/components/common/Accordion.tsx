@@ -53,7 +53,7 @@ function Accordion({ title, data }: AccordionProps) {
                     color={styles.iconColor.color}
                 />
             </Pressable>
-            <Animated.View style={[styles.container, { height: heightInterpolation, overflow: 'hidden' }]}>
+            <Animated.View style={[styles.container, { height: heightInterpolation }]}>
                 {data.map((item, index) => (
                     <View
                         key={index}
@@ -91,6 +91,7 @@ const styling = (theme: ThemeMode) =>
         paddingLeft: 20,
         paddingRight: 20,
         backgroundColor: colors[theme].WHITE,
+        overflow: 'hidden',
     },
     item: {
         paddingVertical: 10,

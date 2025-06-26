@@ -64,7 +64,6 @@ const styling = (theme: ThemeMode) =>
   container: {
     position: 'absolute',
     alignSelf: 'center',
-    bottom: 700,
     paddingVertical: 15,
     width: '100%',
     overflow: 'hidden', // Ensure text doesn't overflow the container
