@@ -2,14 +2,13 @@ import React, { useEffect, useRef } from 'react';
 import { Modal, StyleSheet, View, Animated, TouchableWithoutFeedback, Text, Image } from 'react-native';
 import { colors } from '@/constants';
 import PloggingButton from '@/components/plogging/PloggingButton';
-import { LatLng } from 'react-native-maps';
-import { ThemeMode } from '@/types';
+import { ThemeMode, TrashcanData } from '@/types';
 import { useThemeStore } from '@/store/useThemeStore';
 
 interface SlideModalProps {
   visible: boolean;
   onClose: () => void;
-  selectedMarker: LatLng | null;
+  selectedMarker: TrashcanData | null;
   markerType?: 'recycle' | 'trash'; // Add markerType as an optional prop
 }
 
@@ -58,23 +57,28 @@ function SlideModal({ visible, onClose, selectedMarker, markerType }: SlideModal
       </TouchableWithoutFeedback>
       <Animated.View style={[styles.modal, { transform: [{ translateY: slideAnim }] }]}>
         <View style={styles.modalContent}>
-            <View style={styles.content}>
-            {getMarkerImage() ? (
-                <Image source={getMarkerImage()} style={styles.markerImage} resizeMode="contain" />
-              ) : (
-                <Text style={styles.details}>No image available</Text>
-              )}
-              <View>
-                <Text style={styles.title}>Marker Details</Text>
+            <View style={styles.contentRow}>
+              <View style={styles.imageContainer}>
+                {getMarkerImage() ? (
+                  <Image source={getMarkerImage()} style={styles.markerImage} resizeMode="contain" />
+                ) : (
+                  <Text style={styles.details}>No image available</Text>
+                )}
+              </View>
+              <View style={styles.textContainer}>
                 {selectedMarker ? (
-                    <>
-                    <Text style={styles.details}>Latitude: {selectedMarker.latitude}</Text>
-                    <Text style={styles.details}>Longitude: {selectedMarker.longitude}</Text>
-                    </>
+                  <>
+                    <Text style={styles.title}>{selectedMarker.Address}</Text>
+                    <Text style={styles.details}>{selectedMarker.설치위치}</Text>
+                    <Text style={styles.details}>{selectedMarker.canType}</Text>
+                    <Text style={styles.warringTextTitle}>플로깅 주의 사항</Text>
+                    <Text style={styles.warringTextDetails}>교통 안전 유의하시길 바랍니다.</Text>
+                    <Text style={styles.warringTextDetails}>날카로운 물건 주의하시길 바랍니다.</Text>
+                  </>
                 ) : (
                     <Text style={styles.details}>No marker selected</Text>
                 )}
-            </View>
+              </View>
             </View>
             <View style={styles.contentPlogging}>
                 <PloggingButton onPress={handleClose} />
@@ -109,10 +113,18 @@ const styling = (theme: ThemeMode) =>
     flex: 1,
     justifyContent: 'center',
     },
-  content: {
-    justifyContent: 'center',
-    gap: 40,
+  contentRow: {
     flexDirection: 'row',
+    alignItems: 'center',
+    paddingHorizontal: 10,
+  },
+  imageContainer: {
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginRight: 10,
+  },
+  textContainer: {
+    flex: 1,
   },
   markerImage: {
     width: 100,
@@ -121,17 +133,28 @@ const styling = (theme: ThemeMode) =>
   title: {
     fontSize: 18,
     fontWeight: 'bold',
-    marginBottom: 10,
+    marginBottom: 5,
     color: colors[theme].BLACK,
   },
   details: {
     fontSize: 16,
-    color: colors[theme].GRAY_700,
+    marginBottom: 5,
+    color: colors[theme].BLACK,
   },
   contentPlogging: {
     top: 20,
     alignItems: 'center',
     },
+  warringTextTitle:{
+    fontSize: 14,
+    fontWeight: 'bold',
+    color: colors.WARNING,
+    marginTop: 10,
+  },
+  warringTextDetails:{
+    fontSize: 14,
+    color: colors[theme].GRAY_700,
+  },
 });
 
 export default SlideModal;
