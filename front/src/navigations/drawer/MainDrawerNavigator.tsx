@@ -42,12 +42,12 @@ function MainDrawerNavigator() {
         backgroundColor: colors[theme].WHITE,
       },
       drawerLabelStyle: {
-        fontSize: 17.5,
-        fontWeight: '600',
+        fontSize: 16,
+        fontWeight: '400',
         color: colors[theme].BLACK,
       },
       headerShown: false,
-      drawerActiveBackgroundColor: colors[theme].GRAY_200,
+      drawerActiveBackgroundColor: colors[theme].GREEN_400,
     }}>
           <Drawer.Screen
             name={mainNavigations.HOME}
@@ -71,7 +71,7 @@ function MainDrawerNavigator() {
             options={{
               title: '설정',
               drawerIcon: ({ focused }) => getDrawerIcon('settings', focused),
-              drawerItemStyle: { height: 0 }, // Hide the setting screen from the drawer
+              drawerItemStyle: { height: 0 },
             }}
           />
     </Drawer.Navigator>

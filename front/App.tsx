@@ -7,35 +7,41 @@ import Toast, { BaseToast, BaseToastProps, ErrorToast } from 'react-native-toast
 import { colors } from '@/constants';
 import { useThemeStore } from '@/store/useThemeStore';
 import { StatusBar } from 'react-native';
+import { StyleSheet } from 'react-native';
+
+const toastStyles = StyleSheet.create({
+  text1: {
+    fontSize: 15,
+  },
+  text2: {
+    fontSize: 12,
+  },
+  successBorder: {
+    borderLeftColor: colors.PRIMARY,
+  },
+  errorBorder: {
+    borderLeftColor: colors.WARNING,
+  },
+});
 
 const toastConfig = {
   success: (props: BaseToastProps) => (
     <BaseToast
       {...props}
-      style={{ borderLeftColor: colors.PRIMARY }}
-      text1Style={{
-        fontSize: 15,
-      }}
-      text2Style={{
-        fontSize: 12,
-      }}
+      style={toastStyles.successBorder}
+      text1Style={toastStyles.text1}
+      text2Style={toastStyles.text2}
     />
   ),
-
   error: (props: BaseToastProps) => (
     <ErrorToast
       {...props}
-      style={{ borderLeftColor: colors.WARNING }}
-      text1Style={{
-        fontSize: 15,
-      }}
-      text2Style={{
-        fontSize: 12,
-      }}
+      style={toastStyles.errorBorder}
+      text1Style={toastStyles.text1}
+      text2Style={toastStyles.text2}
     />
   ),
 };
-
 
 function App(): React.JSX.Element {
   const {theme} = useThemeStore();
@@ -51,7 +57,5 @@ function App(): React.JSX.Element {
     </QueryClientProvider>
   );
 }
-
-
 
 export default App;

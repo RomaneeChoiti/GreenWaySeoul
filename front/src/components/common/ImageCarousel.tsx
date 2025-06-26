@@ -9,7 +9,6 @@ import {
     Image,
     NativeScrollEvent,
     NativeSyntheticEvent,
-    Platform,
     Pressable,
     StyleSheet,
     View,
