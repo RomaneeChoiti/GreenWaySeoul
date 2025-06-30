@@ -16,25 +16,25 @@ GreenWaySeoul은 서울 지역의 쓰레기통 위치 정보를 기반으로 플
 ## 사용된 기술
 
 ### 프론트엔드
-React Native: 크로스플랫폼 앱 개발
-TypeScript: 정적 타입 기반의 안정적인 개발
-Zustand: 전역 상태 관리
-React Query: 서버 상태 및 비동기 데이터 관리
+- React Native: 크로스플랫폼 앱 개발
+- TypeScript: 정적 타입 기반의 안정적인 개발
+- Zustand: 전역 상태 관리
+- React Query: 서버 상태 및 비동기 데이터 관리
 
 ### UI/UX
-Figma: UI 설계 및 프로토타이핑
+- Figma: UI 설계 및 프로토타이핑
 
 ### 백엔드 및 서버리스
-NestJS & TypeORM: 모듈 기반의 구조적 백엔드 개발
-PostgreSQL: 관계형 데이터베이스
-AWS (EC2, RDS): 서버 및 데이터베이스 인프라 구성
+- NestJS & TypeORM: 모듈 기반의 구조적 백엔드 개발
+- PostgreSQL: 관계형 데이터베이스
+- AWS (EC2, RDS): 서버 및 데이터베이스 인프라 구성
 
 ### CI/CD
-준비 중 (향후 GitHub Actions 또는 AWS CodePipeline 도입 예정)
+- 준비 중 (향후 GitHub Actions 또는 AWS CodePipeline 도입 예정)
 
 ### 배포
-App Store: 출시 완료
-Google Play: 2025년 8월 예정
+- App Store: 출시 완료
+- Google Play: 2025년 8월 예정
 
 ## Git 커밋
 
@@ -53,9 +53,8 @@ Google Play: 2025년 8월 예정
 
 ## 다운받기
 
-App Store : https://apps.apple.com/kr/app/greenwayseoul/id6747158637
-
-Google Play: 2025년 8월 예정
+- App Store : https://apps.apple.com/kr/app/greenwayseoul/id6747158637
+- Google Play: 2025년 8월 예정
 
 ---
 
@@ -65,49 +64,48 @@ Originally launched as a web project called BinFinder in 2023, it evolved into a
 It provides users with real-time bin locations, plogging logs, and social features. Currently hosted on AWS, it’s planned for migration to a self-hosted environment with continued updates and feature expansions.
 
 ## Key Features
-Trash bin locations mapped throughout Seoul
-Guest mode for accessing bin locations without login
-Plogging record creation (date, duration, title, description, score)
-Feed-style view of saved plogging records
-Social login (Apple, Kakao)
-Email/password login with invite code registration
+- Trash bin locations mapped throughout Seoul
+- Guest mode for accessing bin locations without login
+- Plogging record creation (date, duration, title, description, score)
+- Feed-style view of saved plogging records
+- Social login (Apple, Kakao)
+- Email/password login with invite code registration
 
 ## Tech Stack
 
 ### Frontend
-React Native – Cross-platform mobile development
-TypeScript – Type-safe coding environment
-Zustand – Lightweight global state management
-React Query – Data fetching and server state synchronization
+- React Native – Cross-platform mobile development
+- TypeScript – Type-safe coding environment
+- Zustand – Lightweight global state management
+- React Query – Data fetching and server state synchronization
 
 ### UI/UX
-Figma – UI design and prototyping
-Backend & Infrastructure
-NestJS & TypeORM – Scalable and modular backend architecture
-PostgreSQL – Relational database
-AWS (EC2, RDS) – Hosting and database infrastructure
+- Figma – UI design and prototyping
+- Backend & Infrastructure
+- NestJS & TypeORM – Scalable and modular backend architecture
+- PostgreSQL – Relational database
+- AWS (EC2, RDS) – Hosting and database infrastructure
 
 ### CI/CD
-In progress (Planned: GitHub Actions or AWS CodePipeline)
+- In progress (Planned: GitHub Actions or AWS CodePipeline)
 
 ### Deployment
-App Store: Available now
-Google Play: Planned for August 2025
+- App Store: Available now
+- Google Play: Planned for August 2025
 
 ### Git Commit Convention
-Feat: Add new features
-Fix: Bug fixes
-Docs: Documentation updates
-Comment: Add or update code comments
-Style: Code formatting (no logic changes)
-Refactor: Code restructuring
-Test: Add or update test code
-Chore: Maintenance tasks (e.g. dependency updates)
-Rename: Rename files or folders
-Remove: Delete files
-Merge: Branch merging
+- Feat: Add new features
+- Fix: Bug fixes
+- Docs: Documentation updates
+- Comment: Add or update code comments
+- Style: Code formatting (no logic changes)
+- Refactor: Code restructuring
+- Test: Add or update test code
+- Chore: Maintenance tasks (e.g. dependency updates)
+- Rename: Rename files or folders
+- Remove: Delete files
+- Merge: Branch merging
 
 ### Download
-App Store: GreenWaySeoul on App Store
-
-Google Play: Coming August 2025
+- App Store: GreenWaySeoul on App Store
+- Google Play: Coming August 2025
