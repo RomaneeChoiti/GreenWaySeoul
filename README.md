@@ -54,6 +54,7 @@ Google Play: 2025년 8월 예정
 ## 다운받기
 
 App Store : https://apps.apple.com/kr/app/greenwayseoul/id6747158637
+
 Google Play: 2025년 8월 예정
 
 ---
