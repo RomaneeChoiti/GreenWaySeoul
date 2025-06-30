@@ -109,4 +109,5 @@ Merge: Branch merging
 
 ### Download
 App Store: GreenWaySeoul on App Store
+
 Google Play: Coming August 2025
