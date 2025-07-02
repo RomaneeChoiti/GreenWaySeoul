@@ -24,7 +24,7 @@ GreenWaySeoul은 서울 지역의 쓰레기통 위치 정보를 기반으로 플
 ### UI/UX
 - Figma: UI 설계 및 프로토타이핑
 
-### 백엔드 및 서버리스
+### 백엔드
 - NestJS & TypeORM: 모듈 기반의 구조적 백엔드 개발
 - PostgreSQL: 관계형 데이터베이스
 - AWS (EC2, RDS): 서버 및 데이터베이스 인프라 구성
