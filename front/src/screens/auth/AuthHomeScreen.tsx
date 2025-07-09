@@ -4,7 +4,6 @@ import { AuthStackParamList } from '@/navigations/stack/AuthStackNavigator';
 import { authNavigations } from '@/constants';
 import CustomButton from '@/components/common/CustomButton';
 import Ionicons from 'react-native-vector-icons/Ionicons';
-import Octicons from 'react-native-vector-icons/MaterialIcons';
 import appleAuth, { AppleButton } from '@invertase/react-native-apple-authentication';
 import useAuth from '@/hooks/queries/useAuth';
 import Toast from 'react-native-toast-message';
