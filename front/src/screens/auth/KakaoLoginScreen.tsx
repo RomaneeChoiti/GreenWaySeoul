@@ -3,14 +3,13 @@ import useAuth from '@/hooks/queries/useAuth';
 import axios from 'axios';
 import { useState } from 'react';
 import { ActivityIndicator, Dimensions, View } from 'react-native';
-import { Platform, SafeAreaView, StyleSheet } from 'react-native';
+import { SafeAreaView, StyleSheet } from 'react-native';
 import Config from 'react-native-config';
 import WebView, { WebViewMessageEvent, WebViewNavigation } from 'react-native-webview';
 
-const REDIRECT_URI = `${Platform.OS === 'ios'
-                            ? 'http://localhost:3030'
-                            : 'http://10.0.2.2:3030'
-                        }${'/auth/oauth/kakao'}`;
+const REDIRECT_URI = `${Config.KAKAO_REDIRECT_URI}/auth/oauth/kakao`;
+const encodedRedirectUri = encodeURIComponent(REDIRECT_URI);
+
 
 function KakaoLoginScreen() {
     const {kakaoLoginMutation} = useAuth();
@@ -51,11 +50,11 @@ function KakaoLoginScreen() {
         <SafeAreaView style={styles.container}>
             {(isLoading || isChangeNavigate) &&
                 <View style={styles.kakaoLoadingContainer}>
-                    <ActivityIndicator size={'large'} color={colors.PRIMARY_DARK}/>
+                    <ActivityIndicator size={'large'} color={colors.PRIMARY}/>
                 </View>}
             <WebView
                 source={{
-                    uri: `https://kauth.kakao.com/oauth/authorize?response_type=code&client_id=${Config.KAKAO_REST_API_KEY}&redirect_uri=${REDIRECT_URI}`,
+                    uri: `https://kauth.kakao.com/oauth/authorize?response_type=code&client_id=${Config.KAKAO_NATIVE_APP_KEY}&redirect_uri=${encodedRedirectUri}`,
                 }}
                 onMessage={handleOnMessage}
                 injectedJavaScript={"window.ReactNativeWebView.postMessage('')"}

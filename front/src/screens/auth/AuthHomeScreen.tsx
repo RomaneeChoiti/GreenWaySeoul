@@ -9,8 +9,8 @@ import useAuth from '@/hooks/queries/useAuth';
 import Toast from 'react-native-toast-message';
 
 type AuthHomeScreenProps = StackScreenProps<
-    AuthStackParamList,
-    typeof authNavigations.AUTH_HOME
+  AuthStackParamList,
+  typeof authNavigations.AUTH_HOME
 >;
 
 function AuthHomeScreen({navigation}: AuthHomeScreenProps) {
