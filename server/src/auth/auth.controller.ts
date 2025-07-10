@@ -76,6 +76,7 @@ export class AuthController {
   handleKakaoRedirect(@Req() req: Request, @Res() res: Response) {
     const fullUrl = req.protocol + '://' + req.get('host') + req.originalUrl;
 
+    res.type('html'); // Explicitly set Content-Type to text/html
     res.send(`
       <!DOCTYPE html>
       <html>
@@ -83,7 +84,7 @@ export class AuthController {
         <body>
           <script>
             // React Native WebView로 현재 URL 전송
-            window.ReactNativeWebView?.postMessage("${fullUrl}");
+            window.ReactNativeWebView?.postMessage(${JSON.stringify(fullUrl)});
           </script>
           <p>로그인 중입니다... 앱으로 돌아가는 중</p>
         </body>
