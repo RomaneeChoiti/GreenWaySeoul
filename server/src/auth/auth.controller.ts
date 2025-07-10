@@ -5,6 +5,8 @@ import {
   Get,
   Patch,
   Post,
+  Req,
+  Res,
   UseGuards,
   ValidationPipe,
 } from '@nestjs/common';
@@ -15,6 +17,8 @@ import { GetUser } from 'src/@common/decorators/get-user.decorator';
 import { AuthGuard } from '@nestjs/passport';
 import { EditProfileDto } from './dto/edit-profile.dto';
 import { MarkerColor } from 'src/post/marker-color.enum';
+import { Request, Response } from 'express';
+import { KakaoLoginDto } from './dto/kakao-login.dto';
 
 @Controller('auth')
 export class AuthController {
@@ -69,9 +73,28 @@ export class AuthController {
     return this.authService.updateCategory(categories, user);
   }
 
+  @Get('/oauth/kakao')
+  handleKakaoRedirect(@Req() req: Request, @Res() res: Response) {
+    const fullUrl = req.protocol + '://' + req.get('host') + req.originalUrl;
+
+    res.type('html'); // Explicitly set Content-Type to text/html
+    res.send(`
+      <!DOCTYPE html>
+      <html>
+        <head><title>Kakao Login Redirect</title></head>
+        <body>
+          <script>
+            window.ReactNativeWebView?.postMessage(${JSON.stringify(fullUrl)});
+          </script>
+          <p>로그인 중입니다... 앱으로 돌아가는 중</p>
+        </body>
+      </html>
+    `);
+  }
+
   @Post('/oauth/kakao')
-  kakaoLogin(@Body() kakaoToken: { token: string }) {
-    return this.authService.kakaoLogin(kakaoToken);
+  kakaoLogin(@Body(ValidationPipe) kakaoLoginDto: KakaoLoginDto) {
+    return this.authService.kakaoLogin(kakaoLoginDto);
   }
 
   @Post('/oauth/apple')

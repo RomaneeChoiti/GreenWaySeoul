@@ -3,14 +3,13 @@ import useAuth from '@/hooks/queries/useAuth';
 import axios from 'axios';
 import { useState } from 'react';
 import { ActivityIndicator, Dimensions, View } from 'react-native';
-import { Platform, SafeAreaView, StyleSheet } from 'react-native';
+import { SafeAreaView, StyleSheet } from 'react-native';
 import Config from 'react-native-config';
 import WebView, { WebViewMessageEvent, WebViewNavigation } from 'react-native-webview';
 
-const REDIRECT_URI = `${Platform.OS === 'ios'
-                            ? 'http://localhost:3030'
-                            : 'http://10.0.2.2:3030'
-                        }${'/auth/oauth/kakao'}`;
+
+const REDIRECT_URI = `${Config.KAKAO_REDIRECT_URI}/auth/oauth/kakao`;
+const loginUrl = `https://kauth.kakao.com/oauth/authorize?client_id=${Config.KAKAO_REST_API_KEY}&redirect_uri=${REDIRECT_URI}&response_type=code`;
 
 function KakaoLoginScreen() {
     const {kakaoLoginMutation} = useAuth();
@@ -24,21 +23,31 @@ function KakaoLoginScreen() {
     }};
 
     const requestToken = async (code: string) => {
-        try{
-            const response = await axios({
-            method: 'POST',
-            url: 'https://kauth.kakao.com/oauth/token',
-            params: {
-                grant_type: 'authorization_code',
-                client_id: Config.KAKAO_REST_API_KEY,
-                redirect_uri: REDIRECT_URI,
-                code,
-            },
-        });
-        kakaoLoginMutation.mutate(response.data.access_token);
-    } catch(err){
-        console.error('Failed to request token:', err);
-    }
+        try {
+            const response = await axios.post('https://kauth.kakao.com/oauth/token', null, {
+                params: {
+                    grant_type: 'authorization_code',
+                    client_id: Config.KAKAO_REST_API_KEY,
+                    redirect_uri: REDIRECT_URI,
+                    code,
+                },
+                headers: {
+                    'Content-type': 'application/x-www-form-urlencoded;charset=utf-8',
+                },
+            });
+            kakaoLoginMutation.mutate(response.data.access_token);
+        } catch (err) {
+            if (axios.isAxiosError(err)) {
+                const errorData = err.response?.data;
+                console.log('Failed to request token:', {
+                    message: err.message,
+                    status: err.response?.status,
+                    data: errorData,
+                });
+            } else {
+                console.log('Unexpected error:', err);
+            }
+        }
     };
 
     const handleNavigationStateChange = (e: WebViewNavigation) =>{
@@ -51,15 +60,13 @@ function KakaoLoginScreen() {
         <SafeAreaView style={styles.container}>
             {(isLoading || isChangeNavigate) &&
                 <View style={styles.kakaoLoadingContainer}>
-                    <ActivityIndicator size={'large'} color={colors.PRIMARY_DARK}/>
+                    <ActivityIndicator size={'large'} color={colors.PRIMARY}/>
                 </View>}
             <WebView
-                source={{
-                    uri: `https://kauth.kakao.com/oauth/authorize?response_type=code&client_id=${Config.KAKAO_REST_API_KEY}&redirect_uri=${REDIRECT_URI}`,
-                }}
+                source={{ uri: loginUrl }}
                 onMessage={handleOnMessage}
-                injectedJavaScript={"window.ReactNativeWebView.postMessage('')"}
                 onNavigationStateChange={handleNavigationStateChange}
+                injectedJavaScript={'window.ReactNativeWebView.postMessage(window.location.href);'}
             />
         </SafeAreaView>
     );
