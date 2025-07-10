@@ -18,6 +18,7 @@ import { AuthGuard } from '@nestjs/passport';
 import { EditProfileDto } from './dto/edit-profile.dto';
 import { MarkerColor } from 'src/post/marker-color.enum';
 import { Request, Response } from 'express';
+import { KakaoLoginDto } from './dto/kakao-login.dto';
 
 @Controller('auth')
 export class AuthController {
@@ -92,8 +93,8 @@ export class AuthController {
   }
 
   @Post('/oauth/kakao')
-  kakaoLogin(@Body() kakaoToken: { token: string }) {
-    return this.authService.kakaoLogin(kakaoToken);
+  kakaoLogin(@Body(ValidationPipe) kakaoLoginDto: KakaoLoginDto) {
+    return this.authService.kakaoLogin(kakaoLoginDto);
   }
 
   @Post('/oauth/apple')
