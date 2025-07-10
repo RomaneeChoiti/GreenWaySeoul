@@ -54,12 +54,10 @@ function KakaoLoginScreen() {
                     <ActivityIndicator size={'large'} color={colors.PRIMARY}/>
                 </View>}
             <WebView
-                source={{
-                    uri: loginUrl,
-                }}
+                source={{ uri: loginUrl }}
                 onMessage={handleOnMessage}
-                injectedJavaScript={"window.ReactNativeWebView.postMessage('')"}
                 onNavigationStateChange={handleNavigationStateChange}
+                injectedJavaScript={'window.ReactNativeWebView.postMessage(window.location.href);'}
             />
         </SafeAreaView>
     );
