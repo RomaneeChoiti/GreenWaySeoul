@@ -83,13 +83,17 @@ export class AuthController {
         <head><title>Kakao Login Redirect</title></head>
         <body>
           <script>
-            // React Native WebView로 현재 URL 전송
             window.ReactNativeWebView?.postMessage(${JSON.stringify(fullUrl)});
           </script>
           <p>로그인 중입니다... 앱으로 돌아가는 중</p>
         </body>
       </html>
     `);
+  }
+
+  @Post('/oauth/kakao')
+  kakaoLogin(@Body() kakaoToken: { token: string }) {
+    return this.authService.kakaoLogin(kakaoToken);
   }
 
   @Post('/oauth/apple')
