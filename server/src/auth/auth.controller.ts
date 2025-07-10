@@ -18,6 +18,7 @@ import { AuthGuard } from '@nestjs/passport';
 import { EditProfileDto } from './dto/edit-profile.dto';
 import { MarkerColor } from 'src/post/marker-color.enum';
 import { Request, Response } from 'express';
+import { KakaoLoginDto } from './dto/kakao-login.dto';
 
 @Controller('auth')
 export class AuthController {
@@ -83,13 +84,17 @@ export class AuthController {
         <head><title>Kakao Login Redirect</title></head>
         <body>
           <script>
-            // React Native WebView로 현재 URL 전송
             window.ReactNativeWebView?.postMessage(${JSON.stringify(fullUrl)});
           </script>
           <p>로그인 중입니다... 앱으로 돌아가는 중</p>
         </body>
       </html>
     `);
+  }
+
+  @Post('/oauth/kakao')
+  kakaoLogin(@Body(ValidationPipe) kakaoLoginDto: KakaoLoginDto) {
+    return this.authService.kakaoLogin(kakaoLoginDto);
   }
 
   @Post('/oauth/apple')
