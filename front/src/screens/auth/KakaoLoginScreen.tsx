@@ -8,8 +8,9 @@ import Config from 'react-native-config';
 import WebView, { WebViewMessageEvent, WebViewNavigation } from 'react-native-webview';
 
 const REDIRECT_URI = `${Config.KAKAO_REDIRECT_URI}/auth/oauth/kakao`;
-const encodedRedirectUri = encodeURIComponent(REDIRECT_URI);
-
+const loginUrl = `https://kauth.kakao.com/oauth/authorize?client_id=${Config.KAKAO_REST_API_KEY}&redirect_uri=${REDIRECT_URI}&response_type=code`;
+console.log('Redirect URI:', REDIRECT_URI); // Ensure visibility in the debug console
+console.log('Login URL:', loginUrl); // Ensure visibility in the debug console
 
 function KakaoLoginScreen() {
     const {kakaoLoginMutation} = useAuth();
@@ -54,7 +55,7 @@ function KakaoLoginScreen() {
                 </View>}
             <WebView
                 source={{
-                    uri: `https://kauth.kakao.com/oauth/authorize?response_type=code&client_id=${Config.KAKAO_NATIVE_APP_KEY}&redirect_uri=${encodedRedirectUri}`,
+                    uri: loginUrl,
                 }}
                 onMessage={handleOnMessage}
                 injectedJavaScript={"window.ReactNativeWebView.postMessage('')"}
