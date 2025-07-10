@@ -1,12 +1,11 @@
 import { colors } from '@/constants';
 import useAuth from '@/hooks/queries/useAuth';
 import axios from 'axios';
-import { useRef, useState } from 'react';
+import { useState } from 'react';
 import { ActivityIndicator, Dimensions, View } from 'react-native';
 import { SafeAreaView, StyleSheet } from 'react-native';
 import Config from 'react-native-config';
-import WebView, { WebViewNavigation } from 'react-native-webview';
-import { useNavigation } from '@react-navigation/native';
+import WebView, { WebViewMessageEvent, WebViewNavigation } from 'react-native-webview';
 
 
 const REDIRECT_URI = `${Config.KAKAO_REDIRECT_URI}/auth/oauth/kakao`;
@@ -16,21 +15,15 @@ function KakaoLoginScreen() {
     const {kakaoLoginMutation} = useAuth();
     const [isLoading, setIsLoading] = useState(false);
     const [isChangeNavigate, setIsChangeNavigate] = useState(true);
-    const navigation = useNavigation();
 
-    const codeHandledRef = useRef(false);
-
+    const handleOnMessage = (event: WebViewMessageEvent) => {
+        if(event.nativeEvent.url.includes(`${REDIRECT_URI}?code=`)) {
+            const code = event.nativeEvent.url.replace(`${REDIRECT_URI}?code=`, '');
+            requestToken(code);
+    }};
 
     const requestToken = async (code: string) => {
         try {
-            console.log('Requesting token with code:', code);
-            console.log('Request parameters:', {
-                grant_type: 'authorization_code',
-                client_id: Config.KAKAO_REST_API_KEY,
-                redirect_uri: REDIRECT_URI,
-                code,
-            });
-
             const response = await axios.post('https://kauth.kakao.com/oauth/token', null, {
                 params: {
                     grant_type: 'authorization_code',
@@ -42,56 +35,26 @@ function KakaoLoginScreen() {
                     'Content-type': 'application/x-www-form-urlencoded;charset=utf-8',
                 },
             });
-
-            console.log('Token request successful. Response data:', response.data);
-            kakaoLoginMutation.mutate(response.data.access_token, {
-                onSuccess: (data) => {
-                    console.log('Kakao login successful:', data);
-                    navigation.goBack();
-                },
-                onError: (error) => {
-                    console.error('Kakao login failed:', error);
-                    console.log('Error details:', {
-                        message: error.message,
-                        stack: error.stack,
-                        response: error.response,
-                    });
-                    setIsChangeNavigate(true);
-                },
-            });
+            kakaoLoginMutation.mutate(response.data.access_token);
         } catch (err) {
             if (axios.isAxiosError(err)) {
                 const errorData = err.response?.data;
-                console.error('Failed to request token:', {
+                console.log('Failed to request token:', {
                     message: err.message,
                     status: err.response?.status,
                     data: errorData,
                 });
             } else {
-                console.error('Unexpected error:', err);
+                console.log('Unexpected error:', err);
             }
-        } finally {
-            setIsLoading(false);
-            setIsChangeNavigate(false);
         }
     };
 
-    const handleNavigationStateChange = (navState: WebViewNavigation) => {
-        if (codeHandledRef.current) {
-            return;
-        }
-
-        const url = navState.url;
-        const matched = url.match(/[?&]code=([^&]+)/);
-        if (matched && matched[1]) {
-            const code = matched[1];
-            codeHandledRef.current = true;
-            requestToken(code);
-            setIsLoading(true);
-            setIsChangeNavigate(true);
-        }
+    const handleNavigationStateChange = (e: WebViewNavigation) =>{
+        const isMatched = e.url.includes(`${REDIRECT_URI}?code=`);
+        setIsLoading(isMatched);
+        setIsChangeNavigate(isMatched);
     };
-
 
     return (
         <SafeAreaView style={styles.container}>
@@ -101,7 +64,9 @@ function KakaoLoginScreen() {
                 </View>}
             <WebView
                 source={{ uri: loginUrl }}
+                onMessage={handleOnMessage}
                 onNavigationStateChange={handleNavigationStateChange}
+                injectedJavaScript={'window.ReactNativeWebView.postMessage(window.location.href);'}
             />
         </SafeAreaView>
     );
