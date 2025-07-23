@@ -22,6 +22,9 @@ DerivedData
 *.xcuserstate
 **/.xcode.env.local
 
+# Temporary Xcode configuration files
+tmp.xcconfig
+
 # Android/IntelliJ
 #
 build/
