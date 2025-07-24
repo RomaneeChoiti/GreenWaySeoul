@@ -32,10 +32,6 @@ GreenWaySeoul은 서울 지역의 쓰레기통 위치 정보를 기반으로 플
 ### CI/CD
 - 준비 중 (향후 GitHub Actions 또는 AWS CodePipeline 도입 예정)
 
-### 배포
-- App Store: 출시 완료
-- Google Play: 2025년 8월 예정
-
 ## Git 커밋
 
 - Feat: 새로운 기능 추가
@@ -54,7 +50,7 @@ GreenWaySeoul은 서울 지역의 쓰레기통 위치 정보를 기반으로 플
 ## 다운받기
 
 - App Store : https://apps.apple.com/kr/app/greenwayseoul/id6747158637
-- Google Play: 2025년 8월 예정
+- Google Play: 2025년 9월 예정
 
 ---
 
@@ -89,10 +85,6 @@ It provides users with real-time bin locations, plogging logs, and social featur
 ### CI/CD
 - In progress (Planned: GitHub Actions or AWS CodePipeline)
 
-### Deployment
-- App Store: Available now
-- Google Play: Planned for August 2025
-
 ### Git Commit Convention
 - Feat: Add new features
 - Fix: Bug fixes
@@ -108,4 +100,4 @@ It provides users with real-time bin locations, plogging logs, and social featur
 
 ### Download
 - App Store: GreenWaySeoul on App Store
-- Google Play: Coming August 2025
+- Google Play: Coming September 2025
