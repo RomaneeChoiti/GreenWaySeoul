@@ -7,6 +7,7 @@ import Ionicons from 'react-native-vector-icons/Ionicons';
 import appleAuth, { AppleButton } from '@invertase/react-native-apple-authentication';
 import useAuth from '@/hooks/queries/useAuth';
 import Toast from 'react-native-toast-message';
+import LinearGradient from 'react-native-linear-gradient';
 
 type AuthHomeScreenProps = StackScreenProps<
   AuthStackParamList,
@@ -42,56 +43,65 @@ function AuthHomeScreen({navigation}: AuthHomeScreenProps) {
   };
 
   return (
-    <SafeAreaView style={style.container}>
-      <View style={style.imageContainer}>
-        <Image
-          resizeMode="contain"
-          style={style.image}
-          source={require('../../assets/icon.png')}
-        />
-      </View>
-      <View style={style.buttonContainer}>
-        <CustomButton
-          label="가볍게 시작하기"
-          onPress={()=> navigation.navigate(authNavigations.PREVIEW_MAP)}
-          icon={
-            <Ionicons name={'walk-outline'} color={'#ffffff'} size={25}/>
-          }
-        />
-        {Platform.OS === 'ios' && (
-          <AppleButton
-            buttonStyle={AppleButton.Style.BLACK}
-            buttonType={AppleButton.Type.SIGN_IN}
-            style={style.appleButton}
-            cornerRadius={3}
-            onPress={handlePressAppleLogin}
+    <LinearGradient
+      colors={['#8A8A89', '#F0F0EE']}
+      locations={[0, 0.54]}
+      style={style.gradient}
+    >
+      <SafeAreaView style={style.container}>
+        <View style={style.imageContainer}>
+          <Image
+            resizeMode="contain"
+            style={style.image}
+            source={require('../../assets/icon.png')}
           />
-        )}
-        <CustomButton
-          label="카카오 로그인"
-          onPress={()=> navigation.navigate(authNavigations.KAKAO)}
-          style={style.kakaoButtonContainer}
-          textStyle={style.kakaoButtonText}
-          icon={
-            <Ionicons name={'chatbubble-sharp'} color={'#181500'} size={16}/>
-          }
-        />
+        </View>
+        <View style={style.buttonContainer}>
+          <CustomButton
+            label="가볍게 시작하기"
+            onPress={()=> navigation.navigate(authNavigations.PREVIEW_MAP)}
+            icon={
+              <Ionicons name={'walk-outline'} color={'#ffffff'} size={25}/>
+            }
+          />
+          {Platform.OS === 'ios' && (
+            <AppleButton
+              buttonStyle={AppleButton.Style.BLACK}
+              buttonType={AppleButton.Type.SIGN_IN}
+              style={style.appleButton}
+              cornerRadius={3}
+              onPress={handlePressAppleLogin}
+            />
+          )}
+          <CustomButton
+            label="카카오 로그인"
+            onPress={()=> navigation.navigate(authNavigations.KAKAO)}
+            style={style.kakaoButtonContainer}
+            textStyle={style.kakaoButtonText}
+            icon={
+              <Ionicons name={'chatbubble-sharp'} color={'#181500'} size={16}/>
+            }
+          />
 
-        <CustomButton
-          label="이메일 로그인"
-          onPress={()=> navigation.navigate(authNavigations.LOGIN)}
-        />
-        <Pressable
-          onPress={()=> navigation.navigate(authNavigations.SIGNUP)}
-        >
-          <Text style={style.emailText}>이메일로 가입하기</Text>
-        </Pressable>
-      </View>
-    </SafeAreaView>
+          <CustomButton
+            label="이메일 로그인"
+            onPress={()=> navigation.navigate(authNavigations.LOGIN)}
+          />
+          <Pressable
+            onPress={()=> navigation.navigate(authNavigations.SIGNUP)}
+          >
+            <Text style={style.emailText}>이메일로 가입하기</Text>
+          </Pressable>
+        </View>
+      </SafeAreaView>
+    </LinearGradient>
   );
 }
 
 const style = StyleSheet.create({
+  gradient: {
+    flex: 1,
+  },
   container: {
     flex: 1,
     margin: 25,
