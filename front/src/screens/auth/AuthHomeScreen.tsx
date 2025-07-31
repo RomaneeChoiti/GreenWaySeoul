@@ -8,6 +8,7 @@ import appleAuth, { AppleButton } from '@invertase/react-native-apple-authentica
 import useAuth from '@/hooks/queries/useAuth';
 import Toast from 'react-native-toast-message';
 import LinearGradient from 'react-native-linear-gradient';
+import ViewNow from '@/components/auth/ViewNowButton';
 
 type AuthHomeScreenProps = StackScreenProps<
   AuthStackParamList,
@@ -49,21 +50,17 @@ function AuthHomeScreen({navigation}: AuthHomeScreenProps) {
       style={style.gradient}
     >
       <SafeAreaView style={style.container}>
-        <View style={style.imageContainer}>
-          <Image
+        <View style={style.contentContainer}>
+          <View style={style.imageContainer}>
+            <Image
             resizeMode="contain"
             style={style.image}
             source={require('../../assets/icon.png')}
-          />
+            />
+          </View>
+          <ViewNow onPress={()=> navigation.navigate(authNavigations.PREVIEW_MAP)} />
         </View>
         <View style={style.buttonContainer}>
-          <CustomButton
-            label="가볍게 시작하기"
-            onPress={()=> navigation.navigate(authNavigations.PREVIEW_MAP)}
-            icon={
-              <Ionicons name={'walk-outline'} color={'#ffffff'} size={25}/>
-            }
-          />
           {Platform.OS === 'ios' && (
             <AppleButton
               buttonStyle={AppleButton.Style.BLACK}
@@ -105,17 +102,26 @@ const style = StyleSheet.create({
   container: {
     flex: 1,
     margin: 25,
-    marginBottom: Dimensions.get('screen').height * 0.125,
     justifyContent: 'center',
     alignItems: 'center',
   },
-  imageContainer: {
-    flex: 1.5,
-    width: Dimensions.get('screen').width / 2,
+  contentContainer: {
+    width: '100%',
+    justifyContent: 'center',
+    alignItems: 'center',
+    gap: Dimensions.get('screen').height * 0.02,
+    paddingBottom: Dimensions.get('screen').height * 0.02,
+    marginBottom: Dimensions.get('screen').height * 0.005,
+  },
+  imageContainer:{
+    backgroundColor: '#F0F0EE',
+    width: '100%',
+    borderRadius: 20,
   },
   image: {
+    padding: Dimensions.get('screen').height * 0.02,
     width: '100%',
-    height: '100%',
+    height: Dimensions.get('screen').height * 0.25,
   },
   buttonContainer: {
     flex: 1,
