@@ -2,10 +2,10 @@ import { View, Image, Text, StyleSheet, ImageSourcePropType } from 'react-native
 
 type Props = {
   source: ImageSourcePropType;
-  text: string;
+  text?: string;
   date?: string;
-  width: number;
-  height: number;
+  width?: number;
+  height?: number;
 };
 
 export default function ImageWithTextOverlay({ source, text, date, width, height }: Props) {

@@ -1,4 +1,4 @@
-import {  Dimensions, Image, Platform, Pressable, SafeAreaView, StyleSheet, Text, View } from 'react-native';
+import {  Dimensions, Platform, Pressable, SafeAreaView, StyleSheet, Text, View } from 'react-native';
 import { StackScreenProps } from '@react-navigation/stack';
 import { AuthStackParamList } from '@/navigations/stack/AuthStackNavigator';
 import { authNavigations } from '@/constants';
@@ -10,7 +10,7 @@ import Toast from 'react-native-toast-message';
 import LinearGradient from 'react-native-linear-gradient';
 import ViewNow from '@/components/auth/ViewNowButton';
 import ImgCoverFlow from '@/components/auth/ImgCoverFlow';
-import environmentalDays from '@/api/environmental_days.json'; // 경로는 실제 경로에 맞게 수정
+import natureImages from '@/api/natureImageData';
 
 
 type AuthHomeScreenProps = StackScreenProps<
@@ -46,22 +46,6 @@ function AuthHomeScreen({navigation}: AuthHomeScreenProps) {
     }
   };
 
-const natureImgFiles = [
-  require('../../assets/natureImgs/1.png'),
-  require('../../assets/natureImgs/2.png'),
-  require('../../assets/natureImgs/3.png'),
-  require('../../assets/natureImgs/4.png'),
-  require('../../assets/natureImgs/5.png'),
-  require('../../assets/natureImgs/6.png'),
-  require('../../assets/natureImgs/7.png'),
-];
-
-const natureImg = natureImgFiles.map((img, index) => ({
-  image: img,
-  label: environmentalDays[index]?.name ?? '',
-  date: environmentalDays[index]?.date ?? '',
-}));
-
 
   return (
     <LinearGradient
@@ -72,7 +56,8 @@ const natureImg = natureImgFiles.map((img, index) => ({
       <SafeAreaView style={style.container}>
         <View style={style.contentContainer}>
           <View style={style.imageContainer}>
-              <ImgCoverFlow images={natureImg}/>
+              <ImgCoverFlow images={natureImages
+              }/>
           </View>
           <ViewNow onPress={()=> navigation.navigate(authNavigations.PREVIEW_MAP)} />
         </View>
