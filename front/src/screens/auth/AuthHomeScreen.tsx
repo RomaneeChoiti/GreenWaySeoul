@@ -1,4 +1,4 @@
-import {  Dimensions, Image, Platform, Pressable, SafeAreaView, StyleSheet, Text, View } from 'react-native';
+import {  Dimensions, Platform, Pressable, SafeAreaView, StyleSheet, Text, View } from 'react-native';
 import { StackScreenProps } from '@react-navigation/stack';
 import { AuthStackParamList } from '@/navigations/stack/AuthStackNavigator';
 import { authNavigations } from '@/constants';
@@ -7,6 +7,11 @@ import Ionicons from 'react-native-vector-icons/Ionicons';
 import appleAuth, { AppleButton } from '@invertase/react-native-apple-authentication';
 import useAuth from '@/hooks/queries/useAuth';
 import Toast from 'react-native-toast-message';
+import LinearGradient from 'react-native-linear-gradient';
+import ViewNow from '@/components/auth/ViewNowButton';
+import ImgCoverFlow from '@/components/auth/ImgCoverFlow';
+import natureImages from '@/api/natureImageData';
+
 
 type AuthHomeScreenProps = StackScreenProps<
   AuthStackParamList,
@@ -41,71 +46,80 @@ function AuthHomeScreen({navigation}: AuthHomeScreenProps) {
     }
   };
 
-  return (
-    <SafeAreaView style={style.container}>
-      <View style={style.imageContainer}>
-        <Image
-          resizeMode="contain"
-          style={style.image}
-          source={require('../../assets/icon.png')}
-        />
-      </View>
-      <View style={style.buttonContainer}>
-        <CustomButton
-          label="가볍게 시작하기"
-          onPress={()=> navigation.navigate(authNavigations.PREVIEW_MAP)}
-          icon={
-            <Ionicons name={'walk-outline'} color={'#ffffff'} size={25}/>
-          }
-        />
-        {Platform.OS === 'ios' && (
-          <AppleButton
-            buttonStyle={AppleButton.Style.BLACK}
-            buttonType={AppleButton.Type.SIGN_IN}
-            style={style.appleButton}
-            cornerRadius={3}
-            onPress={handlePressAppleLogin}
-          />
-        )}
-        <CustomButton
-          label="카카오 로그인"
-          onPress={()=> navigation.navigate(authNavigations.KAKAO)}
-          style={style.kakaoButtonContainer}
-          textStyle={style.kakaoButtonText}
-          icon={
-            <Ionicons name={'chatbubble-sharp'} color={'#181500'} size={16}/>
-          }
-        />
 
-        <CustomButton
-          label="이메일 로그인"
-          onPress={()=> navigation.navigate(authNavigations.LOGIN)}
-        />
-        <Pressable
-          onPress={()=> navigation.navigate(authNavigations.SIGNUP)}
-        >
-          <Text style={style.emailText}>이메일로 가입하기</Text>
-        </Pressable>
-      </View>
-    </SafeAreaView>
+  return (
+    <LinearGradient
+      colors={['#8A8A89', '#F0F0EE']}
+      locations={[0, 0.54]}
+      style={style.gradient}
+    >
+      <SafeAreaView style={style.container}>
+        <View style={style.contentContainer}>
+          <View style={style.imageContainer}>
+              <ImgCoverFlow images={natureImages
+              }/>
+          </View>
+          <ViewNow onPress={()=> navigation.navigate(authNavigations.PREVIEW_MAP)} />
+        </View>
+        <View style={style.buttonContainer}>
+          {Platform.OS === 'ios' && (
+            <AppleButton
+              buttonStyle={AppleButton.Style.BLACK}
+              buttonType={AppleButton.Type.SIGN_IN}
+              style={style.appleButton}
+              cornerRadius={3}
+              onPress={handlePressAppleLogin}
+            />
+          )}
+          <CustomButton
+            label="카카오 로그인"
+            onPress={()=> navigation.navigate(authNavigations.KAKAO)}
+            style={style.kakaoButtonContainer}
+            textStyle={style.kakaoButtonText}
+            icon={
+              <Ionicons name={'chatbubble-sharp'} color={'#181500'} size={16}/>
+            }
+          />
+
+          <CustomButton
+            label="이메일 로그인"
+            onPress={()=> navigation.navigate(authNavigations.LOGIN)}
+          />
+          <Pressable
+            onPress={()=> navigation.navigate(authNavigations.SIGNUP)}
+          >
+            <Text style={style.emailText}>이메일로 가입하기</Text>
+          </Pressable>
+        </View>
+      </SafeAreaView>
+    </LinearGradient>
   );
 }
 
 const style = StyleSheet.create({
+  gradient: {
+    flex: 1,
+  },
   container: {
     flex: 1,
     margin: 25,
-    marginBottom: Dimensions.get('screen').height * 0.125,
     justifyContent: 'center',
     alignItems: 'center',
   },
-  imageContainer: {
-    flex: 1.5,
-    width: Dimensions.get('screen').width / 2,
-  },
-  image: {
+  contentContainer: {
     width: '100%',
-    height: '100%',
+    justifyContent: 'center',
+    alignItems: 'center',
+    gap: Dimensions.get('screen').height * 0.02,
+    paddingBottom: Dimensions.get('screen').height * 0.02,
+    marginBottom: Dimensions.get('screen').height * 0.005,
+  },
+  imageContainer:{
+    backgroundColor: '#e6e6e2',
+    width: '100%',
+    borderRadius: 20,
+    height: Dimensions.get('screen').height * 0.23,
+    overflow: 'hidden',
   },
   buttonContainer: {
     flex: 1,

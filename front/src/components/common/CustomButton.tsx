@@ -105,7 +105,7 @@ const styling = (theme: ThemeMode) =>
         opacity: 0.5,
     },
     filledText: {
-        color: colors[theme].UNCHANGE_WHITE,
+        color: colors[theme].BLACK,
     },
     outlinedText: {
         color: colors[theme].BLACK,
