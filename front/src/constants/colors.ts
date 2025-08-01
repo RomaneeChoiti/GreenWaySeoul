@@ -17,7 +17,7 @@ const common = {
 };
 
 const colors = {
-    PRIMARY: '#28a745',
+    PRIMARY: '#BEEE05',
     WARNING: '#D32F2F',
     light: {
     WHITE: '#FFF',
