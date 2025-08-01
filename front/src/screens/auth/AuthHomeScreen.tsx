@@ -9,6 +9,7 @@ import useAuth from '@/hooks/queries/useAuth';
 import Toast from 'react-native-toast-message';
 import LinearGradient from 'react-native-linear-gradient';
 import ViewNow from '@/components/auth/ViewNowButton';
+import ImgCoverFlow from '@/components/auth/ImgCoverFlow';
 
 type AuthHomeScreenProps = StackScreenProps<
   AuthStackParamList,
@@ -43,6 +44,20 @@ function AuthHomeScreen({navigation}: AuthHomeScreenProps) {
     }
   };
 
+  // 이미지 require는 템플릿 리터럴을 사용할 수 없습니다. 배열로 미리 require 하세요.
+  const natureImgFiles = [
+    require('../../assets/natureImgs/1.png'),
+    require('../../assets/natureImgs/2.png'),
+    require('../../assets/natureImgs/3.png'),
+    require('../../assets/natureImgs/4.png'),
+    require('../../assets/natureImgs/5.png'),
+    require('../../assets/natureImgs/6.png'),
+    require('../../assets/natureImgs/7.png'),
+  ];
+  const natureImg = natureImgFiles.map(img => ({
+    uri: Image.resolveAssetSource(img).uri,
+  }));
+
   return (
     <LinearGradient
       colors={['#8A8A89', '#F0F0EE']}
@@ -52,11 +67,7 @@ function AuthHomeScreen({navigation}: AuthHomeScreenProps) {
       <SafeAreaView style={style.container}>
         <View style={style.contentContainer}>
           <View style={style.imageContainer}>
-            <Image
-            resizeMode="contain"
-            style={style.image}
-            source={require('../../assets/icon.png')}
-            />
+              <ImgCoverFlow images={natureImg}/>
           </View>
           <ViewNow onPress={()=> navigation.navigate(authNavigations.PREVIEW_MAP)} />
         </View>
@@ -114,14 +125,11 @@ const style = StyleSheet.create({
     marginBottom: Dimensions.get('screen').height * 0.005,
   },
   imageContainer:{
-    backgroundColor: '#F0F0EE',
+    backgroundColor: '#e6e6e2',
     width: '100%',
     borderRadius: 20,
-  },
-  image: {
-    padding: Dimensions.get('screen').height * 0.02,
-    width: '100%',
-    height: Dimensions.get('screen').height * 0.25,
+    height: Dimensions.get('screen').height * 0.23,
+    overflow: 'hidden',
   },
   buttonContainer: {
     flex: 1,
