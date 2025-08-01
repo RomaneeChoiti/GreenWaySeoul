@@ -10,6 +10,8 @@ import Toast from 'react-native-toast-message';
 import LinearGradient from 'react-native-linear-gradient';
 import ViewNow from '@/components/auth/ViewNowButton';
 import ImgCoverFlow from '@/components/auth/ImgCoverFlow';
+import environmentalDays from '@/api/environmental_days.json'; // 경로는 실제 경로에 맞게 수정
+
 
 type AuthHomeScreenProps = StackScreenProps<
   AuthStackParamList,
@@ -44,19 +46,22 @@ function AuthHomeScreen({navigation}: AuthHomeScreenProps) {
     }
   };
 
-  // 이미지 require는 템플릿 리터럴을 사용할 수 없습니다. 배열로 미리 require 하세요.
-  const natureImgFiles = [
-    require('../../assets/natureImgs/1.png'),
-    require('../../assets/natureImgs/2.png'),
-    require('../../assets/natureImgs/3.png'),
-    require('../../assets/natureImgs/4.png'),
-    require('../../assets/natureImgs/5.png'),
-    require('../../assets/natureImgs/6.png'),
-    require('../../assets/natureImgs/7.png'),
-  ];
-  const natureImg = natureImgFiles.map(img => ({
-    uri: Image.resolveAssetSource(img).uri,
-  }));
+const natureImgFiles = [
+  require('../../assets/natureImgs/1.png'),
+  require('../../assets/natureImgs/2.png'),
+  require('../../assets/natureImgs/3.png'),
+  require('../../assets/natureImgs/4.png'),
+  require('../../assets/natureImgs/5.png'),
+  require('../../assets/natureImgs/6.png'),
+  require('../../assets/natureImgs/7.png'),
+];
+
+const natureImg = natureImgFiles.map((img, index) => ({
+  image: img,
+  label: environmentalDays[index]?.name ?? '',
+  date: environmentalDays[index]?.date ?? '',
+}));
+
 
   return (
     <LinearGradient

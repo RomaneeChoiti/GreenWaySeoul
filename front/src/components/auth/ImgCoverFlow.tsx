@@ -1,24 +1,28 @@
 import React, { useRef, useEffect, useState } from 'react';
 import {
   View,
-  Image,
   StyleSheet,
   Dimensions,
   FlatList,
   Animated,
+  ImageSourcePropType,
 } from 'react-native';
+import ImageWithTextOverlay from '../common/ImageWithTextOverlay';
 
 const { width: screenWidth, height: screenHeight } = Dimensions.get('window');
 const ITEM_WIDTH = screenWidth * 0.35;
 const ITEM_SPACING = (screenWidth - ITEM_WIDTH) / 2.45; // 중앙 정렬을 위해 다시 넓게 조정
 
-type ImageType = {
-  uri: string;
+type ImageWithLabel = {
+  image: ImageSourcePropType;
+  label: string;
+  date: string;
 };
 
 type CarouselProps = {
-  images: ImageType[];
+  images: ImageWithLabel[];
 };
+
 
 const ImgCoverFlow = ({ images }: CarouselProps) => {
   const scrollX = useRef(new Animated.Value(0)).current;
@@ -103,7 +107,13 @@ const ImgCoverFlow = ({ images }: CarouselProps) => {
                 animatedStyle,
               ]}
             >
-              <Image source={{ uri: item.uri }} style={styles.image} />
+                <ImageWithTextOverlay
+                    source={item.image}
+                    text={item.label}
+                    date={item.date}
+                    width={ITEM_WIDTH}
+                    height={screenHeight * 0.17}
+                />
             </Animated.View>
           </View>
         );
