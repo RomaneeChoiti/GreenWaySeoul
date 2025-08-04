@@ -44,7 +44,8 @@ const PloggingStatusText = ({ isPlogging }: PloggingStatusTextProps) => {
     >
       {text}
     </Animated.Text>
-  );  const message = isPlogging
+  );
+  const message = isPlogging
     ? '안전에 유의하세요. 작은 행동이 큰 변화를 만듭니다'
     : '쓰레기통을 클릭하여 플로깅을 시작해보세요';
 

@@ -36,7 +36,7 @@ function SlideModal({ visible, onClose, selectedMarker, markerType }: SlideModal
   return (
     <Modal transparent visible={visible} animationType="none">
       <TouchableWithoutFeedback onPress={handleClose}>
-        <View style={styles.overlay} />
+        <View />
       </TouchableWithoutFeedback>
       <Animated.View style={[styles.modal, { transform: [{ translateY: slideAnim }] }]}>
         <View style={styles.modalContent}>
@@ -57,9 +57,6 @@ function SlideModal({ visible, onClose, selectedMarker, markerType }: SlideModal
 
 const styling = (theme: ThemeMode) =>
   StyleSheet.create({
-  overlay: {
-    flex: 1,
-  },
   modal: {
     flex: 1,
     position: 'absolute',
