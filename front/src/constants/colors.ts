@@ -14,10 +14,16 @@ const common = {
     PURPLE_400: '#C4C4E7',
     UNCHANGE_WHITE: '#FFF',
     UNCHANGE_BLACK: '#000',
+    UNCHANGE_GRAY_100: '#F8F8F8',
+    UNCHANGE_GRAY_200: '#E7E7E7',
+    UNCHANGE_GRAY_300: '#D8D8D8',
+    UNCHANGE_GRAY_500: '#8E8E8E',
+    UNCHANGE_GRAY_700: '#575757',
 };
 
 const colors = {
     PRIMARY: '#BEEE05',
+    DARK_PRIMARY: '#A2D200',
     WARNING: '#D32F2F',
     light: {
     WHITE: '#FFF',

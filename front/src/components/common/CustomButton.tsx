@@ -13,6 +13,9 @@ interface CustomButtonProps extends PressableProps{
     style?: StyleProp<ViewStyle>;
     textStyle?: StyleProp<TextStyle>;
     icon?: ReactNode;
+    backgroundColor?: string;
+    borderColor?: string;
+    textColor?: string;
 }
 
 // 화면 크기에 따른 버튼 paddingVertical 값 조정
@@ -26,10 +29,13 @@ function CustomButton({
         style = null,
         textStyle = null,
         icon = null,
+        backgroundColor,
+        borderColor,
+        textColor,
         ...props
     }: CustomButtonProps) {
     const {theme} = useThemeStore();
-    const styles = styling(theme);
+    const styles = styling(theme, backgroundColor, borderColor, textColor);
     return(
         <Pressable
             disabled={inValid}
@@ -52,7 +58,7 @@ function CustomButton({
     );
 }
 
-const styling = (theme: ThemeMode) =>
+const styling = (theme: ThemeMode, backgroundColor?: string, borderColor?: string, textColor?: string) =>
     StyleSheet.create({
     container: {
         borderRadius: 3,
@@ -60,10 +66,10 @@ const styling = (theme: ThemeMode) =>
         flexDirection: 'row',
     },
     filled: {
-        backgroundColor: colors.PRIMARY,
+        backgroundColor: backgroundColor || colors.PRIMARY,
     },
     outlined: {
-        borderColor: colors.PRIMARY,
+        borderColor: borderColor || colors.PRIMARY,
         borderWidth: 1,
     },
     inValid: {
@@ -83,6 +89,7 @@ const styling = (theme: ThemeMode) =>
         alignItems: 'center',
         justifyContent: 'center',
         flexDirection: 'row',
+        borderRadius: 10,
         gap: 4,
     },
     large: {
@@ -98,17 +105,17 @@ const styling = (theme: ThemeMode) =>
         fontWeight: '600',
     },
     filledPressed: {
-        backgroundColor: colors.PRIMARY,
+        backgroundColor: backgroundColor || colors.PRIMARY,
     },
     outlinedPressed: {
-        backgroundColor: colors.PRIMARY,
+        backgroundColor: backgroundColor || colors.PRIMARY,
         opacity: 0.5,
     },
     filledText: {
-        color: colors[theme].BLACK,
+        color: textColor || colors[theme].BLACK,
     },
     outlinedText: {
-        color: colors[theme].BLACK,
+        color: textColor || colors[theme].BLACK,
     },
 });
 

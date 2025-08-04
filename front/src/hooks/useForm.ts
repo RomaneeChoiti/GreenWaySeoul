@@ -25,6 +25,13 @@ function useForm<T>({ initialValues, validate }: UserFormProps<T>) {
         });
     };
 
+    const setFieldTouched = (name: keyof T, isTouched: boolean) => {
+        setTouched({
+            ...touched,
+            [name]: isTouched,
+        });
+    };
+
     const getTextInputProps = (name: keyof T) => {
         const value = values[name];
         const onChangeText = (text: string) => handleChange(name, text);
@@ -47,6 +54,7 @@ function useForm<T>({ initialValues, validate }: UserFormProps<T>) {
         errors,
         touched,
         getTextInputProps,
+        setFieldTouched,
     };
 }
 
