@@ -26,10 +26,10 @@ function CO2ReductionCard({
           플로깅을 <Text style={styles.highlightText}>{ploggingMinutes}</Text>분 하였군요.
         </Text>
         <Text style={styles.floggingText}>
-          {ploggingMinutes}분은 탁소 약 <Text style={styles.highlightText}>{co2Reduction}kg</Text> 절감효과가 있습니다.
+          {ploggingMinutes}분은 탄소 약 <Text style={styles.highlightText}>{co2Reduction}kg</Text> 절감효과가 있습니다.
         </Text>
         <Text style={styles.floggingSmallText}>
-          *나무 1그루가 하루 돈안 흡수하는 CO2 = 약 0.03~0.05kg입니다.
+          *나무 1그루가 하루 동안 흡수하는 CO2는 약 0.03~0.06kg입니다.{'\n'}(0.03kg 기준으로 계산)
         </Text>
         <Text style={styles.floggingText}>
           오늘 하루 나무 <Text style={styles.highlightText}>{treeEquivalent}</Text>그루의 역할을 하였습니다.

@@ -19,7 +19,11 @@ function usePloggingCalculator(ploggingTime: number | null): PloggingCalculation
 
     const ploggingMinutes = calculatePloggingMinutes();
     const co2Reduction = (ploggingMinutes * 0.03).toFixed(2); // 분당 0.03kg CO2 절감
-    const treeEquivalent = Math.floor(parseFloat(co2Reduction) / 0.03); // 나무 1그루당 0.03kg CO2 흡수 기준
+
+    // 나무 1그루가 연간 흡수하는 CO2량: 약 20-25kg (하루로 환산하면 약 0.055-0.068kg)
+    // 여기서는 하루 평균 0.06kg로 계산
+    const co2PerTreePerDay = 0.03; // kg
+    const treeEquivalent = Math.floor(parseFloat(co2Reduction) / co2PerTreePerDay);
 
     return {
       ploggingMinutes,

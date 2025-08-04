@@ -71,7 +71,7 @@ const handleSubmit = () => {
   if (!addPost.values.title.trim()) {
     // 제목 필드에 에러 표시를 위해 터치된 상태로 만들기
     addPost.setFieldTouched('title', true);
-    
+
     // 사용자에게 알림 표시
     Alert.alert(
       '제목을 입력해주세요',
@@ -80,7 +80,7 @@ const handleSubmit = () => {
     );
     return;
   }
-  
+
   const body = {
     date: formattedDate,
     title: addPost.values.title,
