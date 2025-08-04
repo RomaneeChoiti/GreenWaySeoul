@@ -19,7 +19,7 @@ const PloggingStatusText = ({ isPlogging }: PloggingStatusTextProps) => {
     Animated.loop(
       Animated.timing(scrollAnim, {
         toValue: 1,
-        duration: 10000, // Adjust duration for smooth scrolling
+        duration: 10000,
         easing: Easing.linear,
         useNativeDriver: true,
       }),
@@ -28,27 +28,31 @@ const PloggingStatusText = ({ isPlogging }: PloggingStatusTextProps) => {
 
   const translateX = scrollAnim.interpolate({
     inputRange: [0, 1],
-    outputRange: [screenWidth, -screenWidth], // Ensure continuous scrolling
+    outputRange: [screenWidth, -screenWidth],
   });
 
   const renderScrollingText = (text: string) => (
     <Animated.Text
       style={[
         styles.text,
-        { transform: [{ translateX }], width: screenWidth }, // Pass screenWidth dynamically
+        {
+          transform: [{ translateX }],
+          width: screenWidth,
+          color: isPlogging ? colors[theme].UNCHANGE_WHITE : colors[theme].BLACK, // Change color based on plogging state
+        },
       ]}
     >
       {text}
     </Animated.Text>
   );
-
   const message = isPlogging
     ? '안전에 유의하세요. 작은 행동이 큰 변화를 만듭니다'
     : '쓰레기통을 클릭하여 플로깅을 시작해보세요';
 
   const containerStyle = [
     styles.container,
-    { backgroundColor: isPlogging ? colors.WARNING : colors.PRIMARY }, // Dynamically set background color
+    { backgroundColor: isPlogging ? colors.WARNING : colors.PRIMARY },
+    isPlogging && styles.bottomPosition, // Add bottom positioning when plogging
   ];
 
   return (
@@ -62,18 +66,25 @@ const PloggingStatusText = ({ isPlogging }: PloggingStatusTextProps) => {
 const styling = (theme: ThemeMode) =>
   StyleSheet.create({
   container: {
-    position: 'absolute',
+    marginTop: Dimensions.get('screen').height * 0.01,
     alignSelf: 'center',
-    paddingVertical: 15,
-    width: '100%',
-    overflow: 'hidden', // Ensure text doesn't overflow the container
-    flexDirection: 'row', // Allow texts to scroll in a row
+    paddingVertical: Dimensions.get('screen').height * 0.025,
+    width: '88%',
+    borderRadius: 10,
+    overflow: 'hidden',
+    flexDirection: 'row',
+  },
+  bottomPosition: {
+    position: 'absolute',
+    bottom: Dimensions.get('window').height * 0.3,
+    marginTop: 0,
+    paddingVertical: Dimensions.get('screen').height * 0.015,
   },
   text: {
     textAlign: 'center',
     fontSize: 18,
     fontWeight: 'bold',
-    color: colors[theme].UNCHANGE_WHITE,
+    color: colors[theme].BLACK,
   },
 });
 

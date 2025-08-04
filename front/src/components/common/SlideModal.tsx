@@ -1,9 +1,15 @@
-import React, { useEffect, useRef } from 'react';
-import { Modal, StyleSheet, View, Animated, TouchableWithoutFeedback, Text, Image } from 'react-native';
+import React from 'react';
+import { Modal, StyleSheet, View, TouchableWithoutFeedback, Dimensions, Animated } from 'react-native';
 import { colors } from '@/constants';
-import PloggingButton from '@/components/plogging/PloggingButton';
 import { ThemeMode, TrashcanData } from '@/types';
 import { useThemeStore } from '@/store/useThemeStore';
+import ModalComponent from '@/components/common/ModalComponent';
+import TimerDisplay from '@/components/plogging/TimerDisplay';
+import MarkerInfo from '@/components/plogging/MarkerInfo';
+import PloggingControlButton from '@/components/plogging/PloggingControlButton';
+import { useTimer } from '@/hooks/useTimer';
+import { useSlideAnimation } from '@/hooks/useSlideAnimation';
+import { usePloggingHandlers } from '@/hooks/usePloggingHandlers';
 
 interface SlideModalProps {
   visible: boolean;
@@ -16,144 +22,52 @@ function SlideModal({ visible, onClose, selectedMarker, markerType }: SlideModal
   const { theme } = useThemeStore();
   const styles = styling(theme);
 
-  const slideAnim = useRef(new Animated.Value(300)).current; // Start below the screen
-
-  useEffect(() => {
-    if (visible) {
-      Animated.timing(slideAnim, {
-        toValue: 0, // Slide to the visible position
-        duration: 300,
-        useNativeDriver: true,
-      }).start();
-    } else {
-      Animated.timing(slideAnim, {
-        toValue: 300, // Slide back below the screen
-        duration: 300,
-        useNativeDriver: true,
-      }).start();
-    }
-  }, [visible, slideAnim]);
-
-  const handleClose = () => {
-    Animated.timing(slideAnim, {
-      toValue: 300, // Slide back below the screen
-      duration: 300,
-      useNativeDriver: true,
-    }).start(() => {
-      onClose(); // Trigger the onClose callback after animation
-    });
-  };
-
-  const getMarkerImage = () => {
-    return markerType === 'recycle'
-      ? require('@/assets/recycleIcon.png')
-      : require('@/assets/trashcanIcon.png');
-  };
+  const { timer, startTimer, resetTimer } = useTimer();
+  const { slideAnim, slideDown } = useSlideAnimation(visible);
+  const {
+    isStopModalVisible,
+    handleStartTimer,
+    handleStopPress,
+    handleStopConfirm,
+    handleStopCancel,
+    handleClose,
+  } = usePloggingHandlers({ onClose, slideDown, resetTimer, startTimer });
 
   return (
     <Modal transparent visible={visible} animationType="none">
       <TouchableWithoutFeedback onPress={handleClose}>
-        <View style={styles.overlay} />
+        <View />
       </TouchableWithoutFeedback>
       <Animated.View style={[styles.modal, { transform: [{ translateY: slideAnim }] }]}>
         <View style={styles.modalContent}>
-            <View style={styles.contentRow}>
-              <View style={styles.imageContainer}>
-                {getMarkerImage() ? (
-                  <Image source={getMarkerImage()} style={styles.markerImage} resizeMode="contain" />
-                ) : (
-                  <Text style={styles.details}>No image available</Text>
-                )}
-              </View>
-              <View style={styles.textContainer}>
-                {selectedMarker ? (
-                  <>
-                    <Text style={styles.title}>{selectedMarker.Address}</Text>
-                    <Text style={styles.details}>{selectedMarker.설치위치}</Text>
-                    <Text style={styles.details}>{selectedMarker.canType}</Text>
-                    <Text style={styles.warningTextTitle}>플로깅 주의 사항</Text>
-                    <Text style={styles.warningTextDetails}>교통 안전 유의하시길 바랍니다.</Text>
-                    <Text style={styles.warningTextDetails}>날카로운 물건 주의하시길 바랍니다.</Text>
-                  </>
-                ) : (
-                    <Text style={styles.details}>No marker selected</Text>
-                )}
-              </View>
-            </View>
-            <View style={styles.contentPlogging}>
-                <PloggingButton onPress={handleClose} />
-            </View>
+          <MarkerInfo selectedMarker={selectedMarker} markerType={markerType} />
+          <TimerDisplay timer={timer} />
+          <PloggingControlButton onStart={handleStartTimer} onStop={handleStopPress} />
         </View>
       </Animated.View>
+      <ModalComponent
+        visible={isStopModalVisible}
+        message="플로깅을 중단 하겠습니까?"
+        onConfirm={handleStopConfirm}
+        onCancel={handleStopCancel}
+      />
     </Modal>
   );
 }
 
 const styling = (theme: ThemeMode) =>
   StyleSheet.create({
-  overlay: {
-    flex: 1,
-    backgroundColor: 'rgba(0, 0, 0, 0.1)',
-  },
   modal: {
+    flex: 1,
     position: 'absolute',
-    bottom: 0,
-    width: '100%',
-    height: '35%',
+    width: '90%',
+    bottom: Dimensions.get('window').height * 0.03,
     backgroundColor: colors[theme].WHITE,
-    borderTopLeftRadius: 20,
-    borderTopRightRadius: 20,
-    shadowColor: colors[theme].BLACK,
-    shadowOffset: { width: 0, height: -2 },
-    shadowOpacity: 0.3,
-    shadowRadius: 5,
-    elevation: 5, // Android shadow
+    borderRadius: 20,
+    alignSelf: 'center',
   },
-  modalContent: {
-    flex: 1,
-    justifyContent: 'center',
-    },
-  contentRow: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    paddingHorizontal: 10,
-  },
-  imageContainer: {
-    justifyContent: 'center',
-    alignItems: 'center',
-    marginRight: 10,
-  },
-  textContainer: {
-    flex: 1,
-  },
-  markerImage: {
-    width: 100,
-    height: 120,
-  },
-  title: {
-    fontSize: 18,
-    fontWeight: 'bold',
-    marginBottom: 5,
-    color: colors[theme].BLACK,
-  },
-  details: {
-    fontSize: 16,
-    marginBottom: 5,
-    color: colors[theme].BLACK,
-  },
-  contentPlogging: {
-    top: 20,
-    alignItems: 'center',
-    },
-  warningTextTitle:{
-    fontSize: 14,
-    fontWeight: 'bold',
-    color: colors.WARNING,
-    marginTop: 10,
-  },
-  warningTextDetails:{
-    fontSize: 14,
-    color: colors[theme].GRAY_700,
+  modalContent:{
+    padding: Dimensions.get('screen').width * 0.07,
   },
 });
 

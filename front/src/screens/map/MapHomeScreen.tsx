@@ -8,7 +8,6 @@ import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import mapStyle from '@/style/mapStyle';
 import CustomMarker from '@/components/common/CustomMarker';
 import SlideModal from '@/components/common/SlideModal';
-import StopPloggingButton from '@/components/plogging/StopPloggingButton';
 import PloggingStatusText from '@/components/plogging/PloggingStatusText';
 import testData from '@/api/testData.json';
 import { usePloggingStateStore } from '@/store/usePloggingStore';
@@ -96,13 +95,9 @@ function MapHomeScreen() {
         ))}
       </MapView>
       <View>
-        {!isPlogging ? (
           <Pressable style={styles.locationButton} onPress={handlePressUserLocation}>
             <MaterialIcons name="my-location" color={styles.iconColor.color} size={30} />
           </Pressable>
-        ) : (
-          <StopPloggingButton />
-        )}
       </View>
       <SlideModal
         visible={isModalVisible}
@@ -120,7 +115,7 @@ const styling = (theme: ThemeMode) =>
     flex: 1,
   },
   iconColor:{
-    color: colors[theme].UNCHANGE_WHITE,
+    color: colors[theme].BLACK,
   },
   buttonBackground: {
     backgroundColor: colors.PRIMARY,
@@ -147,9 +142,9 @@ const styling = (theme: ThemeMode) =>
     paddingHorizontal: 15,
     borderRadius: 100,
     shadowColor: colors[theme].BLACK,
-    shadowOffset: { width: 0, height: 4 },
-    shadowOpacity: 0.3,
-    shadowRadius: 5,
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.25,
+    shadowRadius: 3.84,
     elevation: 5,
   },
 });
