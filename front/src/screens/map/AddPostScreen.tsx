@@ -1,5 +1,5 @@
 import React, { useRef, useState } from 'react';
-import { StyleSheet, SafeAreaView, ScrollView, View, Dimensions } from 'react-native';
+import { StyleSheet, SafeAreaView, ScrollView, View, Dimensions, Alert } from 'react-native';
 import { TextInput } from 'react-native';
 import useForm from '@/hooks/useForm';
 import { validateAddPost } from '@/utils';
@@ -67,6 +67,20 @@ function AddPostScreen() {
 // 임시로 타입을 변경
 // 임시 타입
 const handleSubmit = () => {
+  // 제목 검증
+  if (!addPost.values.title.trim()) {
+    // 제목 필드에 에러 표시를 위해 터치된 상태로 만들기
+    addPost.setFieldTouched('title', true);
+    
+    // 사용자에게 알림 표시
+    Alert.alert(
+      '제목을 입력해주세요',
+      '게시글 제목은 필수 항목입니다.',
+      [{ text: '확인', style: 'default' }],
+    );
+    return;
+  }
+  
   const body = {
     date: formattedDate,
     title: addPost.values.title,
