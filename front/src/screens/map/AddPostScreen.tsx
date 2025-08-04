@@ -1,14 +1,10 @@
 import React, { useRef, useState } from 'react';
-import { StyleSheet, SafeAreaView, ScrollView, View, Text } from 'react-native';
-import InputField from '@/components/common/InputField';
-import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
+import { StyleSheet, SafeAreaView, ScrollView, View, Dimensions } from 'react-native';
 import { TextInput } from 'react-native';
 import useForm from '@/hooks/useForm';
 import { validateAddPost } from '@/utils';
 import { colors } from '@/constants';
 import { useNavigation } from '@react-navigation/native';
-import CustomButton from '@/components/common/CustomButton';
-import ModalComponent from '@/components/common/ModalComponent';
 import useMutateCreatePost from '@/hooks/queries/useMutateCreatePost';
 import { useTrashcanStore } from '@/store/useTrashcanStore';
 import { usePloggingStateStore } from '@/store/usePloggingStore';
@@ -20,6 +16,13 @@ import PreviewImageList from '@/components/common/PreviewImageList';
 import { formatDate } from '@/utils/date';
 import { ThemeMode } from '@/types';
 import { useThemeStore } from '@/store/useThemeStore';
+import LinearGradient from 'react-native-linear-gradient';
+import PloggingInfoCard from '@/components/post/PloggingInfoCard';
+import CO2ReductionCard from '@/components/post/CO2ReductionCard';
+import PostInputForm from '@/components/post/PostInputForm';
+import ActionButtons from '@/components/post/ActionButtons';
+import usePloggingCalculator from '@/hooks/usePloggingCalculator';
+import ConfirmationModal from '@/components/common/ConfirmationModal';
 
 
 function AddPostScreen() {
@@ -35,19 +38,15 @@ function AddPostScreen() {
   const imagePicker = useImagePicker({ initialImages: [] });
   usePermission('PHOTO');
 
-  /*
-    TODO: 이동 거리는 후순위로
-    const [distance, setDistance] = useState('0km');
-
-  */
-  const [score, setScore] = useState(0);
-
   // zustand Store
   const { address: trashcanAddress, location: place, latitude, longitude } = useTrashcanStore();
   const { ploggingTime } = usePloggingStateStore();
   const formattedTime = ploggingTime
     ? new Date(ploggingTime).toISOString().substr(11, 8) // Format as HH:mm:ss
     : '00:00:00';
+
+  // PloggingCalculator 훅 사용
+  const { ploggingMinutes, co2Reduction, treeEquivalent } = usePloggingCalculator(ploggingTime);
 
   const addPost = useForm({
       initialValues: { title: '', description: '' },
@@ -73,7 +72,7 @@ const handleSubmit = () => {
     title: addPost.values.title,
     description: addPost.values.description,
     color: 'red', // 명시적으로 일단 값을 줌
-    score,
+    score: treeEquivalent, // 나무 그루 수를 점수로 사용
     address: trashcanAddress || '주소 없음',
     latitude: latitude || 0, // Provide default value if latitude is undefined
     longitude: longitude || 0, // Provide default value if longitude is undefined
@@ -115,44 +114,41 @@ const handleSubmit = () => {
 //   });
 // };
 
-  const handleStarPress = (rating: number) => {
-    setScore(rating); // Update the score when a star is clicked
-  };
-
   return (
+    <LinearGradient
+          colors={['#E1E1E1', '#ffffff']}
+          locations={[0.9, 0]}
+          style={styles.gradient}
+    >
     <SafeAreaView style={styles.container}>
       <ScrollView>
-        <View style={styles.inputContainer}>
-          <View style={styles.addressContainer}>
-            <MaterialIcons name="location-on" size={25} color={'white'}/>
-            <View>
-              <Text style={styles.addressText}>{trashcanAddress || '주소 없음'}</Text>
-              <Text style={styles.addressText}>{place || '위치 없음'}</Text>
-            </View>
-          </View>
-          <View style={styles.infoContainer}>
-            <Text style={styles.infoText}>{formattedDate} ( {day} )</Text>
-            {/* TODO: 맵화면에 폴로깅 진행시간 check */}
-            <Text style={styles.infoText}>{formattedTime}</Text>
-          </View>
-            {/* <Text>이동 거리 : {distance}</Text> */}
-          <InputField
-            placeholder="제목을 입력하세요."
-            error={addPost.errors.title}
-            touched={addPost.touched.title}
-            returnKeyType="next"
-            submitBehavior="blurAndSubmit"
-            onSubmitEditing={() => descriptionRef.current?.focus()}
-            {...addPost.getTextInputProps('title')}
+        <View style={styles.contentContainer}>
+          <PloggingInfoCard
+            date={formattedDate}
+            day={day}
+            time={formattedTime}
+            address={trashcanAddress || '주소 없음'}
+            place={place || '위치 없음'}
+            theme={theme}
           />
-          <InputField
-              ref={descriptionRef}
-              placeholder="오늘의 플로깅 기록을 입력하세요. (선택)"
-              error={addPost.errors.description}
-              touched={addPost.touched.description}
-              multiline
-              returnKeyType ="next"
-              {...addPost.getTextInputProps('description')}
+          <CO2ReductionCard
+            ploggingMinutes={ploggingMinutes}
+            co2Reduction={co2Reduction}
+            treeEquivalent={treeEquivalent}
+            theme={theme}
+          />
+          <PostInputForm
+            ref={descriptionRef}
+            title={addPost.values.title}
+            description={addPost.values.description}
+            titleError={addPost.errors.title}
+            descriptionError={addPost.errors.description}
+            titleTouched={addPost.touched.title}
+            descriptionTouched={addPost.touched.description}
+            onTitleChange={addPost.getTextInputProps('title').onChangeText}
+            onDescriptionChange={addPost.getTextInputProps('description').onChangeText}
+            onTitleSubmit={() => descriptionRef.current?.focus()}
+            theme={theme}
           />
           {/* TODO: 임시로 숨김 처리 */}
           <View style={[styles.imagesViewer, styles.hiddenTemp]}>
@@ -163,60 +159,53 @@ const handleSubmit = () => {
               showOptions
             />
           </View>
-
-          <StarRating score={score} onRate={handleStarPress} />
-          <View style={styles.buttonContainer}>
-            <CustomButton label="취소" variant="outlined" size="medium" onPress={handleCancel} />
-            <CustomButton label="등록" variant="filled" size="medium" onPress={handleSubmit} />
-          </View>
+          <StarRating treeCount={treeEquivalent} />
+          <ActionButtons
+            onCancel={handleCancel}
+            onSubmit={handleSubmit}
+            theme={theme}
+          />
         </View>
       </ScrollView>
-      <ModalComponent
+      <ConfirmationModal
         visible={isModalVisible}
         message="저장하지 않고 나가시겠습니까?"
         onConfirm={handleConfirm}
         onCancel={handleCloseModal}
       />
     </SafeAreaView>
+    </LinearGradient>
   );
 }
 
 const styling = (theme:ThemeMode) =>
   StyleSheet.create({
+  white:{
+    color: colors[theme].UNCHANGE_WHITE,
+  },
+  gradient: {
+    flex: 1,
+  },
   container: {
     flex: 1,
-    backgroundColor: colors[theme].WHITE,
+  },
+  flexRow:{
+    flexDirection: 'row',
   },
   contentContainer: {
     flex: 1,
-    padding: 20,
-    margin: 20,
+    paddingTop: 0,
+    padding: Dimensions.get('screen').height * 0.02,
+    gap: Dimensions.get('screen').height * 0.009,
   },
   inputContainer: {
     gap: 20,
-    margin: 20,
+    margin: Dimensions.get('screen').height * 0.02,
   },
-  addressContainer:{
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: 10,
-    backgroundColor: colors.PRIMARY,
-    paddingVertical: 20,
-    paddingHorizontal: 20,
-  },
-  addressText:{
-    fontSize: 18,
-    color: colors[theme].UNCHANGE_WHITE,
-    fontWeight: 'bold',
-  },
-  buttonContainer: {
-    flexDirection: 'row',
-    gap: 10,
-  },
-  infoContainer: {
-    gap: 15,
-    paddingVertical: 10,
-    paddingHorizontal: 20,
+  fieldBox:{
+    backgroundColor: colors[theme].WHITE,
+    padding: Dimensions.get('screen').height * 0.025,
+    borderRadius: 20,
   },
   infoText:{
     fontSize: 25,
