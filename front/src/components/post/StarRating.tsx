@@ -1,9 +1,10 @@
-import { colors } from '@/constants';
+import { colors, numbers } from '@/constants';
 import { useThemeStore } from '@/store/useThemeStore';
 import { ThemeMode } from '@/types';
 import React from 'react';
 import { View, StyleSheet, Text, Dimensions } from 'react-native';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
+
 
 interface StarRatingProps {
   treeCount: number;
@@ -17,7 +18,7 @@ const StarRating = ({ treeCount }: StarRatingProps) => {
     <View style={styles.container}>
         <Text style={styles.text}>오늘 나무 {treeCount}그루의 역할을 해냈어요.</Text>
         <View style={styles.ratingContainer}>
-        {[1, 2, 3, 4, 5, 6, 7, 8].map((rating) => (
+        {Array.from({ length: numbers.MAX_TREES }, (_, i) => i + 1).map((rating) => (
             <MaterialIcons
             key={rating}
             name={'forest'}
