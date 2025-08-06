@@ -1,4 +1,4 @@
-import { Dimensions, Image, Pressable, StyleSheet, Text, View } from 'react-native';
+import { Dimensions, Pressable, ScrollView, StyleSheet, View } from 'react-native';
 import { ResponsePost } from '@/api/post';
 import { colors, feedNavigations } from '@/constants';
 import { useNavigation } from '@react-navigation/native';
@@ -7,6 +7,13 @@ import { FeedStackParamList } from '@/navigations/stack/FeedStackNavigator';
 import { formatDate } from '@/utils/date'; // Import the utility function
 import { useThemeStore } from '@/store/useThemeStore';
 import { ThemeMode } from '@/types';
+import ImageWithTextOverlay from '@/components/common/ImageWithTextOverlay';
+
+// 이미지 크기 상수 정의
+const FEED_IMAGE_SIZE = {
+    width: Dimensions.get('screen').width - 270,
+    height: Dimensions.get('screen').width * 0.4,
+};
 
 interface FeedItemProps {
     post: ResponsePost
@@ -27,14 +34,21 @@ function FeedItem({post}:FeedItemProps){
     // TODO: 이미지 업데이트 끝나면 해당 코드 삭제
     const successImageIndex = (post.id % 6) + 1; // 1~6 순환
     const successImages = [
-        require('../../assets/successImgs/success1.png'),
-        require('../../assets/successImgs/success2.png'),
-        require('../../assets/successImgs/success3.png'),
-        require('../../assets/successImgs/success4.png'),
-        require('../../assets/successImgs/success5.png'),
-        require('../../assets/successImgs/success6.png'),
+        require('../../assets/natureImgs/1.png'),
+        require('../../assets/natureImgs/2.png'),
+        require('../../assets/natureImgs/3.png'),
+        require('../../assets/natureImgs/4.png'),
+        require('../../assets/natureImgs/5.png'),
+        require('../../assets/natureImgs/6.png'),
+        require('../../assets/natureImgs/7.png'),
     ];
-    const successImagePath = successImages[(successImageIndex - 1) % successImages.length];
+    
+    // 가로에 3개의 이미지 사용
+    const carouselImages = [
+        successImages[successImageIndex % successImages.length],
+        successImages[(successImageIndex + 1) % successImages.length],
+        successImages[(successImageIndex + 2) % successImages.length],
+    ];
 
     return (
     <Pressable style={styles.container} onPress={handlePressFeed}>
@@ -42,15 +56,23 @@ function FeedItem({post}:FeedItemProps){
             {/*
                 TODO: 이미지 업데이트 끝나면 주석 해제
             {post.images.length > 0 && (
-                <View
-                    key = {post.id}
-                    style={styles.imageContainer}>
-                    <Image
-                        style={styles.image}
-                        source={{uri: post.images[0].uri}}
-                        resizeMode="cover"
-                    />
-                </View>
+                <FlatList
+                    data={post.images}
+                    renderItem={renderImageItem}
+                    keyExtractor={(item, index) => `${post.id}-${index}`}
+                    horizontal
+                    pagingEnabled
+                    showsHorizontalScrollIndicator={false}
+                    onMomentumScrollEnd={(event) => {
+                        const index = Math.round(event.nativeEvent.contentOffset.x / imageWidth);
+                        setCurrentImageIndex(index);
+                    }}
+                    getItemLayout={(_, index) => ({
+                        length: imageWidth,
+                        offset: imageWidth * index,
+                        index,
+                    })}
+                />
             )}
             {post.images.length === 0 && (
                 <View style={[styles.imageContainer, styles.emptyImageContainer]}>
@@ -58,70 +80,55 @@ function FeedItem({post}:FeedItemProps){
                 </View>
             )} */}
             {/* TODO: 이미지 업데이트 끝나면 해당 코드 삭제 */}
-            <View key={post.id} style={styles.imageContainer}>
-                <Image
-                    style={styles.image}
-                    source={successImagePath}
-                    resizeMode="cover"
-                />
-            </View>
-            <View style={styles.textContainer}>
-                <Text style={styles.date}>
-                    {formatDate(post.date)}
-                </Text>
-                <Text style={styles.title}>{post.title}</Text>
-                <Text style={styles.description} numberOfLines={1}>
-                    {post.description}
-                </Text>
-            </View>
+            <ScrollView
+                horizontal
+                showsHorizontalScrollIndicator={false}
+                style={styles.carousel}
+                contentContainerStyle={styles.carouselContent}
+                nestedScrollEnabled={true}
+            >
+                {carouselImages.map((item, index) => (
+                    <View key={`${post.id}-${index}`} style={styles.imageItem}>
+                        <ImageWithTextOverlay
+                            source={item}
+                            text={post.title}
+                            date={formatDate(post.date)}
+                            width={FEED_IMAGE_SIZE.width}
+                            height={FEED_IMAGE_SIZE.height}
+                        />
+                    </View>
+                ))}
+            </ScrollView>
         </View>
     </Pressable>
     );
 }
 
-const styling = (theme: ThemeMode) =>
+const styling = (_theme: ThemeMode) =>
     StyleSheet.create({
     container:{
-        flex: 1,
-        margin: 5,
-        marginVertical: 12,
+        width: Dimensions.get('screen').width,
+        height: FEED_IMAGE_SIZE.height + 40, // 이미지 높이 + 패딩
+        justifyContent: 'center',
+        alignItems: 'flex-start',
+        paddingLeft: Dimensions.get('screen').width * 0.05,
     },
-    imageContainer:{
-        width: Dimensions.get('screen').width / 2 - 25,
-        height: Dimensions.get('screen').width / 2 - 25,
-    },
-    image: {
+    carousel: {
+        height: FEED_IMAGE_SIZE.height,
         width: '100%',
-        height: '100%',
+    },
+    carouselContent: {
+        alignItems: 'flex-start',
+    },
+    imageItem: {
+        marginRight: Dimensions.get('screen').width * 0.02, // 이미지들 사이 간격
+        overflow: 'visible',
     },
     emptyImageContainer:{
         justifyContent: 'center',
         alignItems: 'center',
         borderColor: colors.PRIMARY,
         borderWidth: StyleSheet.hairlineWidth,
-    },
-    textContainer:{
-        padding: 10,
-        backgroundColor: colors[theme].WHITE,
-        width: Dimensions.get('screen').width / 2 - 25,
-        borderColor: colors[theme].GRAY_500,
-        borderWidth: StyleSheet.hairlineWidth,
-    },
-    date:{
-        fontSize: 12,
-        color: colors[theme].GRAY_700,
-        marginBottom: 5,
-    },
-    title:{
-        fontSize: 16,
-        fontWeight: 'bold',
-        marginBottom: 5,
-        color: colors[theme].BLACK,
-    },
-    description:{
-        fontSize: 14,
-        color: colors[theme].GRAY_500,
-        marginBottom: 5,
     },
 });
 
