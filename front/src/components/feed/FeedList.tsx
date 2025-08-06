@@ -1,4 +1,4 @@
-import { useState, useMemo } from 'react';
+import { useState, useMemo, useRef, useEffect } from 'react';
 import { Dimensions, FlatList, StyleSheet, View } from 'react-native';
 import useGetInfinitePosts from '@/hooks/queries/useGetInfinitePosts';
 import { FilterType } from '@/types/filter';
@@ -10,14 +10,11 @@ import FeedFilter from './FeedFilter';
 */
 function FeedList(){
     const [selectedFilter, setSelectedFilter] = useState<FilterType>('최신순');
+    const flatListRef = useRef<FlatList>(null);
 
     // 서버에서 기본 데이터 가져오기 (최신순)
     const {
         data: rawPosts,
-        fetchNextPage,
-        hasNextPage,
-        isFetchingNextPage,
-        refetch,
     } = useGetInfinitePosts();
 
     // 클라이언트 사이드에서 필터링 적용
@@ -74,19 +71,13 @@ function FeedList(){
                 return rawPosts;
         }
     }, [rawPosts, selectedFilter]);
-    const [isRefreshing, setIsRefreshing] = useState(false);
 
-    const handleEndReached = () => {
-        if(hasNextPage && !isFetchingNextPage){
-        fetchNextPage();
+    // 필터가 변경될 때 FeedList를 첫 번째 아이템으로 스크롤
+    useEffect(() => {
+        if (flatListRef.current && posts && posts.pages.flat().length > 0) {
+            flatListRef.current.scrollToOffset({ offset: 0, animated: false });
         }
-    };
-
-    const handleRefresh = async () => {
-        setIsRefreshing(true);
-        await refetch();
-        setIsRefreshing(false);
-    };
+    }, [selectedFilter, posts]);
 
     const handleFilterChange = (filter: FilterType) => {
         setSelectedFilter(filter);
@@ -99,16 +90,13 @@ function FeedList(){
                 onFilterChange={handleFilterChange}
             />
             <FlatList
+                ref={flatListRef}
                 data={posts?.pages.flat()}
-                renderItem={({item}) => <FeedItem post={item}/>}
+                renderItem={({item}) => <FeedItem post={item} currentFilter={selectedFilter}/>}
                 keyExtractor={item => String(item.id)}
                 horizontal
                 pagingEnabled
                 showsHorizontalScrollIndicator={false}
-                onEndReached={handleEndReached}
-                onEndReachedThreshold={0.5}
-                refreshing={isRefreshing}
-                onRefresh={handleRefresh}
                 scrollIndicatorInsets={{right: 1}}
                 indicatorStyle="black"
             />
@@ -119,9 +107,6 @@ function FeedList(){
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-    },
-    contentContainer:{
-        paddingHorizontal: Dimensions.get('window').width * 0.05,
     },
 });
 
