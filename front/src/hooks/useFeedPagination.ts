@@ -16,7 +16,7 @@ export function useFeedPagination() {
 
         // 4개의 아이템을 하나씩 순차적으로 추가
         for (let i = 1; i <= 4; i++) {
-            await new Promise(resolve => setTimeout(resolve, 300)); // 각 아이템마다 0.3초 간격
+            await new Promise(resolve => setTimeout(resolve, 100)); // 각 아이템마다 0.3초 간격
             setVisibleItemsCount(prev => prev + 1);
         }
 
