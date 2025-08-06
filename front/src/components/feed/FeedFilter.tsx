@@ -15,20 +15,20 @@ function FeedFilter({ selectedFilter, onFilterChange }: FeedFilterProps) {
   const styles = styling(theme);
 
   const filters: FilterType[] = ['최신순', '점수순', '하이라이트'];
-  
+
   // 슬라이딩 애니메이션을 위한 translateX 값
   const slideAnimation = useRef(new Animated.Value(0)).current;
-  
+
   // 현재 선택된 필터의 인덱스
   const selectedIndex = filters.indexOf(selectedFilter);
-  
+
   // 버튼 너비 계산 (컨테이너 너비를 3등분)
   const buttonWidth = Dimensions.get('window').width * 0.9 / 3;
 
   // 선택된 필터가 변경될 때 슬라이딩 애니메이션 실행
   useEffect(() => {
     const targetPosition = selectedIndex * buttonWidth;
-    
+
     Animated.timing(slideAnimation, {
       toValue: targetPosition,
       duration: 300,
@@ -48,7 +48,7 @@ function FeedFilter({ selectedFilter, onFilterChange }: FeedFilterProps) {
           },
         ]}
       />
-      
+
       {/* 필터 버튼들 */}
       {filters.map((filter) => (
         <TouchableOpacity
