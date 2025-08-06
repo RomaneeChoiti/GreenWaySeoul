@@ -8,7 +8,7 @@ import FeedCarousel from './FeedCarousel';
 import AllFeedItem from './AllFeedItem';
 import FeedFilter from './FeedFilter';
 import LoadMoreButton from './LoadMoreButton';
-import { colors } from '@/constants';
+import { colors, uiTexts } from '@/constants';
 import { useThemeStore } from '@/store/useThemeStore';
 import { ThemeMode } from '@/types';
 
@@ -54,7 +54,7 @@ function FeedList({ initialFilter = '최신순' }: FeedListProps){
         if (filter === selectedFilter) {
             return;
         }
-        
+
         // 페이드 아웃
         Animated.timing(fadeAnimation, {
             toValue: 0.3,
@@ -65,7 +65,7 @@ function FeedList({ initialFilter = '최신순' }: FeedListProps){
         // 필터 변경
         setSelectedFilter(filter);
         resetPagination();
-        
+
         // 짧은 지연 후 페이드 인
         setTimeout(() => {
             Animated.timing(fadeAnimation, {
@@ -108,7 +108,7 @@ function FeedList({ initialFilter = '최신순' }: FeedListProps){
 
                 {/* 전체 기록 헤더 */}
                 <View style={styles.allFeedHeader}>
-                    <Text style={styles.allFeedHeaderText}>전체 기록</Text>
+                    <Text style={styles.allFeedHeaderText}>{uiTexts.FEED.ALL_RECORDS}</Text>
                 </View>
 
                 {/* 전체 기록 리스트 */}

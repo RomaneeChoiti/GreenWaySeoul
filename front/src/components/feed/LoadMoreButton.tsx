@@ -1,5 +1,5 @@
 import { Pressable, Text, View, StyleSheet, Dimensions, ActivityIndicator } from 'react-native';
-import { colors } from '@/constants';
+import { colors, uiTexts } from '@/constants';
 import { useThemeStore } from '@/store/useThemeStore';
 import { ThemeMode } from '@/types';
 
@@ -33,7 +33,7 @@ function LoadMoreButton({ hasMore, isLoadingMore, onPress }: LoadMoreButtonProps
                         color={colors[theme].BLACK}
                     />
                 ) : (
-                    <Text style={styles.loadMoreText}>more</Text>
+                    <Text style={styles.loadMoreText}>{uiTexts.FEED.LOAD_MORE}</Text>
                 )}
             </Pressable>
         </View>
@@ -68,7 +68,7 @@ const styling = (_theme: ThemeMode) =>
             opacity: 0.6,
         },
         loadMoreText: {
-            fontSize: 9,
+            fontSize: 12,
             fontWeight: '700',
             color: colors[_theme].BLACK,
         },

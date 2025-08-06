@@ -98,7 +98,7 @@ const styling = (theme: ThemeMode) =>
       zIndex: 2,
     },
     filterText: {
-      fontSize: 10,
+      fontSize: 12,
       fontWeight: '900',
       color: colors[theme].GRAY_700,
     },

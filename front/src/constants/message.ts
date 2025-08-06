@@ -34,6 +34,11 @@ const errorMessages = {
     UNKNOWN_ERROR: '알수 없는 오류가 발생했습니다. 잠시 후 다시 시도해주세요.',
 } as const;
 
+const uiTexts = {
+    FEED: {
+        ALL_RECORDS: '전체 기록',
+        LOAD_MORE: 'more',
+    },
+} as const;
 
-
-export { alerts, errorMessages };
+export { alerts, errorMessages, uiTexts };
