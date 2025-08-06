@@ -1,5 +1,5 @@
 import { useState, useRef, useEffect } from 'react';
-import { FlatList, StyleSheet, View, Text, Dimensions } from 'react-native';
+import { FlatList, StyleSheet, View, Text, Dimensions, Animated } from 'react-native';
 import useGetInfinitePosts from '@/hooks/queries/useGetInfinitePosts';
 import { useFeedFilter } from '@/hooks/useFeedFilter';
 import { useFeedPagination } from '@/hooks/useFeedPagination';
@@ -20,6 +20,7 @@ interface FeedListProps {
 function FeedList({ initialFilter = '최신순' }: FeedListProps){
     const [selectedFilter, setSelectedFilter] = useState<FilterType>(initialFilter);
     const flatListRef = useRef<FlatList>(null);
+    const fadeAnimation = useRef(new Animated.Value(1)).current;
     const { theme } = useThemeStore();
     const styles = styling(theme);
 
@@ -49,9 +50,30 @@ function FeedList({ initialFilter = '최신순' }: FeedListProps){
         }
     }, [selectedFilter, posts]);
 
-    const handleFilterChange = (filter: FilterType) => {
+    const handleFilterChange = async (filter: FilterType) => {
+        if (filter === selectedFilter) {
+            return;
+        }
+        
+        // 페이드 아웃
+        Animated.timing(fadeAnimation, {
+            toValue: 0.3,
+            duration: 150,
+            useNativeDriver: true,
+        }).start();
+
+        // 필터 변경
         setSelectedFilter(filter);
-        resetPagination(); // 필터 변경 시 페이지네이션 리셋
+        resetPagination();
+        
+        // 짧은 지연 후 페이드 인
+        setTimeout(() => {
+            Animated.timing(fadeAnimation, {
+                toValue: 1,
+                duration: 200,
+                useNativeDriver: true,
+            }).start();
+        }, 50);
     };
 
     // 첫 번째 게시물 (캐로셀용)
@@ -62,6 +84,10 @@ function FeedList({ initialFilter = '최신순' }: FeedListProps){
     const visiblePosts = allPosts.slice(0, visibleItemsCount);
     const hasMore = allPosts.length > visibleItemsCount;
 
+    if (!rawPosts) {
+        return null;
+    }
+
     return (
         <View style={styles.container}>
             <FeedFilter
@@ -69,32 +95,39 @@ function FeedList({ initialFilter = '최신순' }: FeedListProps){
                 onFilterChange={handleFilterChange}
             />
 
-            {/* 캐로셀 부분 */}
-            {firstPost && (
-                <FeedCarousel post={firstPost} currentFilter={selectedFilter} />
-            )}
+            <Animated.View
+                style={[
+                    styles.contentContainer,
+                    { opacity: fadeAnimation },
+                ]}
+            >
+                {/* 캐로셀 부분 */}
+                {firstPost && (
+                    <FeedCarousel post={firstPost} currentFilter={selectedFilter} />
+                )}
 
-            {/* 전체 기록 헤더 */}
-            <View style={styles.allFeedHeader}>
-                <Text style={styles.allFeedHeaderText}>전체 기록</Text>
-            </View>
+                {/* 전체 기록 헤더 */}
+                <View style={styles.allFeedHeader}>
+                    <Text style={styles.allFeedHeaderText}>전체 기록</Text>
+                </View>
 
-            {/* 전체 기록 리스트 */}
-            <FlatList
-                ref={flatListRef}
-                data={visiblePosts}
-                renderItem={({item}) => <AllFeedItem post={item} />}
-                keyExtractor={item => String(item.id)}
-                showsVerticalScrollIndicator={false}
-                style={styles.feedList}
-            />
+                {/* 전체 기록 리스트 */}
+                <FlatList
+                    ref={flatListRef}
+                    data={visiblePosts}
+                    renderItem={({item}) => <AllFeedItem post={item} />}
+                    keyExtractor={item => String(item.id)}
+                    showsVerticalScrollIndicator={false}
+                    style={styles.feedList}
+                />
 
-            {/* 더보기 버튼 */}
-            <LoadMoreButton
-                hasMore={hasMore}
-                isLoadingMore={isLoadingMore}
-                onPress={handleLoadMore}
-            />
+                {/* 더보기 버튼 */}
+                <LoadMoreButton
+                    hasMore={hasMore}
+                    isLoadingMore={isLoadingMore}
+                    onPress={handleLoadMore}
+                />
+            </Animated.View>
         </View>
     );
 }
@@ -105,6 +138,9 @@ const styling = (_theme: ThemeMode) =>
             flex: 1,
             backgroundColor: colors[_theme].WHITE,
             marginHorizontal: Dimensions.get('screen').width * 0.05,
+        },
+        contentContainer: {
+            flex: 1,
         },
         allFeedHeader: {
             marginTop: Dimensions.get('screen').height * 0.015,
