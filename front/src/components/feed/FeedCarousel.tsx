@@ -5,6 +5,7 @@ import { useNavigation } from '@react-navigation/native';
 import { StackNavigationProp } from '@react-navigation/stack';
 import { FeedStackParamList } from '@/navigations/stack/FeedStackNavigator';
 import { formatDate } from '@/utils/date';
+import { getCarouselImages } from '@/utils/imageUtils';
 import { useThemeStore } from '@/store/useThemeStore';
 import { ThemeMode } from '@/types';
 import ImageWithTextOverlay from '@/components/common/ImageWithTextOverlay';
@@ -40,24 +41,7 @@ function FeedCarousel({ post, currentFilter }: FeedCarouselProps) {
         navigation.navigate(feedNavigations.FEED_DETAIL, { id: post.id, title: post.title });
     };
 
-    // TODO: 이미지 업데이트 끝나면 해당 코드 삭제
-    const successImageIndex = (post.id % 6) + 1; // 1~6 순환
-    const successImages = [
-        require('../../assets/natureImgs/1.png'),
-        require('../../assets/natureImgs/2.png'),
-        require('../../assets/natureImgs/3.png'),
-        require('../../assets/natureImgs/4.png'),
-        require('../../assets/natureImgs/5.png'),
-        require('../../assets/natureImgs/6.png'),
-        require('../../assets/natureImgs/7.png'),
-    ];
-
-    // 가로에 3개의 이미지 사용
-    const carouselImages = [
-        successImages[successImageIndex % successImages.length],
-        successImages[(successImageIndex + 1) % successImages.length],
-        successImages[(successImageIndex + 2) % successImages.length],
-    ];
+    const carouselImages = getCarouselImages(post.id);
 
     return (
         <View style={styles.container}>

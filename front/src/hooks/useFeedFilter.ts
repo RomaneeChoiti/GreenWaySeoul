@@ -34,7 +34,7 @@ export function useFeedFilter({ posts, selectedFilter }: UseFeedFilterProps) {
                 const favoritesPosts = posts.filter(post =>
                     post.isFavorite === true || (post.isFavorite === undefined && post.score > 0),
                 );
-                
+
                 // 좋아요가 있는 게시물이 없으면 모든 게시물을 최신순으로 표시
                 if (favoritesPosts.length === 0) {
                     return {
@@ -42,7 +42,7 @@ export function useFeedFilter({ posts, selectedFilter }: UseFeedFilterProps) {
                         pageParams: [],
                     };
                 }
-                
+
                 // 좋아요가 있는 게시물들을 점수 높은 순으로 정렬
                 const highlightSorted = favoritesPosts.sort((a, b) => {
                     // 점수 높은 순으로 정렬
