@@ -14,8 +14,8 @@ export const successImages = [
  * @returns 선택된 이미지
  */
 export const getImageByPostId = (postId: number) => {
-    const imageIndex = (postId % 6) + 1; // 1~6 순환
-    return successImages[imageIndex % successImages.length];
+    const imageIndex = postId % successImages.length;
+    return successImages[imageIndex];
 };
 
 /**
@@ -24,9 +24,9 @@ export const getImageByPostId = (postId: number) => {
  * @returns 3개의 연속된 이미지 배열
  */
 export const getCarouselImages = (postId: number) => {
-    const startIndex = (postId % 6) + 1; // 1~6 순환
+    const startIndex = postId % successImages.length;
     return [
-        successImages[startIndex % successImages.length],
+        successImages[startIndex],
         successImages[(startIndex + 1) % successImages.length],
         successImages[(startIndex + 2) % successImages.length],
     ];
