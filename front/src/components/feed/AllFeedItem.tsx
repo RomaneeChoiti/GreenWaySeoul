@@ -1,0 +1,98 @@
+import { StyleSheet, View, Text, Dimensions, Image, Pressable } from 'react-native';
+import { colors, feedNavigations } from '@/constants';
+import { useThemeStore } from '@/store/useThemeStore';
+import { ThemeMode } from '@/types';
+import { ResponsePost } from '@/api/post';
+import { formatDate } from '@/utils/date';
+import { useNavigation } from '@react-navigation/native';
+import { StackNavigationProp } from '@react-navigation/stack';
+import { FeedStackParamList } from '@/navigations/stack/FeedStackNavigator';
+
+interface AllFeedItemProps {
+    post: ResponsePost;
+}
+
+type Navigation = StackNavigationProp<FeedStackParamList>;
+
+function AllFeedItem({ post }: AllFeedItemProps) {
+    const { theme } = useThemeStore();
+    const styles = styling(theme);
+    const navigation = useNavigation<Navigation>();
+
+    const handlePressFeed = () => {
+        navigation.navigate(feedNavigations.FEED_DETAIL, { id: post.id, title: post.title });
+    };
+
+    // TODO: 이미지 업데이트 끝나면 해당 코드 삭제
+    const successImageIndex = (post.id % 6) + 1; // 1~6 순환
+    const successImages = [
+        require('../../assets/natureImgs/1.png'),
+        require('../../assets/natureImgs/2.png'),
+        require('../../assets/natureImgs/3.png'),
+        require('../../assets/natureImgs/4.png'),
+        require('../../assets/natureImgs/5.png'),
+        require('../../assets/natureImgs/6.png'),
+        require('../../assets/natureImgs/7.png'),
+    ];
+
+    const selectedImage = successImages[successImageIndex % successImages.length];
+
+    return (
+        <Pressable style={styles.container} onPress={handlePressFeed}>
+            <Image source={selectedImage} style={styles.image} />
+            <View style={styles.textContainer}>
+                <View style={styles.textWrapper}>
+                    <Text style={styles.title}>
+                        {post.title}
+                    </Text>
+                    <Text style={styles.date}>
+                        {formatDate(post.date)}
+                    </Text>
+                </View>
+                <Text style={styles.content}>
+                    {post.description}
+                </Text>
+            </View>
+        </Pressable>
+    );
+}
+
+const styling = (_theme: ThemeMode) =>
+    StyleSheet.create({
+        container: {
+            width: Dimensions.get('screen').width,
+            backgroundColor: colors[_theme].WHITE,
+            flexDirection: 'row',
+            alignItems: 'center',
+            paddingBottom: Dimensions.get('screen').width * 0.03,
+        },
+        image: {
+            width: Dimensions.get('screen').width * 0.13,
+            height: Dimensions.get('screen').width * 0.13,
+            borderRadius: 8,
+            marginRight: Dimensions.get('screen').width * 0.03,
+        },
+        textContainer: {
+            flex: 1,
+        },
+        textWrapper: {
+            gap: Dimensions.get('screen').width * 0.02,
+            flexDirection: 'row',
+        },
+        title: {
+            fontSize: 12,
+            fontWeight: '900',
+            color: colors[_theme].BLACK,
+            marginBottom: 8,
+        },
+        date: {
+            fontSize: 10,
+            color: colors[_theme].GRAY_700,
+        },
+        content: {
+            fontSize: 14,
+            color: colors[_theme].GRAY_700,
+        },
+    });
+
+export default AllFeedItem;

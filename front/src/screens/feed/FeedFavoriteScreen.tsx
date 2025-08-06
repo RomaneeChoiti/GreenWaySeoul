@@ -1,6 +1,6 @@
 import Loader from '@/components/common/Loader';
 import RetryErrorBoundary from '@/components/common/RetryErrorBoundary';
-import FeedFavoriteList from '@/components/feed/FeedFavoriteList';
+import FeedList from '@/components/feed/FeedList';
 import { colors } from '@/constants';
 import { useThemeStore } from '@/store/useThemeStore';
 import { ThemeMode } from '@/types';
@@ -14,7 +14,7 @@ function FeedFavoriteScreen() {
     <SafeAreaView style={styles.container}>
       <RetryErrorBoundary>
         <Suspense fallback={<Loader />}>
-          <FeedFavoriteList />
+          <FeedList initialFilter="하이라이트" />
         </Suspense>
       </RetryErrorBoundary>
     </SafeAreaView>
