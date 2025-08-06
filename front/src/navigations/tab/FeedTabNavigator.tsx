@@ -1,9 +1,8 @@
-import { colors, feedNavigations, feedTabNavigations } from '@/constants';
+import { colors, feedTabNavigations } from '@/constants';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import FeedFavoriteScreen from '@/screens/feed/FeedFavoriteScreen';
 import FeedStackNavigator from '../stack/FeedStackNavigator';
-import { StyleSheet } from 'react-native';
-import { getFocusedRouteNameFromRoute, RouteProp } from '@react-navigation/native';
+import { RouteProp } from '@react-navigation/native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import { HeaderLeftBack } from '@/components/common/HeaderButtons';
 import { useThemeStore } from '@/store/useThemeStore';
@@ -53,9 +52,7 @@ function FeedTabNavigator() {
                 tabBarShowLabel: false,
                 tabBarActiveTintColor: colors.PRIMARY,
                 tabBarStyle: {
-                    backgroundColor: colors[theme].WHITE,
-                    borderTopColor: colors[theme].GRAY_700,
-                    borderTopWidth: StyleSheet.hairlineWidth,
+                    display: 'none', // 탭 바 완전히 숨기기
                 },
                 tabBarIcon: ({ focused }) => TabBarIcon(route, focused, theme),
             })}
@@ -63,24 +60,9 @@ function FeedTabNavigator() {
             <Tab.Screen
                 name={feedTabNavigations.FEED_HOME}
                 component={FeedStackNavigator}
-                options={({ route }) => ({
+                options={{
                     headerShown: false,
-                    tabBarStyle: (tabRoute => {
-                        const routeName = getFocusedRouteNameFromRoute(tabRoute);
-                        if (
-                            routeName === feedNavigations.FEED_DETAIL ||
-                            routeName === feedNavigations.EDIT_POST ||
-                            routeName === feedNavigations.IMAGE_SCREEN
-                        ) {
-                            return { display: 'none' };
-                        }
-                        return {
-                            backgroundColor: colors[theme].WHITE,
-                            borderTopColor: colors[theme].GRAY_700,
-                            borderTopWidth: StyleSheet.hairlineWidth,
-                        };
-                    })(route),
-                })}
+                }}
             />
             <Tab.Screen
                 name={feedTabNavigations.FEED_FAVORITE}
