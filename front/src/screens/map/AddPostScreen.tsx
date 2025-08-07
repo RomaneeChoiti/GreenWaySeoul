@@ -92,7 +92,7 @@ const handleSubmit = () => {
     longitude: longitude || 0, // Provide default value if longitude is undefined
     // place: place || '위치 없음',
     // distance: distance,
-    // time: formattedTime,
+    // time: formattedTime
     imageUris: imagePicker.imageUris,
   };
   createPost.mutate({...body}, {
