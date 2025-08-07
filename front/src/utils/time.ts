@@ -5,7 +5,7 @@
  * @returns HH:MM:SS 형식의 시간 문자열
  */
 export const formatTime = (timeValue: number | null, isMilliseconds: boolean = false): string => {
-  if (!timeValue) {
+  if (timeValue == null) {
     return '00:00:00';
   }
 
