@@ -3,7 +3,6 @@ import { View, ImageBackground, Text, StyleSheet, ImageSourcePropType, Dimension
 
 type Props = {
   source: ImageSourcePropType;
-  text?: string;
   date?: string;
   width?: number;
   height?: number;
@@ -71,7 +70,7 @@ const styles = StyleSheet.create({
   title: {
         fontSize: 11,
         fontWeight: '800',
-        color: '#848484',
+        color: colors.light.GRAY_500,
     },
   text: {
     fontSize: 11,
