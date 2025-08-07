@@ -86,7 +86,7 @@ const handleSubmit = () => {
     title: addPost.values.title,
     description: addPost.values.description,
     color: 'red', // 명시적으로 일단 값을 줌
-    score: treeEquivalent, // 나무 그루 수를 점수로 사용
+    score: treeEquivalent || 0, // 나무 그루 수를 점수로 사용
     address: trashcanAddress || '주소 없음',
     latitude: latitude || 0, // Provide default value if latitude is undefined
     longitude: longitude || 0, // Provide default value if longitude is undefined
