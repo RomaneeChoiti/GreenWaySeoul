@@ -6,18 +6,24 @@ import { ThemeMode } from '@/types';
 
 interface CO2ReductionCardProps {
   ploggingMinutes: number;
-  co2Reduction: string;
   treeEquivalent: number;
   theme: ThemeMode;
+  deletePadding?: boolean;
+  deleteLogo?: boolean;
 }
 
 function CO2ReductionCard({
   ploggingMinutes,
-  co2Reduction,
   treeEquivalent,
   theme,
+  deletePadding = false,
+  deleteLogo = false,
+
 }: CO2ReductionCardProps) {
-  const styles = styling(theme);
+  const styles = styling(theme, deletePadding);
+
+  // CO2 절감 효과 계산 (1분당 0.01kg로 가정)
+  const co2ReductionValue = (ploggingMinutes * 0.01).toFixed(2);
 
   return (
     <View style={[styles.fieldBox, styles.flexRow]}>
@@ -26,7 +32,7 @@ function CO2ReductionCard({
           플로깅을 <Text style={styles.highlightText}>{ploggingMinutes}</Text>분 하였군요.
         </Text>
         <Text style={styles.floggingText}>
-          {ploggingMinutes}분은 탄소 약 <Text style={styles.highlightText}>{co2Reduction}kg</Text> 절감효과가 있습니다.
+          {ploggingMinutes}분은 탄소 약 <Text style={styles.highlightText}>{co2ReductionValue}kg</Text> 절감효과가 있습니다.
         </Text>
         <Text style={styles.floggingSmallText}>
           *나무 1그루가 하루 동안 흡수하는 CO2는 약 0.03~0.06kg입니다.{'\n'}(0.03kg 기준으로 계산)
@@ -35,12 +41,14 @@ function CO2ReductionCard({
           오늘 하루 나무 <Text style={styles.highlightText}>{treeEquivalent}</Text>그루의 역할을 하였습니다.
         </Text>
       </View>
-      <MaterialIcons name="forest" color={'black'} size={35} />
+      {!deleteLogo && (
+        <MaterialIcons name="forest" color={colors[theme].BLACK} size={35} />
+      )}
     </View>
   );
 }
 
-const styling = (theme: ThemeMode) =>
+const styling = (theme: ThemeMode, deletePadding: boolean) =>
   StyleSheet.create({
     flexRow: {
       flexDirection: 'row',
@@ -48,6 +56,7 @@ const styling = (theme: ThemeMode) =>
     fieldBox: {
       backgroundColor: colors[theme].WHITE,
       padding: Dimensions.get('screen').height * 0.025,
+      ...(deletePadding ? {paddingBottom: 0} : {}),
       borderRadius: 20,
     },
     gap5: {

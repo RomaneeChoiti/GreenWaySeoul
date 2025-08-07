@@ -3,6 +3,7 @@ import { StyleSheet, Text, View } from 'react-native';
 import { colors } from '@/constants';
 import { useThemeStore } from '@/store/useThemeStore';
 import { ThemeMode } from '@/types';
+import { formatTime } from '@/utils/time';
 
 interface TimerDisplayProps {
   timer: number;
@@ -11,14 +12,6 @@ interface TimerDisplayProps {
 function TimerDisplay({ timer }: TimerDisplayProps) {
   const { theme } = useThemeStore();
   const styles = styling(theme);
-
-  // Format timer to HH:MM:SS
-  const formatTime = (seconds: number) => {
-    const hours = Math.floor(seconds / 3600);
-    const minutes = Math.floor((seconds % 3600) / 60);
-    const secs = seconds % 60;
-    return `${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
-  };
 
   return (
     <View style={styles.timeContainer}>

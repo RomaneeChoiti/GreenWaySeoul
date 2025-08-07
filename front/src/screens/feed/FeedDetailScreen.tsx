@@ -1,14 +1,12 @@
 import React, { useEffect } from 'react';
 import { alerts, colors, feedNavigations, mainNavigations, mapNavigations } from '@/constants';
 import useGetPost from '@/hooks/queries/useGetPost';
-import { formatDate } from '@/utils/date'; // Import the utility function
+import { formatDate } from '@/utils/date';
 import { FeedStackParamList } from '@/navigations/stack/FeedStackNavigator';
 import { StackScreenProps } from '@react-navigation/stack';
-import { Alert, Image, Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
-import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
+import { Alert, Dimensions, Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import Octicons from 'react-native-vector-icons/Octicons';
-// import PreviewImageList from '@/components/common/PreviewImageList';
 import CustomButton from '@/components/common/CustomButton';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { CompositeScreenProps } from '@react-navigation/native';
@@ -21,6 +19,11 @@ import { useDetailPostStore } from '@/store/usePostStore';
 import useMutateFavoritePost from '@/hooks/queries/useMutateFavoritePost';
 import { useThemeStore } from '@/store/useThemeStore';
 import { ThemeMode } from '@/types';
+import { getImageByPostId } from '@/utils/imageUtils';
+import CO2ReductionCard from '@/components/post/CO2ReductionCard';
+import StarRating from '@/components/post/StarRating';
+import ImageWithBoxOverlay from '@/components/common/ImageWithBoxOverlay';
+import { uiTexts } from '@/constants/message';
 
 type FeedDetailScreenProps = CompositeScreenProps<
     StackScreenProps<FeedStackParamList, typeof feedNavigations.FEED_DETAIL>,
@@ -39,6 +42,8 @@ function FeedDetailScreen({ route, navigation }: FeedDetailScreenProps) {
 
     const { setFeedLocation } = useFeedLocationStore();
     const { setDetailPost } = useDetailPostStore();
+
+    // const { ploggingMinutes, co2Reduction, treeEquivalent } = usePloggingCalculator(ploggingTime);
 
     useEffect(() => {
         post && setDetailPost(post);
@@ -72,18 +77,9 @@ function FeedDetailScreen({ route, navigation }: FeedDetailScreenProps) {
     if (isPending || isError) {
         return null;
     }
+    const selectedImage = getImageByPostId(post.id);
 
-     // TODO: 이미지 업데이트 끝나면 해당 코드 삭제
-    const successImageIndex = (post.id % 6) + 1; // 1~6 순환
-    const successImages = [
-        require('../../assets/successImgs/success1.png'),
-        require('../../assets/successImgs/success2.png'),
-        require('../../assets/successImgs/success3.png'),
-        require('../../assets/successImgs/success4.png'),
-        require('../../assets/successImgs/success5.png'),
-        require('../../assets/successImgs/success6.png'),
-    ];
-    const successImagePath = successImages[(successImageIndex - 1) % successImages.length];
+    console.log(post.color);
 
     return (
         <>
@@ -94,98 +90,71 @@ function FeedDetailScreen({ route, navigation }: FeedDetailScreenProps) {
                         : [styles.container, styles.scrollNoInsets]
                 }
             >
-                <View style={styles.imageContainer}>
-                    {/*
-                    TODO: 이미지 업데이트 끝나면 주석 해제
-                    {post.images.length > 0 && (
-                        <Image
-                            style={styles.image}
-                            source={{uri: post.images[0].uri}}
-                            resizeMode="cover"
-                        />
-                    )}
-                    {post.images.length === 0 && (
-                        <View style={styles.emptyImageContainer}>
-                            <Text style={styles.descriptionImage}>이미지 없음</Text>
-                        </View>
-                    )} */}
-                    {/* TODO: 이미지 업데이트 끝나면 해당 코드 삭제 */}
+                <View style={styles.detailContent}>
                     <View key={post.id} style={styles.imageContainer}>
-                        <Image
-                            style={styles.image}
-                            source={successImagePath}
-                            resizeMode="cover"
+                        <ImageWithBoxOverlay
+                            source={selectedImage}
+                            width={Dimensions.get('screen').width * 0.9}
+                            height={Dimensions.get('screen').width * 0.852}
+                            text={post.title}
+                            date={formatDate(post.date)}
+                            address={post.address}
+                            time={post.score}
                         />
                     </View>
-                    <View style={styles.contentContainer}>
-                        <View style={styles.optionContainer}>
-                            <View style={styles.rowContainer}>
-                                <MaterialIcons name="location-on" size={20} color={colors.PRIMARY} />
-                                <Text style={styles.address}>{post.address}</Text>
-                            </View>
-                            <Pressable onPress={detailOption.show}>
-                                <Ionicons
-                                    name="settings-sharp"
-                                    size={30}
-                                    color={colors[theme].GRAY_500}
-                                />
-                            </Pressable>
-                        </View>
+                    <View style={styles.textContainer}>
                         <Text style={styles.title}>{post.title}</Text>
-                        <View style={styles.rowContainer}>
-                            <MaterialIcons name="date-range" size={20} color={colors.PRIMARY} />
-                            <Text style={styles.date}>
-                                활동 날짜 :
-                                <Text style={styles.dateDetail}>
-                                    {formatDate(post.date)}
-                                </Text>
-                            </Text>
-                        </View>
                         <Text style={styles.description}>{post.description}</Text>
-                        <View style={styles.scoreContainer}>
-                            <Text style={styles.scoreText}>플로깅 점수</Text>
-                            <View style={styles.rowContainer}>
-                                {Array.from({ length: 5 }).map((_, index) => (
-                                    <Ionicons
-                                        key={index}
-                                        name="trash-sharp"
-                                        size={40}
-                                        color={index < post.score ? colors.PRIMARY : colors[theme].GRAY_300}
-                                        style={styles.iconSpacing}
-                                    />
-                                ))}
-                            </View>
-                        </View>
                     </View>
+                    <View style={styles.scoreContainer}>
+                        <CO2ReductionCard
+                            ploggingMinutes={post.score}
+                            treeEquivalent={post.score}
+                            theme={theme}
+                            deletePadding={true}
+                            deleteLogo={true}
+                        />
+                        <StarRating
+                            treeCount={post.score}
+                            showBackground={false}
+                            showText={false}
+                            tightLogo={true}
+                        />
+                    </View>
+                    { post.score <= 1 && (
+                    <View style={styles.warningContainer}>
+                        <Text style={styles.warningText}>
+                            {uiTexts.FEED.PLOGGING_LIMIT_TIME}
+                        </Text>
+                    </View>
+                    )}
                 </View>
-                {/*
-                TODO: 이미지 업데이트 끝나면 주석 해제
-                {post.images.length > 0 &&
-                    <View style={styles.postImageContainer}>
-                        <PreviewImageList imageUris={post.images} imagePreviewEnabled />
-                    </View>
-                } */}
             </ScrollView>
             <View style={[styles.bottomContainer, { paddingBottom: insets.bottom }]}>
-                <View style={[styles.tabContainer, insets.bottom === 0 && styles.tabContainerNoInsets]}>
+                <Pressable onPress={detailOption.show}>
+                    <Ionicons
+                        name="settings-sharp"
+                        size={30}
+                        color={colors[theme].GRAY_500}
+                    />
+                </Pressable>
+                <View style={[styles.rightGroup, styles.bookmarkContainer]}>
                     <Pressable
-                        style={styles.bookmarkContainer}
                         onPress={handlePressFavorite}>
                         <Octicons
                             name="star-fill"
                             size={30}
-                            color={post.isFavorite ? colors.PRIMARY : colors[theme].GRAY_500}
+                            color={post.isFavorite ? colors.DARK_PRIMARY : colors[theme].UNCHANGE_GRAY_500}
                         />
                     </Pressable>
+                </View>
                     <CustomButton
                         label="위치보기"
                         size="medium"
                         variant="filled"
                         onPress={handlePressFeedLocation}
                     />
-                </View>
             </View>
-
             <FeedDetailOption isVisible={detailOption.isVisible} hideOption={detailOption.hide} />
         </>
     );
@@ -195,22 +164,22 @@ const styling = (theme: ThemeMode) =>
     StyleSheet.create({
         container: {
             position: 'relative',
+            backgroundColor: colors[theme].UNCHANGE_GRAY_300,
         },
         scrollNoInsets: {
-            marginBottom: 65,
+            marginBottom: Dimensions.get('screen').height * 0.05,
+        },
+        detailContent: {
+            paddingHorizontal: Dimensions.get('screen').width * 0.05,
+            gap: Dimensions.get('screen').width * 0.025,
         },
         imageContainer: {
             flex: 1,
         },
         image: {
             width: '100%',
-            height: 300,
-        },
-        emptyImageContainer: {
-            width: '100%',
-            height: 300,
-            justifyContent: 'center',
-            alignItems: 'center',
+            height: Dimensions.get('screen').width * 0.852,
+            borderRadius: 20,
         },
         descriptionImage: {
             fontSize: 20,
@@ -219,14 +188,19 @@ const styling = (theme: ThemeMode) =>
         contentContainer: {
             padding: 20,
         },
+        textContainer: {
+            backgroundColor: colors[theme].WHITE,
+            padding: Dimensions.get('screen').width * 0.05,
+            borderRadius: 20,
+        },
         title: {
-            fontSize: 25,
-            fontWeight: 'bold',
+            fontSize: 12,
+            fontWeight: '800',
             marginBottom: 10,
             color: colors[theme].BLACK,
         },
         description: {
-            fontSize: 16,
+            fontSize: 12,
             marginBottom: 10,
             color: colors[theme].BLACK,
         },
@@ -234,11 +208,6 @@ const styling = (theme: ThemeMode) =>
             flexDirection: 'row',
             alignItems: 'center',
             marginBottom: 10,
-        },
-        optionContainer: {
-            flexDirection: 'row',
-            alignItems: 'center',
-            justifyContent: 'space-between',
         },
         address: {
             color: colors.PRIMARY,
@@ -255,43 +224,49 @@ const styling = (theme: ThemeMode) =>
             fontWeight: 'bold',
         },
         scoreContainer: {
-            alignItems: 'center',
-            marginBottom: 10,
+            backgroundColor: colors[theme].WHITE,
+            borderRadius: 20,
+            paddingBottom: Dimensions.get('screen').height * 0.015,
         },
-        iconSpacing: {
-            marginRight: 5,
+        warningContainer: {
+            backgroundColor: colors[theme].GRAY_200,
+            padding: Dimensions.get('screen').height * 0.004,
+            borderRadius: 6,
+            alignItems: 'center',
+        },
+        warningText: {
+            fontSize: 12,
+            color: colors[theme].RED_500,
+            fontWeight: '900',
         },
         scoreText: {
-            fontSize: 18,
-            marginBottom: 15,
+            fontSize: 13,
+            fontWeight: '800',
             color: colors[theme].BLACK,
-        },
-        postImageContainer: {
-            padding: 20,
         },
         bottomContainer: {
             position: 'absolute',
             backgroundColor: colors[theme].WHITE,
+            flexDirection: 'row',
+            alignItems: 'center',
             bottom: 0,
             width: '100%',
-            alignItems: 'flex-end',
-            paddingTop: 10,
-            paddingHorizontal: 10,
-            borderTopWidth: StyleSheet.hairlineWidth,
-            borderColor: colors[theme].GRAY_700,
-        },
-        tabContainer: {
-            alignItems: 'center',
-            flexDirection: 'row',
-            gap: 10,
+            paddingTop: Dimensions.get('screen').height * 0.01,
+            paddingHorizontal: Dimensions.get('screen').width * 0.05,
+            justifyContent: 'space-between',
         },
         tabContainerNoInsets: {
-            marginBottom: 10,
+            marginBottom: Dimensions.get('screen').height * 0.01,
+        },
+        rightGroup: {
+            position: 'absolute',
+            left: Dimensions.get('screen').width * 0.37,
+            bottom: Dimensions.get('screen').height * 0.041,
         },
         bookmarkContainer: {
-            height: '100%',
-            paddingHorizontal: 5,
-            justifyContent: 'center',
+            backgroundColor: colors[theme].GRAY_200,
+            padding: Dimensions.get('screen').width * 0.02,
+            borderRadius: 10,
         },
     });
 

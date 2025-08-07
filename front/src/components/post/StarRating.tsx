@@ -8,22 +8,29 @@ import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 
 interface StarRatingProps {
   treeCount: number;
+  showBackground?: boolean;
+  showText?: boolean;
+  tightLogo?: boolean;
 }
 
-const StarRating = ({ treeCount }: StarRatingProps) => {
+const StarRating = ({ treeCount, showBackground = true, showText = true, tightLogo = false }: StarRatingProps) => {
   const { theme } = useThemeStore();
-  const styles = styling(theme);
+  const styles = styling(theme, showBackground, tightLogo);
 
   return (
     <View style={styles.container}>
-        <Text style={styles.text}>오늘 나무 {treeCount}그루의 역할을 해냈어요.</Text>
+      {showText &&
+        <Text style={styles.text}>나무 {treeCount}그루의 역할을 해냈어요.</Text>}
         <View style={styles.ratingContainer}>
         {Array.from({ length: numbers.MAX_TREES }, (_, i) => i + 1).map((rating) => (
             <MaterialIcons
             key={rating}
             name={'forest'}
             size={30}
-            color={rating <= treeCount ? '#000000' : '#ffffff'}
+            color={rating <= treeCount ?
+              (showBackground ? '#000000' : colors.PRIMARY) :
+              (showBackground ? '#ffffff' : colors[theme].GRAY_500)
+            }
             />
         ))}
         </View>
@@ -31,25 +38,25 @@ const StarRating = ({ treeCount }: StarRatingProps) => {
   );
 };
 
-const styling = (theme: ThemeMode) =>
+const styling = (theme: ThemeMode, showBackground: boolean, tightLogo: boolean) =>
   StyleSheet.create({
     container:{
-      backgroundColor: colors.PRIMARY,
+      backgroundColor: showBackground ? colors.PRIMARY : 'transparent',
       borderRadius: 15,
       padding: Dimensions.get('screen').height * 0.01,
     },
     text: {
-    fontSize: 13,
-    textAlign: 'center',
-    color: colors[theme].UNCHANGE_BLACK,
-    fontWeight: '800',
-    marginBottom: Dimensions.get('screen').height * 0.01,
+      fontSize: 13,
+      textAlign: 'center',
+      color: colors[theme].UNCHANGE_BLACK,
+      fontWeight: '800',
+      marginBottom: Dimensions.get('screen').height * 0.01,
     },
     ratingContainer: {
-    flexDirection: 'row',
-    justifyContent: 'center',
-    alignItems: 'center',
-    gap: 10,
+      flexDirection: 'row',
+      justifyContent: 'center',
+      alignItems: 'center',
+      ...(tightLogo ? { gap: 5 } : { gap: 10 }), // If tightLogo is true, use a smaller gap (5); otherwise, use a larger gap (10)
     },
 });
 
