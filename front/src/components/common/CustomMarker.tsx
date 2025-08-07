@@ -22,7 +22,7 @@ function CustomMarker({coordinate, markerType, isSelected = false, onPress}: Cus
 
   const startBounceAnimation = useCallback(() => {
     stopAnimation(); // 기존 애니메이션 정리
-    
+
     animationRef.current = Animated.loop(
       Animated.sequence([
         Animated.timing(bounceAnim, {
@@ -42,7 +42,7 @@ function CustomMarker({coordinate, markerType, isSelected = false, onPress}: Cus
 
   const resetToOriginalPosition = useCallback(() => {
     stopAnimation(); // 기존 애니메이션 정리
-    
+
     Animated.timing(bounceAnim, {
       toValue: 0,
       duration: 200,

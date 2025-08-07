@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { Dimensions, Pressable, StyleSheet, View } from 'react-native';
 import MapView, { LatLng, PROVIDER_GOOGLE } from 'react-native-maps';
 import { colors } from '@/constants';
@@ -29,6 +29,8 @@ function MapHomeScreen() {
   const [selectedMarkerId, setSelectedMarkerId] = useState<number | null>(null);
   const [markerType, setMarkerType] = useState<'recycle' | 'trash'>();
   const isPlogging = usePloggingStateStore((state) => state.isPlogging);
+  const prevIsPloggingRef = useRef(isPlogging);
+  const userLocationRef = useRef(userLocation);
   const setTrashcanInfo = useTrashcanStore((state) => state.setTrashcanInfo);
   const {mapRef, moveMapView} = useMoveMapView();
 
@@ -70,12 +72,23 @@ function MapHomeScreen() {
     setSelectedMarkerId(null);
   };
 
-  // 플로깅이 시작되면 유저 위치로 이동 (모달은 유지)
+  // userLocation이 변경될 때마다 ref 업데이트
   useEffect(() => {
-    if (isPlogging) {
-      moveMapView(userLocation);
+    userLocationRef.current = userLocation;
+  }, [userLocation]);
+
+  // 플로깅이 시작될 때만 유저 위치로 이동 (false -> true 변경 시에만)
+  useEffect(() => {
+    const prevIsPlogging = prevIsPloggingRef.current;
+
+    // isPlogging이 false에서 true로 변경된 경우에만 실행
+    if (!prevIsPlogging && isPlogging) {
+      moveMapView(userLocationRef.current);
     }
-  }, [isPlogging, userLocation, moveMapView]);
+
+    // 현재 상태를 이전 상태로 업데이트
+    prevIsPloggingRef.current = isPlogging;
+  }, [isPlogging, moveMapView]);
 
 
   return (
