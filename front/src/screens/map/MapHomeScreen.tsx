@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Dimensions, Pressable, StyleSheet, View } from 'react-native';
 import MapView, { LatLng, PROVIDER_GOOGLE } from 'react-native-maps';
 import { colors } from '@/constants';
@@ -26,6 +26,7 @@ function MapHomeScreen() {
 
   const [isModalVisible, setModalVisible] = useState(false);
   const [selectedMarker, setSelectedMarker] = useState<TrashcanData | null>(null);
+  const [selectedMarkerId, setSelectedMarkerId] = useState<number | null>(null);
   const [markerType, setMarkerType] = useState<'recycle' | 'trash'>();
   const isPlogging = usePloggingStateStore((state) => state.isPlogging);
   const setTrashcanInfo = useTrashcanStore((state) => state.setTrashcanInfo);
@@ -46,9 +47,11 @@ function MapHomeScreen() {
   const handleMarkerPress = (
     coordinate: LatLng,
     type: 'recycle' | 'trash',
-    data: TrashcanData) => {
+    data: TrashcanData,
+    index: number) => {
 
     setSelectedMarker(data);
+    setSelectedMarkerId(index);
     setMarkerType(type);
     setTrashcanInfo(
         data.설치위치,
@@ -64,7 +67,15 @@ function MapHomeScreen() {
   const closeModal = () => {
     setModalVisible(false);
     setSelectedMarker(null);
+    setSelectedMarkerId(null);
   };
+
+  // 플로깅이 시작되면 유저 위치로 이동 (모달은 유지)
+  useEffect(() => {
+    if (isPlogging) {
+      moveMapView(userLocation);
+    }
+  }, [isPlogging, userLocation, moveMapView]);
 
 
   return (
@@ -84,11 +95,13 @@ function MapHomeScreen() {
             key={index}
             coordinate={{ latitude: data.Latitude, longitude: data.Longitude }}
             markerType={data.canType === '재활용' ? 'recycle' : 'trash'}
+            isSelected={selectedMarkerId === index}
             onPress={() =>
               handleMarkerPress(
                 { latitude: data.Latitude, longitude: data.Longitude },
                 data.canType === '재활용' ? 'recycle' : 'trash',
                 data,
+                index,
               )
             }
           />

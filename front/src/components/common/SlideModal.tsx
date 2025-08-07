@@ -35,16 +35,18 @@ function SlideModal({ visible, onClose, selectedMarker, markerType }: SlideModal
 
   return (
     <Modal transparent visible={visible} animationType="none">
-      <TouchableWithoutFeedback onPress={handleClose}>
-        <View />
-      </TouchableWithoutFeedback>
-      <Animated.View style={[styles.modal, { transform: [{ translateY: slideAnim }] }]}>
-        <View style={styles.modalContent}>
-          <MarkerInfo selectedMarker={selectedMarker} markerType={markerType} />
-          <TimerDisplay timer={timer} />
-          <PloggingControlButton onStart={handleStartTimer} onStop={handleStopPress} />
-        </View>
-      </Animated.View>
+      <View style={styles.backdrop}>
+        <TouchableWithoutFeedback onPress={handleClose}>
+          <View style={styles.backdropTouchable} />
+        </TouchableWithoutFeedback>
+        <Animated.View style={[styles.modal, { transform: [{ translateY: slideAnim }] }]}>
+          <View style={styles.modalContent}>
+            <MarkerInfo selectedMarker={selectedMarker} markerType={markerType} />
+            <TimerDisplay timer={timer} />
+            <PloggingControlButton onStart={handleStartTimer} onStop={handleStopPress} />
+          </View>
+        </Animated.View>
+      </View>
       <ModalComponent
         visible={isStopModalVisible}
         message="플로깅을 중단 하겠습니까?"
@@ -57,8 +59,18 @@ function SlideModal({ visible, onClose, selectedMarker, markerType }: SlideModal
 
 const styling = (theme: ThemeMode) =>
   StyleSheet.create({
-  modal: {
+  backdrop: {
     flex: 1,
+    backgroundColor: 'transparent',
+  },
+  backdropTouchable: {
+    position: 'absolute',
+    top: 0,
+    left: 0,
+    right: 0,
+    bottom: Dimensions.get('window').height * 0.1,
+  },
+  modal: {
     position: 'absolute',
     width: '90%',
     bottom: Dimensions.get('window').height * 0.03,
