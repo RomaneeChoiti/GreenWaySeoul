@@ -2,7 +2,6 @@ import React, { useEffect } from 'react';
 import { alerts, colors, feedNavigations, mainNavigations, mapNavigations } from '@/constants';
 import useGetPost from '@/hooks/queries/useGetPost';
 import { formatDate } from '@/utils/date';
-import { formatTime } from '@/utils/time';
 import { FeedStackParamList } from '@/navigations/stack/FeedStackNavigator';
 import { StackScreenProps } from '@react-navigation/stack';
 import { Alert, Dimensions, Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
@@ -24,6 +23,7 @@ import { getImageByPostId } from '@/utils/imageUtils';
 import CO2ReductionCard from '@/components/post/CO2ReductionCard';
 import StarRating from '@/components/post/StarRating';
 import ImageWithBoxOverlay from '@/components/common/ImageWithBoxOverlay';
+import { uiTexts } from '@/constants/message';
 
 type FeedDetailScreenProps = CompositeScreenProps<
     StackScreenProps<FeedStackParamList, typeof feedNavigations.FEED_DETAIL>,
@@ -102,25 +102,32 @@ function FeedDetailScreen({ route, navigation }: FeedDetailScreenProps) {
                             time={post.score}
                         />
                     </View>
-                        <View style={styles.textContainer}>
-                            <Text style={styles.title}>{post.title}</Text>
-                            <Text style={styles.description}>{post.description}</Text>
-                        </View>
-                        <View style={styles.scoreContainer}>
-                            <CO2ReductionCard
-                                ploggingMinutes={post.score}
-                                treeEquivalent={post.score}
-                                theme={theme}
-                                deletePadding={true}
-                                deleteLogo={true}
-                            />
-                            <StarRating
-                                treeCount={post.score}
-                                showBackground={false}
-                                showText={false}
-                                tightLogo={true}
-                            />
-                        </View>
+                    <View style={styles.textContainer}>
+                        <Text style={styles.title}>{post.title}</Text>
+                        <Text style={styles.description}>{post.description}</Text>
+                    </View>
+                    <View style={styles.scoreContainer}>
+                        <CO2ReductionCard
+                            ploggingMinutes={post.score}
+                            treeEquivalent={post.score}
+                            theme={theme}
+                            deletePadding={true}
+                            deleteLogo={true}
+                        />
+                        <StarRating
+                            treeCount={post.score}
+                            showBackground={false}
+                            showText={false}
+                            tightLogo={true}
+                        />
+                    </View>
+                    { post.score <= 1 && (
+                    <View style={styles.warningContainer}>
+                        <Text style={styles.warningText}>
+                            {uiTexts.FEED.PLOGGING_LIMIT_TIME}
+                        </Text>
+                    </View>
+                    )}
                 </View>
             </ScrollView>
             <View style={[styles.bottomContainer, { paddingBottom: insets.bottom }]}>
@@ -220,6 +227,17 @@ const styling = (theme: ThemeMode) =>
             backgroundColor: colors[theme].WHITE,
             borderRadius: 20,
             paddingBottom: Dimensions.get('screen').height * 0.015,
+        },
+        warningContainer: {
+            backgroundColor: colors[theme].GRAY_200,
+            padding: Dimensions.get('screen').height * 0.004,
+            borderRadius: 6,
+            alignItems: 'center',
+        },
+        warningText: {
+            fontSize: 12,
+            color: colors[theme].RED_500,
+            fontWeight: '900',
         },
         scoreText: {
             fontSize: 13,
