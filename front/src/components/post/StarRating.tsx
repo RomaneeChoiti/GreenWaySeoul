@@ -56,7 +56,7 @@ const styling = (theme: ThemeMode, showBackground: boolean, tightLogo: boolean) 
       flexDirection: 'row',
       justifyContent: 'center',
       alignItems: 'center',
-      ...(tightLogo ? { gap: 5 } : { gap: 10 }), // If tightLogo is true, no gap
+      ...(tightLogo ? { gap: 5 } : { gap: 10 }), // If tightLogo is true, use a smaller gap (5); otherwise, use a larger gap (10)
     },
 });
 
