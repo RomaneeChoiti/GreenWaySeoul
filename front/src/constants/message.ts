@@ -38,6 +38,7 @@ const uiTexts = {
     FEED: {
         ALL_RECORDS: '전체 기록',
         LOAD_MORE: 'more',
+        PLOGGING_LIMIT_TIME: '플로깅 시간은 1분 이상부터 기록되며, 환경 점수가 계산됩니다.',
     },
 } as const;
 
