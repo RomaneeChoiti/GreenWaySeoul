@@ -57,9 +57,14 @@ function CustomMarker({coordinate, markerType, isSelected = false, onPress}: Cus
       resetToOriginalPosition();
     }
 
-    // 컴포넌트 언마운트 시 애니메이션 정리
-    return stopAnimation;
-  }, [isSelected, startBounceAnimation, resetToOriginalPosition, stopAnimation]);
+    // 컴포넌트 언마운트 시 애니메이션 정리 - 안정적인 cleanup 함수
+    return () => {
+      if (animationRef.current) {
+        animationRef.current.stop();
+        animationRef.current = null;
+      }
+    };
+  }, [isSelected, startBounceAnimation, resetToOriginalPosition]);
 
   return (
     <Marker
