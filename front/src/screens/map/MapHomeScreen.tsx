@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { Dimensions, Pressable, StyleSheet, View } from 'react-native';
 import MapView, { LatLng, PROVIDER_GOOGLE } from 'react-native-maps';
 import { colors } from '@/constants';
@@ -26,8 +26,11 @@ function MapHomeScreen() {
 
   const [isModalVisible, setModalVisible] = useState(false);
   const [selectedMarker, setSelectedMarker] = useState<TrashcanData | null>(null);
+  const [selectedMarkerId, setSelectedMarkerId] = useState<number | null>(null);
   const [markerType, setMarkerType] = useState<'recycle' | 'trash'>();
   const isPlogging = usePloggingStateStore((state) => state.isPlogging);
+  const prevIsPloggingRef = useRef(isPlogging);
+  const userLocationRef = useRef(userLocation);
   const setTrashcanInfo = useTrashcanStore((state) => state.setTrashcanInfo);
   const {mapRef, moveMapView} = useMoveMapView();
 
@@ -46,9 +49,11 @@ function MapHomeScreen() {
   const handleMarkerPress = (
     coordinate: LatLng,
     type: 'recycle' | 'trash',
-    data: TrashcanData) => {
+    data: TrashcanData,
+    index: number) => {
 
     setSelectedMarker(data);
+    setSelectedMarkerId(index);
     setMarkerType(type);
     setTrashcanInfo(
         data.설치위치,
@@ -64,9 +69,30 @@ function MapHomeScreen() {
   const closeModal = () => {
     setModalVisible(false);
     setSelectedMarker(null);
+    setSelectedMarkerId(null);
   };
 
+  // userLocation이 변경될 때마다 ref 업데이트
+  useEffect(() => {
+    userLocationRef.current = userLocation;
+  }, [userLocation]);
 
+  // 플로깅이 시작될 때만 유저 위치로 이동 (false -> true 변경 시에만)
+  useEffect(() => {
+    const prevIsPlogging = prevIsPloggingRef.current;
+    
+    // isPlogging이 false에서 true로 변경된 경우에만 실행
+    if (!prevIsPlogging && isPlogging) {
+      const currentLocation = userLocationRef.current;
+      // userLocation이 유효한지 확인 후 moveMapView 호출
+      if (currentLocation && currentLocation.latitude && currentLocation.longitude) {
+        moveMapView(currentLocation);
+      }
+    }
+    
+    // 현재 상태를 이전 상태로 업데이트
+    prevIsPloggingRef.current = isPlogging;
+  }, [isPlogging, moveMapView]);
   return (
     <>
       <MapView
@@ -84,11 +110,13 @@ function MapHomeScreen() {
             key={index}
             coordinate={{ latitude: data.Latitude, longitude: data.Longitude }}
             markerType={data.canType === '재활용' ? 'recycle' : 'trash'}
+            isSelected={selectedMarkerId === index}
             onPress={() =>
               handleMarkerPress(
                 { latitude: data.Latitude, longitude: data.Longitude },
                 data.canType === '재활용' ? 'recycle' : 'trash',
                 data,
+                index,
               )
             }
           />
