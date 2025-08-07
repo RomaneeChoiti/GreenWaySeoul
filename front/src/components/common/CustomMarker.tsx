@@ -11,11 +11,18 @@ interface CustomMarkerProps{
 
 function CustomMarker({coordinate, markerType, isSelected = false, onPress}: CustomMarkerProps) {
   const bounceAnim = useRef(new Animated.Value(0)).current;
+  const animationRef = useRef<Animated.CompositeAnimation | null>(null);
 
   useEffect(() => {
+    // 이전 애니메이션이 있다면 정지
+    if (animationRef.current) {
+      animationRef.current.stop();
+      animationRef.current = null;
+    }
+
     if (isSelected) {
       // 상하로 움직이는 애니메이션 (아래로 움직이도록 변경)
-      Animated.loop(
+      animationRef.current = Animated.loop(
         Animated.sequence([
           Animated.timing(bounceAnim, {
             toValue: 6,
@@ -28,15 +35,24 @@ function CustomMarker({coordinate, markerType, isSelected = false, onPress}: Cus
             useNativeDriver: true,
           }),
         ]),
-      ).start();
+      );
+      animationRef.current.start();
     } else {
-      // 애니메이션 정지
+      // 애니메이션 정지하고 원래 위치로 복원
       Animated.timing(bounceAnim, {
         toValue: 0,
         duration: 200,
         useNativeDriver: true,
       }).start();
     }
+
+    // 컴포넌트 언마운트 시 애니메이션 정리
+    return () => {
+      if (animationRef.current) {
+        animationRef.current.stop();
+        animationRef.current = null;
+      }
+    };
   }, [isSelected, bounceAnim]);
 
   return (
