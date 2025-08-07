@@ -1,6 +1,6 @@
 import { Image, StyleSheet, Animated } from 'react-native';
 import { LatLng, Marker } from 'react-native-maps';
-import { useEffect, useRef } from 'react';
+import { useCallback, useEffect, useRef } from 'react';
 
 interface CustomMarkerProps{
   coordinate: LatLng;
@@ -13,47 +13,53 @@ function CustomMarker({coordinate, markerType, isSelected = false, onPress}: Cus
   const bounceAnim = useRef(new Animated.Value(0)).current;
   const animationRef = useRef<Animated.CompositeAnimation | null>(null);
 
-  useEffect(() => {
-    // 이전 애니메이션이 있다면 정지
+  const stopAnimation = useCallback(() => {
     if (animationRef.current) {
       animationRef.current.stop();
       animationRef.current = null;
     }
+  }, []);
 
+  const startBounceAnimation = useCallback(() => {
+    stopAnimation(); // 기존 애니메이션 정리
+    
+    animationRef.current = Animated.loop(
+      Animated.sequence([
+        Animated.timing(bounceAnim, {
+          toValue: 6,
+          duration: 500,
+          useNativeDriver: true,
+        }),
+        Animated.timing(bounceAnim, {
+          toValue: 0,
+          duration: 500,
+          useNativeDriver: true,
+        }),
+      ]),
+    );
+    animationRef.current.start();
+  }, [bounceAnim, stopAnimation]);
+
+  const resetToOriginalPosition = useCallback(() => {
+    stopAnimation(); // 기존 애니메이션 정리
+    
+    Animated.timing(bounceAnim, {
+      toValue: 0,
+      duration: 200,
+      useNativeDriver: true,
+    }).start();
+  }, [bounceAnim, stopAnimation]);
+
+  useEffect(() => {
     if (isSelected) {
-      // 상하로 움직이는 애니메이션 (아래로 움직이도록 변경)
-      animationRef.current = Animated.loop(
-        Animated.sequence([
-          Animated.timing(bounceAnim, {
-            toValue: 6,
-            duration: 500,
-            useNativeDriver: true,
-          }),
-          Animated.timing(bounceAnim, {
-            toValue: 0,
-            duration: 500,
-            useNativeDriver: true,
-          }),
-        ]),
-      );
-      animationRef.current.start();
+      startBounceAnimation();
     } else {
-      // 애니메이션 정지하고 원래 위치로 복원
-      Animated.timing(bounceAnim, {
-        toValue: 0,
-        duration: 200,
-        useNativeDriver: true,
-      }).start();
+      resetToOriginalPosition();
     }
 
     // 컴포넌트 언마운트 시 애니메이션 정리
-    return () => {
-      if (animationRef.current) {
-        animationRef.current.stop();
-        animationRef.current = null;
-      }
-    };
-  }, [isSelected, bounceAnim]);
+    return stopAnimation;
+  }, [isSelected, startBounceAnimation, resetToOriginalPosition, stopAnimation]);
 
   return (
     <Marker
