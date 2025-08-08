@@ -38,7 +38,7 @@ const PloggingStatusText = ({ isPlogging }: PloggingStatusTextProps) => {
         {
           transform: [{ translateX }],
           width: screenWidth,
-          color: isPlogging ? colors[theme].UNCHANGE_WHITE : colors[theme].BLACK, // Change color based on plogging state
+          color: isPlogging ? colors[theme].UNCHANGE_WHITE : colors[theme].UNCHANGE_BLACK, // Change color based on plogging state
         },
       ]}
     >
@@ -84,7 +84,7 @@ const styling = (theme: ThemeMode) =>
     textAlign: 'center',
     fontSize: 18,
     fontWeight: 'bold',
-    color: colors[theme].BLACK,
+    color: colors[theme].UNCHANGE_BLACK,
   },
 });
 

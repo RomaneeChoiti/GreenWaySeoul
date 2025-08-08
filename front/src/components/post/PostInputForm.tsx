@@ -38,7 +38,7 @@ const PostInputForm = forwardRef<TextInput, PostInputFormProps>(({
         오늘을 남겨보세요.{'\n'}당신의 기록이 모여 숲을 만듭니다.
       </Text>
       <InputField
-        placeholder="제목을 입력하세요."
+        placeholder="제목을 입력하세요. (필수)"
         value={title}
         onChangeText={onTitleChange}
         error={titleError}
@@ -73,6 +73,7 @@ const styling = (theme: ThemeMode) =>
     },
     inputIntroText: {
       fontSize: 12,
+      color: colors[theme].BLACK,
     },
   });
 

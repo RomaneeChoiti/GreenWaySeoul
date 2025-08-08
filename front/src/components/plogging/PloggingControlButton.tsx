@@ -74,7 +74,7 @@ const styling = (theme: ThemeMode) =>
       borderRadius: 15,
     },
     buttonText: {
-      color: colors[theme].BLACK,
+      color: colors[theme].UNCHANGE_BLACK,
       fontSize: 30,
       fontWeight: '300',
     },

@@ -80,7 +80,7 @@ function MapHomeScreen() {
   // 플로깅이 시작될 때만 유저 위치로 이동 (false -> true 변경 시에만)
   useEffect(() => {
     const prevIsPlogging = prevIsPloggingRef.current;
-    
+
     // isPlogging이 false에서 true로 변경된 경우에만 실행
     if (!prevIsPlogging && isPlogging) {
       const currentLocation = userLocationRef.current;
@@ -89,7 +89,7 @@ function MapHomeScreen() {
         moveMapView(currentLocation);
       }
     }
-    
+
     // 현재 상태를 이전 상태로 업데이트
     prevIsPloggingRef.current = isPlogging;
   }, [isPlogging, moveMapView]);
@@ -143,7 +143,7 @@ const styling = (theme: ThemeMode) =>
     flex: 1,
   },
   iconColor:{
-    color: colors[theme].BLACK,
+    color: colors[theme].UNCHANGE_BLACK,
   },
   buttonBackground: {
     backgroundColor: colors.PRIMARY,

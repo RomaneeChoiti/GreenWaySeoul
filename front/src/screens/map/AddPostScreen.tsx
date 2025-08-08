@@ -130,7 +130,7 @@ const handleSubmit = () => {
 
   return (
     <LinearGradient
-          colors={['#E1E1E1', '#ffffff']}
+          colors={[colors[theme].GRAY_400, colors[theme].WHITE]}
           locations={[0.9, 0]}
           style={styles.gradient}
     >
@@ -147,7 +147,6 @@ const handleSubmit = () => {
           />
           <CO2ReductionCard
             ploggingMinutes={ploggingMinutes}
-            co2Reduction={co2Reduction}
             treeEquivalent={treeEquivalent}
             theme={theme}
           />

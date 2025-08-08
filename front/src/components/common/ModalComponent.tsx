@@ -46,8 +46,8 @@ const styling = (theme: ThemeMode) =>
       alignItems: 'center',
       width: '80%',
       shadowColor: colors[theme].BLACK,
-      shadowOpacity: 0.5,
-      shadowRadius: 10,
+      shadowOpacity: 0.3,
+      shadowRadius: 50,
       elevation: 5,
     },
     message: {

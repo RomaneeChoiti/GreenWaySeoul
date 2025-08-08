@@ -30,7 +30,7 @@ function LoadMoreButton({ hasMore, isLoadingMore, onPress }: LoadMoreButtonProps
                 {isLoadingMore ? (
                     <ActivityIndicator
                         size="small"
-                        color={colors[theme].BLACK}
+                        color={colors[theme].UNCHANGE_BLACK}
                     />
                 ) : (
                     <Text style={styles.loadMoreText}>{uiTexts.FEED.LOAD_MORE}</Text>
@@ -70,7 +70,7 @@ const styling = (_theme: ThemeMode) =>
         loadMoreText: {
             fontSize: 12,
             fontWeight: '700',
-            color: colors[_theme].BLACK,
+            color: colors[_theme].UNCHANGE_BLACK,
         },
     });
 
