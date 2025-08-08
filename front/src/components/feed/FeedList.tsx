@@ -136,7 +136,6 @@ const styling = (_theme: ThemeMode) =>
     StyleSheet.create({
         container: {
             flex: 1,
-            backgroundColor: colors[_theme].WHITE,
             marginHorizontal: Dimensions.get('screen').width * 0.05,
         },
         contentContainer: {
@@ -147,7 +146,6 @@ const styling = (_theme: ThemeMode) =>
             paddingVertical: Dimensions.get('screen').height * 0.01,
             borderTopWidth: StyleSheet.hairlineWidth,
             borderColor: colors[_theme].GRAY_700,
-            backgroundColor: colors[_theme].WHITE,
         },
         allFeedHeaderText: {
             fontSize: 12,

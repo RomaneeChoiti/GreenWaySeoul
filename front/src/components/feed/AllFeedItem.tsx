@@ -52,7 +52,6 @@ const styling = (_theme: ThemeMode) =>
     StyleSheet.create({
         container: {
             width: Dimensions.get('screen').width,
-            backgroundColor: colors[_theme].WHITE,
             flexDirection: 'row',
             alignItems: 'center',
             paddingBottom: Dimensions.get('screen').width * 0.03,
@@ -78,11 +77,11 @@ const styling = (_theme: ThemeMode) =>
         },
         date: {
             fontSize: 10,
-            color: colors[_theme].GRAY_700,
+            color: colors[_theme].BLACK,
         },
         content: {
             fontSize: 14,
-            color: colors[_theme].GRAY_700,
+            color: colors[_theme].BLACK,
         },
     });
 

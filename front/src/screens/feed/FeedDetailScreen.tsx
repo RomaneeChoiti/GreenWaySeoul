@@ -24,6 +24,7 @@ import CO2ReductionCard from '@/components/post/CO2ReductionCard';
 import StarRating from '@/components/post/StarRating';
 import ImageWithBoxOverlay from '@/components/common/ImageWithBoxOverlay';
 import { uiTexts } from '@/constants/message';
+import LinearGradient from 'react-native-linear-gradient';
 
 type FeedDetailScreenProps = CompositeScreenProps<
     StackScreenProps<FeedStackParamList, typeof feedNavigations.FEED_DETAIL>,
@@ -82,7 +83,11 @@ function FeedDetailScreen({ route, navigation }: FeedDetailScreenProps) {
     console.log(post.color);
 
     return (
-        <>
+        <LinearGradient
+            colors={[colors[theme].GRAY_400, colors[theme].WHITE]}
+            locations={[0.8, 0]}
+            style={styles.gradient}
+        >
             <ScrollView
                 style={
                     insets.bottom
@@ -155,15 +160,17 @@ function FeedDetailScreen({ route, navigation }: FeedDetailScreenProps) {
                     />
             </View>
             <FeedDetailOption isVisible={detailOption.isVisible} hideOption={detailOption.hide} />
-        </>
+        </LinearGradient>
     );
 }
 
 const styling = (theme: ThemeMode) =>
     StyleSheet.create({
+        gradient: {
+            flex: 1,
+        },
         container: {
             position: 'relative',
-            backgroundColor: colors[theme].UNCHANGE_GRAY_300,
         },
         scrollNoInsets: {
             marginBottom: Dimensions.get('screen').height * 0.05,
