@@ -96,7 +96,6 @@ function FeedDetailScreen({ route, navigation }: FeedDetailScreenProps) {
                             source={selectedImage}
                             width={Dimensions.get('screen').width * 0.9}
                             height={Dimensions.get('screen').width * 0.852}
-                            text={post.title}
                             date={formatDate(post.date)}
                             address={post.address}
                             time={post.score}

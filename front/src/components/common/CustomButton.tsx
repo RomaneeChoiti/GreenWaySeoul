@@ -112,7 +112,7 @@ const styling = (theme: ThemeMode, backgroundColor?: string, borderColor?: strin
         opacity: 0.5,
     },
     filledText: {
-        color: textColor || colors[theme].BLACK,
+        color: textColor || colors[theme].UNCHANGE_BLACK,
     },
     outlinedText: {
         color: textColor || colors[theme].BLACK,

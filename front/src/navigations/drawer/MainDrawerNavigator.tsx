@@ -26,7 +26,7 @@ function MainDrawerNavigator() {
     <MaterialIcons
       name={iconName}
       color={focused
-        ? colors.PRIMARY
+        ? colors.DARK_PRIMARY
         : colors[theme].GRAY_500}
       size={30} />
   );
@@ -47,7 +47,7 @@ function MainDrawerNavigator() {
         color: colors[theme].BLACK,
       },
       headerShown: false,
-      drawerActiveBackgroundColor: colors[theme].GREEN_400,
+      drawerActiveBackgroundColor: colors[theme].GREEN_200,
     }}>
           <Drawer.Screen
             name={mainNavigations.HOME}
