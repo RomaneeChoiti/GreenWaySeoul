@@ -39,7 +39,7 @@ function AllFeedItem({ post }: AllFeedItemProps) {
                     </Text>
                 </View>
                 <Text style={styles.content}>
-                    {post.description.length > 10
+                    {post.description.length > 20
                         ? `${post.description.substring(0, 20)}...`
                         : post.description}
                 </Text>
@@ -48,7 +48,7 @@ function AllFeedItem({ post }: AllFeedItemProps) {
     );
 }
 
-const styling = (_theme: ThemeMode) =>
+const styling = (theme: ThemeMode) =>
     StyleSheet.create({
         container: {
             width: Dimensions.get('screen').width,
@@ -72,16 +72,16 @@ const styling = (_theme: ThemeMode) =>
         title: {
             fontSize: 12,
             fontWeight: '900',
-            color: colors[_theme].BLACK,
+            color: colors[theme].BLACK,
             marginBottom: 8,
         },
         date: {
             fontSize: 10,
-            color: colors[_theme].BLACK,
+            color: colors[theme].BLACK,
         },
         content: {
             fontSize: 14,
-            color: colors[_theme].BLACK,
+            color: colors[theme].BLACK,
         },
     });
 
