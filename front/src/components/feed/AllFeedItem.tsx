@@ -39,7 +39,9 @@ function AllFeedItem({ post }: AllFeedItemProps) {
                     </Text>
                 </View>
                 <Text style={styles.content}>
-                    {post.description}
+                    {post.description.length > 10
+                        ? `${post.description.substring(0, 20)}...`
+                        : post.description}
                 </Text>
             </View>
         </Pressable>
