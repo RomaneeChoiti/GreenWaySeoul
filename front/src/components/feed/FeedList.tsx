@@ -76,8 +76,8 @@ function FeedList({ initialFilter = '최신순' }: FeedListProps){
         }, 50);
     };
 
-    // 첫 번째 게시물 (캐로셀용)
-    const firstPost = posts?.pages.flat()[0];
+    // 캐러셀용 포스트들 (처음 3개)
+    const carouselPosts = posts?.pages.flat().slice(0, 3) || [];
 
     // 표시할 게시물 목록 (visibleItemsCount만큼만)
     const allPosts = posts?.pages.flat() || [];
@@ -102,8 +102,8 @@ function FeedList({ initialFilter = '최신순' }: FeedListProps){
                 ]}
             >
                 {/* 캐로셀 부분 */}
-                {firstPost && (
-                    <FeedCarousel post={firstPost} currentFilter={selectedFilter} />
+                {carouselPosts.length > 0 && (
+                    <FeedCarousel posts={carouselPosts} currentFilter={selectedFilter} />
                 )}
 
                 {/* 전체 기록 헤더 */}
