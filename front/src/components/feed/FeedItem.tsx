@@ -6,17 +6,17 @@ import { ThemeMode } from '@/types';
 import FeedCarousel from './FeedCarousel';
 
 interface FeedItemProps {
-    post: ResponsePost;
+    posts: ResponsePost[];
     currentFilter?: string; // 현재 필터 상태 추가
 }
 
-function FeedItem({post, currentFilter}:FeedItemProps){
+function FeedItem({posts, currentFilter}:FeedItemProps){
     const { theme } = useThemeStore();
     const styles = styling(theme);
 
     return (
         <View style={styles.container}>
-            <FeedCarousel post={post} currentFilter={currentFilter} />
+            <FeedCarousel posts={posts} currentFilter={currentFilter} />
             <View style={styles.AllFeedContainer}>
                 <Text>
                     전체 기록
