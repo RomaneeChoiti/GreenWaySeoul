@@ -66,7 +66,7 @@ function FeedCarousel({ posts, currentFilter }: FeedCarouselProps) {
             >
                 {carouselPosts.map((post, index) => {
                     // 포스트에 실제 이미지가 있으면 사용하고, 없으면 기본 이미지 사용
-                    const postImage = post.images && post.images.length > 0
+                    const postImage = post.images?.length > 0
                         ? { uri: post.images[0].uri }
                         : getImageByPostId(post.id);
 
