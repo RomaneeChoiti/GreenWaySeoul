@@ -2,8 +2,7 @@
 
 ## 프로젝트 개요
 GreenWaySeoul은 서울 지역의 쓰레기통 위치 정보를 기반으로 플로깅 활동을 지원하는 환경 커뮤니티 앱입니다.
-2023년 웹 서비스 BinFinder로 시작된 이 프로젝트는 사용자 접근성을 높이기 위해 모바일 앱으로 확장되었고, 리액트 네이티브 학습을 계기로 2025년 6월 정식 출시되었습니다.
-쓰레기통 위치 확인, 플로깅 기록, 피드 기능 등을 통해 사용자 참여를 유도하며, AWS 기반 인프라에서 운영 중이며 추후 개인 서버 전환 및 기능 확장을 계획하고 있습니다.
+쓰레기통 위치 확인, 플로깅 기록, 피드 기능 등을 통해 사용자 참여를 유도하며, AWS 기반 인프라에서 운영입니다.
 
 ## 주요기능
 - 서울 지역 중심 쓰레기통 위치 표시
@@ -31,7 +30,6 @@ GreenWaySeoul은 서울 지역의 쓰레기통 위치 정보를 기반으로 플
 
 ## Project Overview
 GreenWaySeoul is a community-based mobile application that encourages eco-friendly behavior through plogging, using trash bin location data in Seoul.
-Originally launched as a web project called BinFinder in 2023, it evolved into a mobile app to improve accessibility. The idea was revisited during React Native learning in 2024, and the fully featured app was officially released in June 2025.
 It provides users with real-time bin locations, plogging logs, and social features. Currently hosted on AWS, it’s planned for migration to a self-hosted environment with continued updates and feature expansions.
 
 ## Key Features
@@ -56,22 +54,6 @@ It provides users with real-time bin locations, plogging logs, and social featur
 - NestJS & TypeORM – Scalable and modular backend architecture
 - PostgreSQL – Relational database
 - AWS (EC2, RDS) – Hosting and database infrastructure
-
-### CI/CD
-- In progress (Planned: GitHub Actions or AWS CodePipeline)
-
-### Git Commit Convention
-- Feat: Add new features
-- Fix: Bug fixes
-- Docs: Documentation updates
-- Comment: Add or update code comments
-- Style: Code formatting (no logic changes)
-- Refactor: Code restructuring
-- Test: Add or update test code
-- Chore: Maintenance tasks (e.g. dependency updates)
-- Rename: Rename files or folders
-- Remove: Delete files
-- Merge: Branch merging
 
 ### Download
 - App Store: GreenWaySeoul on App Store
