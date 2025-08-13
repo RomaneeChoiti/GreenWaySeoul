@@ -22,22 +22,6 @@ GreenWaySeoul은 서울 지역의 쓰레기통 위치 정보를 기반으로 플
 | **Infra** | <img src="https://img.shields.io/badge/AWS%20EC2-FF9900?style=for-the-badge&logo=amazonaws&logoColor=white"> <img src="https://img.shields.io/badge/AWS%20RDS-527FFF?style=for-the-badge&logo=amazonrds&logoColor=white"> |
 | **CI/CD** | 준비 중 (GitHub Actions / AWS CodePipeline 예정) |
 
-
-## Git 커밋
-
-- Feat: 새로운 기능 추가
-- Fix: 버그 수정
-- Docs: 문서 업데이트 (README.md 등)
-- Comment: 주석 추가 또는 수정
-- Style: 코드 포맷팅, 세미콜론 누락, 코드 변경 없음
-- Refactor: 코드 리팩토링
-- Test: 테스트 코드 추가 또는 수정
-- Chore: 빌드 작업 업데이트, 패키지 매니저 수정, 모듈 변경 (실제 코드 변경 없음)
-- Rename: 파일 또는 폴더 이름 변경, 경로 이동
-- Remove: 파일 삭제
-- Merge: 브랜치 병합
-
-
 ## 다운받기
 
 - App Store : https://apps.apple.com/kr/app/greenwayseoul/id6747158637
