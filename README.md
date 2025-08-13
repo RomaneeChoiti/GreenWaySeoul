@@ -1,4 +1,5 @@
 # GreenWaySeoul
+<img width="1000" height="500" alt="Group 6" src="https://github.com/user-attachments/assets/fbae6761-32ab-4589-8bef-3c4de84f4ce3" />
 
 ## 프로젝트 개요
 GreenWaySeoul은 서울 지역의 쓰레기통 위치 정보를 기반으로 플로깅 활동을 지원하는 환경 커뮤니티 앱입니다.
