@@ -22,9 +22,14 @@ GreenWaySeoul은 서울 지역의 쓰레기통 위치 정보를 기반으로 플
 | **CI/CD** | 준비 중 (GitHub Actions / AWS CodePipeline 예정) |
 
 ## 다운받기
-
 - App Store : https://apps.apple.com/kr/app/greenwayseoul/id6747158637
 - Google Play: 2025년 9월 예정
+
+### TEST ID/PW
+```
+ID : test@test.com
+PW : test1234
+```
 
 ---
 
