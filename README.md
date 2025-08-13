@@ -15,22 +15,16 @@ GreenWaySeoul은 서울 지역의 쓰레기통 위치 정보를 기반으로 플
 
 ## 사용된 기술
 
-### 프론트엔드
-- React Native: 크로스플랫폼 앱 개발
-- TypeScript: 정적 타입 기반의 안정적인 개발
-- Zustand: 전역 상태 관리
-- React Query: 서버 상태 및 비동기 데이터 관리
+### 📌 기술 스택
 
-### UI/UX
-- Figma: UI 설계 및 프로토타이핑
+| CATEGORY | SKILLS |
+| --- | --- |
+| **FrontEnd** | <img src="https://img.shields.io/badge/React%20Native-61DAFB?style=for-the-badge&logo=react&logoColor=black"> <img src="https://img.shields.io/badge/TypeScript-3178C6?style=for-the-badge&logo=typescript&logoColor=white"> <img src="https://img.shields.io/badge/Zustand-443E38?style=for-the-badge&logoColor=white"> <img src="https://img.shields.io/badge/React%20Query-FF4154?style=for-the-badge&logo=reactquery&logoColor=white"> |
+| **UI/UX** | <img src="https://img.shields.io/badge/Figma-F24E1E?style=for-the-badge&logo=figma&logoColor=white"> |
+| **BackEnd** | <img src="https://img.shields.io/badge/NestJS-E0234E?style=for-the-badge&logo=nestjs&logoColor=white"> <img src="https://img.shields.io/badge/TypeORM-262627?style=for-the-badge&logoColor=white"> <img src="https://img.shields.io/badge/PostgreSQL-4169E1?style=for-the-badge&logo=postgresql&logoColor=white"> |
+| **Infra** | <img src="https://img.shields.io/badge/AWS%20EC2-FF9900?style=for-the-badge&logo=amazonaws&logoColor=white"> <img src="https://img.shields.io/badge/AWS%20RDS-527FFF?style=for-the-badge&logo=amazonrds&logoColor=white"> |
+| **CI/CD** | 준비 중 (GitHub Actions / AWS CodePipeline 예정) |
 
-### 백엔드
-- NestJS & TypeORM: 모듈 기반의 구조적 백엔드 개발
-- PostgreSQL: 관계형 데이터베이스
-- AWS (EC2, RDS): 서버 및 데이터베이스 인프라 구성
-
-### CI/CD
-- 준비 중 (향후 GitHub Actions 또는 AWS CodePipeline 도입 예정)
 
 ## Git 커밋
 
