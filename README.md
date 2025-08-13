@@ -14,9 +14,6 @@ GreenWaySeoul은 서울 지역의 쓰레기통 위치 정보를 기반으로 플
 - 일반 로그인 지원(추천 코드 입력 시 회원가입 가능)
 
 ## 사용된 기술
-
-### 📌 기술 스택
-
 | CATEGORY | SKILLS |
 | --- | --- |
 | **FrontEnd** | <img src="https://img.shields.io/badge/React%20Native-61DAFB?style=for-the-badge&logo=react&logoColor=black"> <img src="https://img.shields.io/badge/TypeScript-3178C6?style=for-the-badge&logo=typescript&logoColor=white"> <img src="https://img.shields.io/badge/Zustand-443E38?style=for-the-badge&logoColor=white"> <img src="https://img.shields.io/badge/React%20Query-FF4154?style=for-the-badge&logo=reactquery&logoColor=white"> |
